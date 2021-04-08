@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -13,6 +14,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
@@ -44,7 +47,8 @@ public class SingleMovieServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
 
             // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
+            String query = "SELECT * from stars_in_movies as sim, movies as m, ratings as r " +
+                    "where m.id = sim.movieId and m.id = r.movieId and m.id = ?";
 
             // Declare our statement
             PreparedStatement statement = dbcon.prepareStatement(query);
@@ -61,25 +65,60 @@ public class SingleMovieServlet extends HttpServlet {
             // Iterate through each row of rs
             while (rs.next()) {
 
-                String starId = rs.getString("starId");
-                String starName = rs.getString("name");
-                String starDob = rs.getString("birthYear");
+//                String starId = rs.getString("starId");
+//                String starName = rs.getString("name");
+//                String starDob = rs.getString("birthYear");
 
                 String movieId = rs.getString("movieId");
                 String movieTitle = rs.getString("title");
                 String movieYear = rs.getString("year");
                 String movieDirector = rs.getString("director");
+                String rating = rs.getString("rating");
 
-                // Create a JsonObject based on the data we retrieve from rs
+                // arraylist of genres
+                String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
+                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'";
+                Statement statement2 = dbcon.createStatement();
+                ResultSet temp1 = statement2.executeQuery(query2);
+
+                ArrayList<String> genreList = new ArrayList<String>();
+                while(temp1.next()){
+                    genreList.add(temp1.getString("name"));
+                }
+                // arraylist of strings to JsonArray
+                JsonArray genreJA = new Gson().toJsonTree(genreList).getAsJsonArray();
+
+//                // arraylist of arraylist of star_id and name
+//                String query1 = "SELECT starId, name FROM stars_in_movies AS sim, stars AS s " +
+//                        "WHERE sim.starId = s.id AND sim.movieId = '" + movieId + "'";
+//                Statement statement1 = dbcon.createStatement();
+//                ResultSet temp = statement1.executeQuery(query1);
+//
+//                ArrayList<ArrayList<String>> starList = new ArrayList<ArrayList<String>>();
+//                while(temp.next()){
+//                    ArrayList<String> star1List = new ArrayList<String>();
+//                    star1List.add(temp.getString("starId"));
+//                    star1List.add(temp.getString("starName"));
+//                    starList.add(star1List);
+//                }
+//
+//                // arraylist of string to JsonArray
+//                JsonArray starJA = new Gson().toJsonTree(starList).getAsJsonArray();
+//                // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("star_id", starId);
-                jsonObject.addProperty("star_name", starName);
-                jsonObject.addProperty("star_dob", starDob);
+//                jsonObject.addProperty("star_id", starId);
+//                jsonObject.addProperty("star_name", starName);
+//                jsonObject.addProperty("star_dob", starDob);
                 jsonObject.addProperty("movie_id", movieId);
                 jsonObject.addProperty("movie_title", movieTitle);
                 jsonObject.addProperty("movie_year", movieYear);
-                jsonObject.addProperty("movie_director", movieDirector);
+                jsonObject.addProperty("movie_dir", movieDirector);
+                jsonObject.addProperty("rating", rating);
+
+                jsonObject.add("genre_name", genreJA);
+
+//                jsonObject.add("star_id_name", starJA);
 
                 jsonArray.add(jsonObject);
             }

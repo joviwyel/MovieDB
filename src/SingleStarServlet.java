@@ -78,7 +78,7 @@ public class SingleStarServlet extends HttpServlet {
 				jsonObject.addProperty("movie_id", movieId);
 				jsonObject.addProperty("movie_title", movieTitle);
 				jsonObject.addProperty("movie_year", movieYear);
-				jsonObject.addProperty("movie_director", movieDirector);
+				jsonObject.addProperty("movie_dir", movieDirector);
 
 				jsonArray.add(jsonObject);
 			}

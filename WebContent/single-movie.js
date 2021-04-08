@@ -42,35 +42,40 @@ function handleResult(resultData) {
 
     // populate the star info h3
     // find the empty h3 body by id "star_info"
-    let starInfoElement = jQuery("#star_info");
+    let movieInfoElement = jQuery("#movie_info");
 
     // append two html <p> created to the h3 body, which will refresh the page
-    starInfoElement.append("<p>Star Name: " + resultData[0]["star_name"] + "</p>" +
-        "<p>Date Of Birth: " + resultData[0]["star_dob"] + "</p>");
+    movieInfoElement.append("<p>Movie Title: " + resultData[0]["movie_title"] + "</p>" +
+        "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
+        "<p>Director: " + resultData[0]["movie_dir"] + "</p>" +
+        "<p>Genre: " + resultData[0]["genre_name"] + "</p>" +
+        "<p>Rating: " + resultData[0]["rating"] + "</p>");
+       // "<p>star_id_name: " + resultData[0]["star_id_name"] + "</p>");
 
-    console.log("handleResult: populating movie table from resultData");
+    console.log("handleResult: populating star table from resultData");
 
     // Populate the star table
-    // Find the empty table body by id "movie_table_body"
-    let movieTableBodyElement = jQuery("#movie_table_body");
+    // Find the empty table body by id "star_table_body"
+    let starTableBodyElement = jQuery("#star_table_body");
 
     // Concatenate the html tags with resultData jsonObject to create table rows
-    for (let i = 0; i < resultData.length; i++) {
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["movie_title"] +     // display star_name for the link text
-            '</a>' +
-            "</th>";
-//        rowHTML += "<th>" + resultData[i]["movie_title"] + "</th>";
-        rowHTML += "</tr>";
-
-        // Append the row created to the table body, which will refresh the page
-        movieTableBodyElement.append(rowHTML);
-    }
+    //ERROR;;;;;;;
+    // for (let i = 0; i < resultData.length; i++) {
+    //     let rowHTML = "";
+    //     rowHTML += "<tr>";
+    //     rowHTML +=
+    //         "<th>" +
+    //         // Add a link to single-movie.html with id passed with GET url parameter
+    //         '<a href="single-star.html?id=' + resultData[i]['star_id_name'] + '">'
+    //         + resultData[i]["star_id_name"] +     // display star_name for the link text
+    //         '</a>' +
+    //         "</th>";
+    //
+    //     rowHTML += "</tr>";
+    //
+    //     // Append the row created to the table body, which will refresh the page
+    //     starTableBodyElement.append(rowHTML);
+    // }
 }
 
 /**
