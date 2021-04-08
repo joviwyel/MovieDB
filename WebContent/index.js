@@ -36,7 +36,9 @@ function handleStarResult(resultData) {
 
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["genre_name1"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["genre_name2"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["genre_name3"] + "</th>";
         rowHTML +=
             "<th>" +
             // Add a link to single-star.html with id passed with GET url parameter

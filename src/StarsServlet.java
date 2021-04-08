@@ -60,7 +60,7 @@ public class StarsServlet extends HttpServlet {
                 JsonObject jsonObject = new JsonObject();
 
 
-                String query1 = "SELECT starID FROM stars_in_movies WHERE movieId = '" + movie_id + "'" + " LIMIT 3";
+                String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" + movie_id + "'" + " LIMIT 3";
                 Statement statement1 = dbcon.createStatement();
                 ResultSet temp = statement1.executeQuery(query1);
 //
@@ -75,6 +75,39 @@ public class StarsServlet extends HttpServlet {
                     jsonObject.addProperty("star_name"+i, star_name);
                     jsonObject.addProperty("star_id"+i, star1);
                     i++;
+                }
+
+                //add three genre here
+                String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" + movie_id + "'" + " LIMIT 3";
+                Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet temp2 = statement3.executeQuery(genre_query);
+
+                temp2.last();
+                int genresnum = temp2.getRow();
+                temp2.beforeFirst();
+
+                int loopnum = 3;
+                int j=1;
+                while(loopnum!=0){
+                    temp2.next();
+                    genresnum--;
+                    if(genresnum >=0){
+                        String genre1 = temp2.getString("genreId");
+                        String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
+                        Statement statement4 = dbcon.createStatement();
+                        ResultSet temp3 = statement4.executeQuery(query2);
+                        temp3.next();
+                        String genre_name = temp3.getString("name");
+                        jsonObject.addProperty("genre_name"+j, genre_name);
+                        j++;
+                        loopnum--;
+                    }
+                    else{
+                        jsonObject.addProperty("genre_name"+j, "N/A");
+                        j++;
+                        loopnum--;
+                    }
+
                 }
 
                 // Create a JsonObject based on the data we retrieve from rs
