@@ -1,7 +1,9 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.annotation.Resource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +23,15 @@ public class StarsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
     private DataSource dataSource;
+
+    public void init(ServletConfig config) {
+        try {
+            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -129,6 +138,7 @@ public class StarsServlet extends HttpServlet {
             rs.close();
             statement.close();
             dbcon.close();
+
         } catch (Exception e) {
         	
 			// write error message JSON object to output
@@ -136,11 +146,11 @@ public class StarsServlet extends HttpServlet {
 			jsonObject.addProperty("errorMessage", e.getMessage());
 			out.write(jsonObject.toString());
 
-			// set reponse status to 500 (Internal Server Error)
+			// set response status to 500 (Internal Server Error)
 			response.setStatus(500);
 
+        } finally {
+            out.close();
         }
-        out.close();
-
     }
 }
