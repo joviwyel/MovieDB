@@ -91,34 +91,45 @@ public class SingleMovieServlet extends HttpServlet {
                 ResultSet temp1 = statement2.executeQuery(query2);
 
                 ArrayList<String> genreList = new ArrayList<String>();
+                while (rs.next()) {
+
+                String movieId = rs.getString("movieId");
+                String movieTitle = rs.getString("title");
+                String movieYear = rs.getString("year");
+                String movieDirector = rs.getString("director");
+                String rating = rs.getString("rating");
+
+                // arraylist of genres
+                String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
+                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'";
+                Statement statement2 = dbcon.createStatement();
+                ResultSet temp1 = statement2.executeQuery(query2);
+
+                ArrayList<String> genreList = new ArrayList<String>();
                 while(temp1.next()){
                     genreList.add(temp1.getString("name"));
                 }
                 // arraylist of strings to JsonArray
                 JsonArray genreJA = new Gson().toJsonTree(genreList).getAsJsonArray();
 
-//                // arraylist of arraylist of star_id and name
-//                String query1 = "SELECT starId, name FROM stars_in_movies AS sim, stars AS s " +
-//                        "WHERE sim.starId = s.id AND sim.movieId = '" + movieId + "'";
-//                Statement statement1 = dbcon.createStatement();
-//                ResultSet temp = statement1.executeQuery(query1);
-//
-//                ArrayList<ArrayList<String>> starList = new ArrayList<ArrayList<String>>();
-//                while(temp.next()){
-//                    ArrayList<String> star1List = new ArrayList<String>();
-//                    star1List.add(temp.getString("starId"));
-//                    star1List.add(temp.getString("starName"));
-//                    starList.add(star1List);
-//                }
-//
-//                // arraylist of string to JsonArray
-//                JsonArray starJA = new Gson().toJsonTree(starList).getAsJsonArray();
-//                // Create a JsonObject based on the data we retrieve from rs
 
                 JsonObject jsonObject = new JsonObject();
-//                jsonObject.addProperty("star_id", starId);
-//                jsonObject.addProperty("star_name", starName);
-//                jsonObject.addProperty("star_dob", starDob);
+
+
+                // add stars ID
+                String starId = rs.getString("starId");
+                starsIdList.add(starId);
+                JsonArray starIDJA = new Gson().toJsonTree(starsIdList).getAsJsonArray();
+
+                // add stars Name
+                String query_star_name = "SELECT name FROM stars WHERE id = '" + starId + "'";
+                Statement statement3 = dbcon.createStatement();
+                ResultSet temp2 = statement3.executeQuery(query_star_name);
+                temp2.next();
+                String star_name = temp2.getString("name");
+                starsNameList.add(star_name);
+                JsonArray starNAMEJA = new Gson().toJsonTree(starsNameList).getAsJsonArray();
+
                 jsonObject.addProperty("movie_id", movieId);
                 jsonObject.addProperty("movie_title", movieTitle);
                 jsonObject.addProperty("movie_year", movieYear);
@@ -126,8 +137,8 @@ public class SingleMovieServlet extends HttpServlet {
                 jsonObject.addProperty("rating", rating);
 
                 jsonObject.add("genre_name", genreJA);
-
-//                jsonObject.add("star_id_name", starJA);
+                jsonObject.add("starId", starIDJA);
+                jsonObject.add("starName", starNAMEJA);
 
                 jsonArray.add(jsonObject);
             }

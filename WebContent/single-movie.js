@@ -57,6 +57,20 @@ function handleResult(resultData) {
     // Populate the star table
     // Find the empty table body by id "star_table_body"
     let starTableBodyElement = jQuery("#star_table_body");
+    for (let i = 0; i < resultData.length; i++) {
+        let rowHTML = "";
+        rowHTML += "<tr>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + (resultData[resultData.length-1]["starId"])[i] + '">'
+            + (resultData[resultData.length-1]["starName"])[i] +  // display star_name for the link text
+            '</a>' +
+            "</th>";
+        rowHTML += "</tr>";
+        starTableBodyElement.append(rowHTML);
+    }
+
 
     // Concatenate the html tags with resultData jsonObject to create table rows
     //ERROR;;;;;;;
