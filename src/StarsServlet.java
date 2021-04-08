@@ -72,7 +72,8 @@ public class StarsServlet extends HttpServlet {
                     ResultSet temp1 = statement2.executeQuery(query2);
                     temp1.next();
                     String star_name = temp1.getString("name");
-                    jsonObject.addProperty("star"+i, star_name);
+                    jsonObject.addProperty("star_name"+i, star_name);
+                    jsonObject.addProperty("star_id"+i, star1);
                     i++;
                 }
 

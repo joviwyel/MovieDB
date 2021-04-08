@@ -29,16 +29,35 @@ function handleStarResult(resultData) {
         rowHTML +=
             "<th>" +
             // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData[i]['movie_id'] + '">'
+            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
             + resultData[i]["movie_name"] +     // display star_name for the link text
             '</a>' +
             "</th>";
+
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["star1"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["star2"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["star3"] + "</th>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + resultData[i]['star_id1'] + '">'
+            + resultData[i]["star_name1"] +     // display star_name for the link text
+            '</a>' +
+            "</th>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + resultData[i]['star_id2'] + '">'
+            + resultData[i]["star_name2"] +     // display star_name for the link text
+            '</a>' +
+            "</th>";
+        rowHTML +=
+            "<th>" +
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + resultData[i]['star_id3'] + '">'
+            + resultData[i]["star_name3"] +     // display star_name for the link text
+            '</a>' +
+            "</th>";
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
         rowHTML += "</tr>";
 
