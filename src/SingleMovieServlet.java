@@ -2,9 +2,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletConfig;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,15 +24,8 @@ public class SingleMovieServlet extends HttpServlet {
     private static final long serialVersionUID = 3L;
 
     // Create a dataSource which registered in web.xml
+    @Resource(name = "jdbc/moviedb")
     private DataSource dataSource;
-
-    public void init(ServletConfig config) {
-        try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -71,27 +62,10 @@ public class SingleMovieServlet extends HttpServlet {
 
             JsonArray jsonArray = new JsonArray();
 
+            ArrayList<String> starsIdList = new ArrayList<>();
+            ArrayList<String> starsNameList = new ArrayList<>();
             // Iterate through each row of rs
             while (rs.next()) {
-
-//                String starId = rs.getString("starId");
-//                String starName = rs.getString("name");
-//                String starDob = rs.getString("birthYear");
-
-                String movieId = rs.getString("movieId");
-                String movieTitle = rs.getString("title");
-                String movieYear = rs.getString("year");
-                String movieDirector = rs.getString("director");
-                String rating = rs.getString("rating");
-
-                // arraylist of genres
-                String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
-                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'";
-                Statement statement2 = dbcon.createStatement();
-                ResultSet temp1 = statement2.executeQuery(query2);
-
-                ArrayList<String> genreList = new ArrayList<String>();
-                while (rs.next()) {
 
                 String movieId = rs.getString("movieId");
                 String movieTitle = rs.getString("title");
@@ -159,9 +133,9 @@ public class SingleMovieServlet extends HttpServlet {
 
             // set response status to 500 (Internal Server Error)
             response.setStatus(500);
-        } finally {
-            out.close();
         }
+        out.close();
+
     }
 
 }
