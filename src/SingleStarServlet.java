@@ -74,11 +74,18 @@ public class SingleStarServlet extends HttpServlet {
 				JsonObject jsonObject = new JsonObject();
 				jsonObject.addProperty("star_id", starId);
 				jsonObject.addProperty("star_name", starName);
-				jsonObject.addProperty("star_dob", starDob);
 				jsonObject.addProperty("movie_id", movieId);
 				jsonObject.addProperty("movie_title", movieTitle);
 				jsonObject.addProperty("movie_year", movieYear);
 				jsonObject.addProperty("movie_dir", movieDirector);
+
+				// set star_dob to N/A if null
+				if (starDob == null){
+					jsonObject.addProperty("star_dob", "N/A");
+				}
+				else{
+					jsonObject.addProperty("star_dob", starDob);
+				}
 
 				jsonArray.add(jsonObject);
 			}
