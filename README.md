@@ -36,7 +36,7 @@ have hyperlink for each movie
 2. In order to better test and learn the entire project setup and build process, both members create database moviedb on our own local machine and AWS.
 
 3. Contribution break down as follows:
-        Movie List Page:
+Movie List Page:
 
 * Kai Li Tan: Added all the hyperlink for each stars and movie. Let page show top 20 rated movies.
 
