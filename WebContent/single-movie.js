@@ -50,7 +50,6 @@ function handleResult(resultData) {
         "<p>Director: " + resultData[0]["movie_dir"] + "</p>" +
         "<p>Genre: " + resultData[0]["genre_name"] + "</p>" +
         "<p>Rating: " + resultData[0]["rating"] + "</p>");
-       // "<p>star_id_name: " + resultData[0]["star_id_name"] + "</p>");
 
     console.log("handleResult: populating star table from resultData");
 
@@ -70,26 +69,6 @@ function handleResult(resultData) {
         rowHTML += "</tr>";
         starTableBodyElement.append(rowHTML);
     }
-
-
-    // Concatenate the html tags with resultData jsonObject to create table rows
-    //ERROR;;;;;;;
-    // for (let i = 0; i < resultData.length; i++) {
-    //     let rowHTML = "";
-    //     rowHTML += "<tr>";
-    //     rowHTML +=
-    //         "<th>" +
-    //         // Add a link to single-movie.html with id passed with GET url parameter
-    //         '<a href="single-star.html?id=' + resultData[i]['star_id_name'] + '">'
-    //         + resultData[i]["star_id_name"] +     // display star_name for the link text
-    //         '</a>' +
-    //         "</th>";
-    //
-    //     rowHTML += "</tr>";
-    //
-    //     // Append the row created to the table body, which will refresh the page
-    //     starTableBodyElement.append(rowHTML);
-    // }
 }
 
 /**
