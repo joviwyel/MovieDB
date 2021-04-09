@@ -28,15 +28,15 @@ This is team10 project 1 final version. Team members developed team10 version of
 2. In order to better test and learn the entire project setup and build process, both members create database moviedb on our own local machine and AWS.
 3. Contribution break down as follows:
         Movie List Page:    
-            Kai Li Tan: Added all the hyperlink for each stars and movie. 
-                           Let page show top 20 rated movies.
-            Jing Wu: Added 3 genres and 3 stars on the page.
+            * Kai Li Tan: Added all the hyperlink for each stars and movie. 
+                                Let page show top 20 rated movies.
+            * Jing Wu: Added 3 genres and 3 stars on the page.
         Single Movie Page:
-            Kai Li Tan: Added display title, year, director, all genres, rating.
-            Jing Wu: Added display all the stars.
+            * Kai Li Tan: Added display title, year, director, all genres, rating.
+            * Jing Wu: Added display all the stars.
                            Added all the hyperlink for each stars.
         Single Star Page:
-            Kai Li Tan: Added display name, year, and birth.
-            Jing Wu: Added all the hyperlink for each movie.
+            * Kai Li Tan: Added display name, year, and birth.
+            * Jing Wu: Added all the hyperlink for each movie.
         Jump Functionality:
-            Kai Li Tan: Added all the buttons in the application.
+            * Kai Li Tan: Added all the buttons in the application.
