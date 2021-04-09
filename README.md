@@ -9,7 +9,16 @@ https://www.youtube.com/watch?v=SbrYGX04hzk
 
 ## How to deploy this application with Tomcat:
 
-xxx
+You can either use gui to deploy war file into Tomcat or do it in Terminal.
+By gui:
+Go to AWS Tomcat manager webapp -> WAR file to delpoy -> Choose File and deploy. 
+
+Use Terminal:
+1. inside your repo, use 'mvn package' to build the war file.
+2. copy war file into Tomcat webapps folder
+  cp ./target/*.war /var/lib/tomcat9/webapps/
+  
+After that, Tomcat web apps should have the new war file.
 
 ## Some briefly explain:
 
