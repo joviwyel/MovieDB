@@ -5,7 +5,7 @@ This is team10 project 1 final version. Team members developed team10 version of
 
 ## Demo video URL:
 
-xxx
+https://www.youtube.com/watch?v=SbrYGX04hzk
 
 ## How to deploy this application with Tomcat:
 
