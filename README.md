@@ -70,6 +70,6 @@ Jump Functionality:
 
 Others:
 
-* Kai Li Tan: Beautify the webpage. Setup AWS security group for graders to access, and will keep update the URL during grading period.
+* Kai Li Tan: Beautify the webpage. 
 
 * Jing Wu: Make the demo video and work report.
