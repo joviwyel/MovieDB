@@ -21,7 +21,7 @@ function handleStarResult(resultData) {
     let starTableBodyElement = jQuery("#star_table_body");
 
     // Iterate through resultData, no more than 10 entries
-    for (let i = 0; i < Math.min(20, resultData.length); i++) {
+       for (let i = 0; i < Math.min(20, resultData.length); i++) {
 
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";
@@ -36,30 +36,27 @@ function handleStarResult(resultData) {
 
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["genre_name1"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["genre_name2"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["genre_name3"] + "</th>";
+        if(resultData[i]["genre_name2"] == "N/A")
+            rowHTML += "<th>" + resultData[i]["genre_name1"] + "</th>";
+        else if(resultData[i]["genre_name3"] == "N/A")
+            rowHTML += "<th>" + resultData[i]["genre_name1"] +",  " + resultData[i]["genre_name2"] +  "</th>";
+        else
+            rowHTML += "<th>" + resultData[i]["genre_name1"] +",  " + resultData[i]["genre_name2"] + ",  " + resultData[i]["genre_name3"] +" </th>";
+
         rowHTML +=
             "<th>" +
             // Add a link to single-star.html with id passed with GET url parameter
             '<a href="single-star.html?id=' + resultData[i]['star_id1'] + '">'
             + resultData[i]["star_name1"] +     // display star_name for the link text
-            '</a>' +
-            "</th>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
+            '</a>' + ",  "  +
             '<a href="single-star.html?id=' + resultData[i]['star_id2'] + '">'
             + resultData[i]["star_name2"] +     // display star_name for the link text
-            '</a>' +
-            "</th>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
+            '</a>' + ",  "  +
             '<a href="single-star.html?id=' + resultData[i]['star_id3'] + '">'
             + resultData[i]["star_name3"] +     // display star_name for the link text
-            '</a>' +
+            '</a>' + "  "  +
             "</th>";
+        
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
         rowHTML += "</tr>";
 
