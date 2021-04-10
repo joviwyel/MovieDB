@@ -32,9 +32,9 @@ Have hyperlink for each star.
 
 3. Single Star Page: Show name, year of birth, all movies in which the star performed.
 
-have hyperlink for each movie
+Have hyperlink for each movie.
 
-4. Jump Functionality: We added button to Signle Movie Page and Single Star Page which can jump back to Movie List Page.
+4. Jump Functionality: We added button to Single Movie Page and Single Star Page which can jump back to Movie List Page.
 
 5. All the data come from database 'moviedb'
 
@@ -48,7 +48,7 @@ have hyperlink for each movie
 
 Movie List Page:
 
-* Kai Li Tan: Added all the hyperlink for each stars and movie. Let page show top 20 rated movies.
+*    Kai Li Tan: Added all the hyperlink for each stars and movie. Let page show top 20 rated movies.
 
 *    Jing Wu: Added 3 genres and 3 stars on the page.
 
