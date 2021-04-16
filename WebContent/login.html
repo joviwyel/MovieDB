@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Form Example</title>
+
+
+    <style>
+        body { font:12px/19px Arial, Helvetica, sans-serif; color:#666;}
+        form div { margin:5px 0;}
+        .int label {  width:100px; float:left; text-align:right; }
+        .int input {  padding:1px 1px; border:1px solid #ccc; height:16px;}
+        .sub { padding-left:100px;}
+        .sub input { margin-right:10px; }
+
+    </style>
+</head>
+
+<body BGCOLOR="#FDF5E6">
+<h1 ALIGN="CENTER">Welcome!</h1>
+
+
+<form id="login_form" METHOD = "POST" ACTION="#">
+    <div class="int">
+        <label><b>Username: </b></label>
+        <input type="text" name ="email" >
+    </div>
+
+    <div class="int">
+        <label><b>Password: </b></label>
+        <input type="password" name ="password" >
+    </div>
+
+
+    <div class="sub">
+        <input type="submit" value="Login">
+
+    </div>
+
+</form>
+<div id="login_error_message"></div>
+<!-- include jQuery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- include our own JS file -->
+<script src="./login.js"></script>
+</body>
+</html>
