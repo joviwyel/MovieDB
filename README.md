@@ -8,7 +8,7 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
 
-## Project 1
+# Project 1
 This is team10 project 1 final version. Team members developed team10 version of the project based on the api-example.
 
 
