@@ -1,7 +1,7 @@
 ## CS 122B Spring 2021 Team10
 
 Important notes: 
-  For the whole project, there two contributers,do some clarify about their commit name. 
+  For the whole project, there are two contributers, do some clarify about their commit name. 
 
 Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is using Github Username "kaiiiliii".
 
