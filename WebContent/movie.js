@@ -17,11 +17,11 @@ function handleStarResult(resultData) {
     console.log("handleStarResult: populating star table from resultData");
 
     // Populate the star table
-    // Find the empty table body by id "star_table_body"
-    let starTableBodyElement = jQuery("#star_table_body");
+    // Find the empty table body by id "movie_table_body"
+    let starTableBodyElement = jQuery("#movie_table_body");
 
     // Iterate through resultData, no more than 10 entries
-       for (let i = 0; i < Math.min(20, resultData.length); i++) {
+    for (let i = 0; i < Math.min(20, resultData.length); i++) {
 
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";
@@ -56,7 +56,7 @@ function handleStarResult(resultData) {
             + resultData[i]["star_name3"] +     // display star_name for the link text
             '</a>' + "  "  +
             "</th>";
-        
+
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
         rowHTML += "</tr>";
 
@@ -74,6 +74,6 @@ function handleStarResult(resultData) {
 jQuery.ajax({
     dataType: "json", // Setting return data type
     method: "GET", // Setting request method
-    url: "api/stars", // Setting request url, which is mapped by StarsServlet in Stars.java
+    url: "api/movie", // Setting request url, which is mapped by StarsServlet in Stars.java
     success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
 });

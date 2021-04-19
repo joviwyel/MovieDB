@@ -1,3 +1,4 @@
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonObject;
 
@@ -15,9 +16,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-
-@WebServlet(name = "Login", urlPatterns = "/api/login")
-public class Login extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
+public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try{
-            String email = request.getParameter("email");
+            String email = request.getParameter("username");
             String password = request.getParameter("password");
 
             // Get a connection from dataSource
@@ -89,16 +89,16 @@ public class Login extends HttpServlet {
 
         } catch (Exception e) {
 
-//            // write error message JSON object to output
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("errorMessage", e.getMessage());
-//            out.write(jsonObject.toString());
-//
-//            // set response status to 500 (Internal Server Error)
-//            response.setStatus(500);
+            // write error message JSON object to output
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("errorMessage", e.getMessage());
+            out.write(jsonObject.toString());
+
+            // set response status to 500 (Internal Server Error)
+            response.setStatus(500);
 
         } finally {
-//            out.close();
+            out.close();
         }
 
     }

@@ -18,8 +18,8 @@ import java.sql.Statement;
 
 
 // Declaring a WebServlet called StarsServlet, which maps to url "/api/stars"
-@WebServlet(name = "StarsServlet", urlPatterns = "/api/stars")
-public class StarsServlet extends HttpServlet {
+@WebServlet(name = "MovieServlet", urlPatterns = "/api/movie")
+public class MovieServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // Create a dataSource which registered in web.xml
@@ -129,7 +129,7 @@ public class StarsServlet extends HttpServlet {
 
                 jsonArray.add(jsonObject);
             }
-            
+
             // write JSON string to output
             out.write(jsonArray.toString());
             // set response status to 200 (OK)
@@ -140,14 +140,14 @@ public class StarsServlet extends HttpServlet {
             dbcon.close();
 
         } catch (Exception e) {
-        	
-			// write error message JSON object to output
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("errorMessage", e.getMessage());
-			out.write(jsonObject.toString());
 
-			// set response status to 500 (Internal Server Error)
-			response.setStatus(500);
+            // write error message JSON object to output
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("errorMessage", e.getMessage());
+            out.write(jsonObject.toString());
+
+            // set response status to 500 (Internal Server Error)
+            response.setStatus(500);
 
         } finally {
             out.close();
