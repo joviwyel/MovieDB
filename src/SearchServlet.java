@@ -64,16 +64,16 @@ public class SearchServlet extends HttpServlet {
             String query = String.format("SELECT * from movies m, stars_in_movies sim, stars s where m.id = sim.movieId and s.id = sim.starId ");
 
             // Generate a SQL query
-            if(title != ""){
+            if(!title.equals("")){
                 query += "and lower(m.title) like '" + title + "' ";
             }
-            if(year != ""){
+            if(!year.equals("")){
                 query += "and m.year = '" + year + "' ";
             }
-            if(director != ""){
+            if(!director.equals("")){
                 query += "and lower(m.director) like '" + director + "' ";
             }
-            if(star != "") {
+            if(!star.equals("")) {
                 query += "and lower(s.name) like '" + star + "' ";
             }
 
