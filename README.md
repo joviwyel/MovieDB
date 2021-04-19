@@ -1,4 +1,8 @@
-## CS 122B Spring 2021 Team10 Project 1
+## CS 122B Spring 2021 Team10
+
+Important notes: For the whole project, there two contributers,do some clarify about their commit name. 
+Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is using Github Username "kaiiiliii".
+Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
 This is team10 project 1 final version. Team members developed team10 version of the project based on the api-example.
 
