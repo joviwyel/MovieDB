@@ -57,24 +57,24 @@ public class SearchServlet extends HttpServlet {
             Statement statement = dbCon.createStatement();
 
             // Retrieve parameter "name" from the http request, which refers to the value of <input name="name"> in index.html
-            String title = request.getParameter("title");
+            String title = request.getParameter("title").toLowerCase();
             String year = request.getParameter("year");
-            String director = request.getParameter("director");
-            String star = request.getParameter("star");
+            String director = request.getParameter("director").toLowerCase();
+            String star = request.getParameter("star").toLowerCase();
             String query = String.format("SELECT * from movies m, stars_in_movies sim, stars s where m.id = sim.movieId and s.id = sim.starId ");
 
             // Generate a SQL query
             if(title != ""){
-                query += "and m.title like '" + title + "' ";
+                query += "and lower(m.title) like '" + title + "' ";
             }
             if(year != ""){
                 query += "and m.year = '" + year + "' ";
             }
             if(director != ""){
-                query += "and m.director like '" + director + "' ";
+                query += "and lower(m.director) like '" + director + "' ";
             }
             if(star != "") {
-                query += "and s.name like '" + star + "' ";
+                query += "and lower(s.name) like '" + star + "' ";
             }
 
             // Perform the query
