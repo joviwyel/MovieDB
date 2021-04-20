@@ -6,16 +6,37 @@
     <title>Login to Fablix</title>
 
     <style>
-        body { font:12px/19px Arial, Helvetica, sans-serif; color:#666;}
-        form div { margin:5px 0;}
-        .int label {  width:100px; float:left; text-align:right; }
-        .int input {  padding:1px 1px; border:1px solid #ccc; height:16px;}
-        .sub { padding-left:100px;}
-        .sub input { margin-right:10px; }
+        /*body { font:12px/19px Arial, Helvetica, sans-serif; color:#666;}*/
+        /*form div { margin:5px 0;}*/
+        /*.int label {  width:100px; float:left; text-align:right; }*/
+        /*.int input {  padding:1px 1px; border:1px solid #ccc; height:16px;}*/
+        /*.sub { padding-left:100px;}*/
+        /*.sub input { margin-right:10px; }*/
+        fieldset{
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            padding: 0 .625em;
+        }
+
+        label{
+            cursor: pointer;
+            display: inline-block;
+            padding: 3px 6px;
+            text-align: right;
+            width: 150px;
+            vertical-align: top;
+        }
+
+        input{
+            font-size: inherit;
+        }
 
     </style>
 </head>
-<body BGCOLOR="#FDF5E6">
+<body BGCOLOR="#FDF5E6" style = "text-align: center">
 <h1 ALIGN="CENTER">Welcome to Fabflix!</h1>
 <!-- Set the method to POST to avoid showing the username/password in the URL
      The default action is disabled to allow your own implementation. -->
@@ -31,9 +52,12 @@
     </label>
     <br>
     <input type="submit" value="Login">
+
+
 </form>
 
 <div id="login_error_message"></div>
+
 
 <!-- include jQuery-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

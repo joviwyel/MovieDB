@@ -11,19 +11,43 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Search Movies</title>
+
+    <style type="text/css">
+        body{
+            background-color: #FDF5E6
+
+        }
+        fieldset
+        {
+            margin:30px auto;
+            width:300px;
+            height:300px;
+            padding:20px auto;
+            color:blue;
+            text-align:center;
+        }
+        label
+        {
+            display: inline-block;
+            width: 60px;
+            text-align: justify;
+            text-align-last: justify;
+            margin-right: 10px;
+        }
+
+    </style>
+
 </head>
-
-<body BGCOLOR="#FDF5E6">
-
+<body BGCOLOR="#FDF5E6" style = "text-align: center">
 <h1 style="color:red">Fabflix</h1>
 <h2>Search Movies</h2>
 <h5>Enter title, year, director or star name to search for movies.</h5>
 
 <form ACTION="search" METHOD="GET">
-    Title:    <input TYPE="TEXT" name="title"> (Use % to replace any strings. e.g. Arnold%)<br>
-    Year:     <input TYPE="number" name="year"> <br>
-    Director: <input TYPE="TEXT" name="director"> (Use % to replace any strings. e.g. Arnold%)<br>
-    Star:     <input TYPE="TEXT" name="star"> (Use % to replace any strings. e.g. Arnold%)<br>
+    <label>Title:</label>   <input TYPE="TEXT" name="title"> (Use % to replace any strings. e.g. Arnold%)<br>
+    <label>Year:</label>    <input TYPE="number" name="year">(Please use xxxx format to search.e.g. 2000)<br>
+    <label>Director:</label> <input TYPE="TEXT" name="director"> (Use % to replace any strings. e.g. Arnold%)<br>
+    <label>Star:</label>     <input TYPE="TEXT" name="star"> (Use % to replace any strings. e.g. Arnold%)<br>
 
     <input TYPE="SUBMIT" VALUE="Search Movies">
 
