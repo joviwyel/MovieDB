@@ -19,22 +19,38 @@ function handleStarResult(resultData) {
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
     let genreTableBodyElement = jQuery("#genre_table_body");
+    let letterTableBodyElement = jQuery("#letter_table_body");
+    let letter_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+    'Y', 'Z'];
+    for(let j = 0; j < letter_list.length; j++){
+        let rowLetter = "";
+        if( (j + 1) % 10 == 0){
+            rowLetter += "<tr><td></td></tr>";
+            letterTableBodyElement.append(rowLetter);
+        }
+
+        rowLetter += '<a href = "movie.html?letter=' + letter_list[j] + '">' +' '
+            + letter_list[j] + ' ' + '</a>';
+        letterTableBodyElement.append(rowLetter);
+    }
 
     // Iterate through resultData, no more than 10 entries
     for (let i = 0; i < resultData.length; i++) {
 
         // Concatenate the html tags with resultData jsonObject
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="movie.html?genre=' + resultData[i]['genre_name'] + '">' +
-            resultData[i]['genre_name'] +
-            '</a>' +
-            "</th>";
 
-        rowHTML += "</tr>";
+        let rowHTML = "";
+        if( (i+1)%6 == 0){
+            rowHTML += "<tr><td></td></tr>";
+            genreTableBodyElement.append(rowHTML);
+        }
+        rowHTML +=
+
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="movie.html?genre=' + resultData[i]['genre_name'] + '">' + ' _' +
+            resultData[i]['genre_name'] + '_ '+
+            '</a>' ;
 
         // Append the row created to the table body, which will refresh the page
         genreTableBodyElement.append(rowHTML);
