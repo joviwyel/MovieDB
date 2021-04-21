@@ -80,16 +80,6 @@ public class MovieServlet extends HttpServlet {
 
             // Declare our statement
 
-
-//            if(browsByGenre){
-//                String genreQuery = "SELECT id From genres where name =" + genre;
-//                ResultSet gq = statement.executeQuery(genreQuery);
-//                gq.next();
-//                String genreId = gq.getString("id");
-//
-//
-//            }
-
             JsonArray jsonArray = new JsonArray();
             Statement moviesIds = dbcon.createStatement();
             ResultSet moviesIdrs = null;
@@ -110,7 +100,7 @@ public class MovieServlet extends HttpServlet {
 
             // Search option selected
             else if(search) {
-                String moviesIdquery = String.format("SELECT m.id from movies m, stars_in_movies sim, " +
+                String moviesIdquery = String.format("SELECT distinct m.id as movieId from movies m, stars_in_movies sim, " +
                         "stars s where m.id = sim.movieId and s.id = sim.starId ");
 
                 if(!title.equals("")){
@@ -129,95 +119,95 @@ public class MovieServlet extends HttpServlet {
             }
 
             // Populate JSON Array
-                while (moviesIdrs.next()) {
-                    String movies_id = moviesIdrs.getString("movieId");
+            while (moviesIdrs.next()) {
+                String movies_id = moviesIdrs.getString("movieId");
 
-                    // Perform the query
-                    String query = "SELECT id, title, year, director, rating from movies " +
-                            "AS m, ratings as r WHERE m.id ='" + movies_id + "'" + "And r.movieId " +
-                            "= '" + movies_id + "'";
-                    Statement statement = dbcon.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
+                // Perform the query
+                String query = "SELECT id, title, year, director, rating from movies " +
+                        "AS m, ratings as r WHERE m.id ='" + movies_id + "'" + "And r.movieId " +
+                        "= '" + movies_id + "'";
+                Statement statement = dbcon.createStatement();
+                ResultSet rs = statement.executeQuery(query);
 
-                    // Iterate through each row of rs
-                    while (rs.next()) {
-                        String movie_id = rs.getString("id");
-                        String movie_name = rs.getString("title");
-                        String movie_year = rs.getString("year");
-                        String movie_dir = rs.getString("director");
-                        String movie_rat = rs.getString("rating");
+                // Iterate through each row of rs
+                while (rs.next()) {
+                    String movie_id = rs.getString("id");
+                    String movie_name = rs.getString("title");
+                    String movie_year = rs.getString("year");
+                    String movie_dir = rs.getString("director");
+                    String movie_rat = rs.getString("rating");
 
-                        JsonObject jsonObject = new JsonObject();
+                    JsonObject jsonObject = new JsonObject();
 
-                        // Add three stars here
-                        String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" +
-                                movie_id + "'" + " LIMIT 3";
-                        Statement statement1 = dbcon.createStatement();
-                        ResultSet temp = statement1.executeQuery(query1);
+                    // Add three stars here
+                    String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" +
+                            movie_id + "'" + " LIMIT 3";
+                    Statement statement1 = dbcon.createStatement();
+                    ResultSet temp = statement1.executeQuery(query1);
 
-                        int i = 1;
-                        while (temp.next()) {
-                            String star1 = temp.getString("starID");
-                            String query2 = "SELECT name FROM stars WHERE id = '" + star1 + "'";
-                            Statement statement2 = dbcon.createStatement();
-                            ResultSet temp1 = statement2.executeQuery(query2);
-                            temp1.next();
-                            String star_name = temp1.getString("name");
-                            jsonObject.addProperty("star_name" + i, star_name);
-                            jsonObject.addProperty("star_id" + i, star1);
-                            i++;
-                        }
-
-                        // Add three genre here
-                        String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" +
-                                movie_id + "'" + " LIMIT 3";
-                        Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                        ResultSet temp2 = statement3.executeQuery(genre_query);
-
-                        temp2.last();
-                        int genresnum = temp2.getRow();
-                        temp2.beforeFirst();
-
-                        int loopnum = 3;
-                        int j = 1;
-                        while (loopnum != 0) {
-                            temp2.next();
-                            genresnum--;
-                            if (genresnum >= 0) {
-                                String genre1 = temp2.getString("genreId");
-                                String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
-                                Statement statement4 = dbcon.createStatement();
-                                ResultSet temp3 = statement4.executeQuery(query2);
-                                temp3.next();
-                                String genre_name = temp3.getString("name");
-                                jsonObject.addProperty("genre_name" + j, genre_name);
-                                j++;
-                                loopnum--;
-                            } else {
-                                jsonObject.addProperty("genre_name" + j, "N/A");
-                                j++;
-                                loopnum--;
-                            }
-
-                        }
-
-                        // Create a JsonObject based on the data we retrieve from rs
-
-                        jsonObject.addProperty("movie_id", movie_id);
-                        jsonObject.addProperty("movie_name", movie_name);
-                        jsonObject.addProperty("movie_year", movie_year);
-                        jsonObject.addProperty("movie_dir", movie_dir);
-                        jsonObject.addProperty("rating", movie_rat);
-
-                        jsonArray.add(jsonObject);
+                    int i = 1;
+                    while (temp.next()) {
+                        String star1 = temp.getString("starID");
+                        String query2 = "SELECT name FROM stars WHERE id = '" + star1 + "'";
+                        Statement statement2 = dbcon.createStatement();
+                        ResultSet temp1 = statement2.executeQuery(query2);
+                        temp1.next();
+                        String star_name = temp1.getString("name");
+                        jsonObject.addProperty("star_name" + i, star_name);
+                        jsonObject.addProperty("star_id" + i, star1);
+                        i++;
                     }
-                }
-                // write JSON string to output
-                out.write(jsonArray.toString());
-                // set response status to 200 (OK)
-                response.setStatus(200);
 
-                dbcon.close();
+                    // Add three genre here
+                    String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" +
+                            movie_id + "'" + " LIMIT 3";
+                    Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                    ResultSet temp2 = statement3.executeQuery(genre_query);
+
+                    temp2.last();
+                    int genresnum = temp2.getRow();
+                    temp2.beforeFirst();
+
+                    int loopnum = 3;
+                    int j = 1;
+                    while (loopnum != 0) {
+                        temp2.next();
+                        genresnum--;
+                        if (genresnum >= 0) {
+                            String genre1 = temp2.getString("genreId");
+                            String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
+                            Statement statement4 = dbcon.createStatement();
+                            ResultSet temp3 = statement4.executeQuery(query2);
+                            temp3.next();
+                            String genre_name = temp3.getString("name");
+                            jsonObject.addProperty("genre_name" + j, genre_name);
+                            j++;
+                            loopnum--;
+                        } else {
+                            jsonObject.addProperty("genre_name" + j, "N/A");
+                            j++;
+                            loopnum--;
+                        }
+
+                    }
+
+                    // Create a JsonObject based on the data we retrieve from rs
+
+                    jsonObject.addProperty("movie_id", movie_id);
+                    jsonObject.addProperty("movie_name", movie_name);
+                    jsonObject.addProperty("movie_year", movie_year);
+                    jsonObject.addProperty("movie_dir", movie_dir);
+                    jsonObject.addProperty("rating", movie_rat);
+
+                    jsonArray.add(jsonObject);
+                }
+            }
+            // write JSON string to output
+            out.write(jsonArray.toString());
+            // set response status to 200 (OK)
+            response.setStatus(200);
+
+            dbcon.close();
 
 
         } catch (Exception e) {
