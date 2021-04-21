@@ -67,7 +67,7 @@ public class MovieServlet extends HttpServlet {
             else
                 browsByLetter = true;
         }
-        
+
         try {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
@@ -92,16 +92,8 @@ public class MovieServlet extends HttpServlet {
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
             else if (browsByLetter) {
-                String genresIdquery = "SELECT id from genres where name = '" + genre + "'" + "limit 3";
-
-                Statement genresIds = dbcon.createStatement();
-                ResultSet genresIdrs = genresIds.executeQuery(genresIdquery);
-                genresIdrs.next();
-                String genresId_inmovies = genresIdrs.getString("id");
-
-                String moviesIdquery = "Select movieId from genres_in_movies " +
-                        "where genreId ='" + genresId_inmovies + "'";
-                moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+                String letterIdquery = "SELECT distinct id as movieId from movies where lower(title) like '" + letter.toLowerCase() + "%'";
+                moviesIdrs = moviesIds.executeQuery(letterIdquery);
             }
 
             // Search option selected
