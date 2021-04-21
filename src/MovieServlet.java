@@ -46,12 +46,23 @@ public class MovieServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        String title = request.getParameter("title");
-        String year = request.getParameter("year");
-        String director = request.getParameter("director");
-        String star = request.getParameter("star");
-        String genre = request.getParameter("genre");
-        String letter = request.getParameter("letter");
+        String title = "";
+        String year = "";
+        String director = "";
+        String star = "";
+        String genre = "";
+        String letter = "";
+
+        if(request.getParameter("title") != null) {
+            title = request.getParameter("title").toLowerCase();
+            year = request.getParameter("year");
+            director = request.getParameter("director").toLowerCase();
+            star = request.getParameter("star").toLowerCase();
+        }
+        else {
+            genre = request.getParameter("genre");
+            letter = request.getParameter("letter");
+        }
 
         if(letter != "" || genre != ""){
             brows = true;
@@ -78,6 +89,12 @@ public class MovieServlet extends HttpServlet {
 //
 //
 //            }
+
+            JsonArray jsonArray = new JsonArray();
+            Statement moviesIds = dbcon.createStatement();
+            ResultSet moviesIdrs = null;
+
+            // Browse by letter option selected
             if(browsByLetter) {
                 String genresIdquery = "SELECT id from genres where name = '" + genre + "'";
 
@@ -88,9 +105,30 @@ public class MovieServlet extends HttpServlet {
 
                 String moviesIdquery = "Select movieId from genres_in_movies " +
                         "where genreId ='" + genresId_inmovies + "'";
-                Statement moviesIds = dbcon.createStatement();
-                ResultSet moviesIdrs = moviesIds.executeQuery(moviesIdquery);
-                JsonArray jsonArray = new JsonArray();
+                moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+            }
+
+            // Search option selected
+            else if(search) {
+                String moviesIdquery = String.format("SELECT m.id from movies m, stars_in_movies sim, " +
+                        "stars s where m.id = sim.movieId and s.id = sim.starId ");
+
+                if(!title.equals("")){
+                    moviesIdquery += "and lower(m.title) like '" + title + "' ";
+                }
+                if(!year.equals("")){
+                    moviesIdquery += "and m.year = '" + year + "' ";
+                }
+                if(!director.equals("")){
+                    moviesIdquery += "and lower(m.director) like '" + director + "' ";
+                }
+                if(!star.equals("")) {
+                    moviesIdquery += "and lower(s.name) like '" + star + "' ";
+                }
+                moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+            }
+
+            // Populate JSON Array
                 while (moviesIdrs.next()) {
                     String movies_id = moviesIdrs.getString("movieId");
 
@@ -100,8 +138,6 @@ public class MovieServlet extends HttpServlet {
                             "= '" + movies_id + "'";
                     Statement statement = dbcon.createStatement();
                     ResultSet rs = statement.executeQuery(query);
-
-
 
                     // Iterate through each row of rs
                     while (rs.next()) {
@@ -113,11 +149,12 @@ public class MovieServlet extends HttpServlet {
 
                         JsonObject jsonObject = new JsonObject();
 
-
-                        String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" + movie_id + "'" + " LIMIT 3";
+                        // Add three stars here
+                        String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" +
+                                movie_id + "'" + " LIMIT 3";
                         Statement statement1 = dbcon.createStatement();
                         ResultSet temp = statement1.executeQuery(query1);
-                        //
+
                         int i = 1;
                         while (temp.next()) {
                             String star1 = temp.getString("starID");
@@ -131,8 +168,9 @@ public class MovieServlet extends HttpServlet {
                             i++;
                         }
 
-                        //add three genre here
-                        String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" + movie_id + "'" + " LIMIT 3";
+                        // Add three genre here
+                        String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" +
+                                movie_id + "'" + " LIMIT 3";
                         Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                         ResultSet temp2 = statement3.executeQuery(genre_query);
 
@@ -181,7 +219,7 @@ public class MovieServlet extends HttpServlet {
 
                 dbcon.close();
 
-            }
+
         } catch (Exception e) {
 
             // write error message JSON object to output

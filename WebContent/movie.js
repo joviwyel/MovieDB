@@ -11,7 +11,8 @@
  * Retrieve parameter from request URL, matching by parameter name
  * @param target String
  * @returns {*}
- */
+ * */
+
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
@@ -88,13 +89,28 @@ function handleStarResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
-let genreURL = getParameterByName('genre');
-let yearURL = getParameterByName('year');
+if(getParameterByName('genre') != null) {
+    let genreURL = getParameterByName('genre');
+    // Makes the HTTP GET request and registers on success callback function handleStarResult
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: "api/movie?genre=" + genreURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    });
+}
+else {
+    let titleURL = getParameterByName('title');
+    let yearURL = getParameterByName('year');
+    let dirURL = getParameterByName('director');
+    let starURL = getParameterByName('star');
 
-// Makes the HTTP GET request and registers on success callback function handleStarResult
-jQuery.ajax({
-    dataType: "json", // Setting return data type
-    method: "GET", // Setting request method
-    url: "api/movie?genre=" + genreURL, // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-});
+    // ERROR 500 AT 110 -------------------
+    // Makes the HTTP GET request and registers on success callback function handleStarResult
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL,
+        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    });
+}
