@@ -37,7 +37,6 @@ public class MovieServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean brows = false;
         boolean search = false;
         boolean browsByGenre = false;
         boolean browsByLetter = false;
@@ -58,22 +57,17 @@ public class MovieServlet extends HttpServlet {
             year = request.getParameter("year");
             director = request.getParameter("director").toLowerCase();
             star = request.getParameter("star").toLowerCase();
+            search = true;
         }
         else {
             genre = request.getParameter("genre");
             letter = request.getParameter("letter");
-        }
-
-        if(letter != "" || genre != ""){
-            brows = true;
-            if(letter != "")
-                browsByLetter = true;
-            else
+            if(genre != null)
                 browsByGenre = true;
+            else
+                browsByLetter = true;
         }
-        else
-            search =true;
-
+        
         try {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
@@ -85,8 +79,20 @@ public class MovieServlet extends HttpServlet {
             ResultSet moviesIdrs = null;
 
             // Browse by letter option selected
-            if(browsByLetter) {
+            if(browsByGenre) {
                 String genresIdquery = "SELECT id from genres where name = '" + genre + "'";
+
+                Statement genresIds = dbcon.createStatement();
+                ResultSet genresIdrs = genresIds.executeQuery(genresIdquery);
+                genresIdrs.next();
+                String genresId_inmovies = genresIdrs.getString("id");
+
+                String moviesIdquery = "Select movieId from genres_in_movies " +
+                        "where genreId ='" + genresId_inmovies + "'";
+                moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+            }
+            else if (browsByLetter) {
+                String genresIdquery = "SELECT id from genres where name = '" + genre + "'" + "limit 3";
 
                 Statement genresIds = dbcon.createStatement();
                 ResultSet genresIdrs = genresIds.executeQuery(genresIdquery);

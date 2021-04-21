@@ -16,12 +16,16 @@
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
+
+    // url = encodeURI(encodeURI(url));
     // Encode target parameter name to url encoding
     target = target.replace(/[\[\]]/g, "\\$&");
 
     // Ues regular expression to find matched parameter value
     let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
+
+    console.log(results);
     if (!results) return null;
     if (!results[2]) return '';
 
@@ -99,6 +103,17 @@ if(getParameterByName('genre') != null) {
         success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
     });
 }
+else if(getParameterByName('letter') != null){
+    let letterURL = getParameterByName('letter');
+    // Makes the HTTP GET request and registers on success callback function handleStarResult
+    jQuery.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: "api/movie?letter=" + letterURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+    });
+}
+
 else {
     let titleURL = getParameterByName('title');
     let yearURL = getParameterByName('year');
