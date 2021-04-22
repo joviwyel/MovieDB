@@ -61,12 +61,27 @@ function handleStarResult(resultData) {
 
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
-        if(resultData[i]["genre_name2"] == "N/A")
-            rowHTML += "<th>" + resultData[i]["genre_name1"] + "</th>";
-        else if(resultData[i]["genre_name3"] == "N/A")
-            rowHTML += "<th>" + resultData[i]["genre_name1"] +",  " + resultData[i]["genre_name2"] +  "</th>";
-        else
-            rowHTML += "<th>" + resultData[i]["genre_name1"] +",  " + resultData[i]["genre_name2"] + ",  " + resultData[i]["genre_name3"] +" </th>";
+
+        rowHTML += "<th>"
+        if (resultData[i]["genre_name1"] != "N/A") {
+            rowHTML +=
+                '<a href="movie.html?genre=' + resultData[i]['genre_name1'] + '">'
+                + resultData[i]["genre_name1"] +
+                '</a>';
+        }
+        if (resultData[i]["genre_name2"] != "N/A") {
+            rowHTML += ",  " +
+                '<a href="movie.html?genre=' + resultData[i]['genre_name2'] + '">'
+                + resultData[i]["genre_name2"] +
+                '</a>';
+        }
+        if (resultData[i]["genre_name3"] != "N/A") {
+            rowHTML += ",  " +
+                '<a href="movie.html?genre=' + resultData[i]['genre_name3'] + '">'
+                + resultData[i]["genre_name3"] +
+                '</a>';
+        }
+        rowHTML += "</th>"
 
         rowHTML +=
             "<th>" +
