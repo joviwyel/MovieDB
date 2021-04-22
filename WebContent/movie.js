@@ -16,7 +16,7 @@
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
-
+    //url = decodeURI(url);
     // url = encodeURI(encodeURI(url));
     // Encode target parameter name to url encoding
     target = target.replace(/[\[\]]/g, "\\$&");
@@ -30,7 +30,8 @@ function getParameterByName(target) {
     if (!results[2]) return '';
 
     // Return the decoded parameter value
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    //return decodeURIComponent(results[2].replace(/\+/g, " "));
+    return results[2];
 }
 
 /**
