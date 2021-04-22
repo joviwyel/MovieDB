@@ -92,8 +92,17 @@ public class MovieServlet extends HttpServlet {
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
             else if (browsByLetter) {
-                String letterIdquery = "SELECT distinct id as movieId from movies where lower(title) like '" + letter.toLowerCase() + "%'";
-                moviesIdrs = moviesIds.executeQuery(letterIdquery);
+                if(letter.length() > 3) {
+//                    String temp = "^[A-Z0-9a-z]";
+                    String letterIdquery = "select distinct id as movieId from movies where title "+
+                            "not regexp '" + "^[A-Z0-9a-z]'";
+                    moviesIdrs = moviesIds.executeQuery(letterIdquery);
+                }
+                else {
+                    String letterIdquery = "SELECT distinct id as movieId from movies where lower(title) like '"
+                            + letter.toLowerCase() + "%'";
+                    moviesIdrs = moviesIds.executeQuery(letterIdquery);
+                }
             }
 
             // Search option selected
