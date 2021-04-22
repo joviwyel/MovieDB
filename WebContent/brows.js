@@ -20,19 +20,28 @@ function handleStarResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let genreTableBodyElement = jQuery("#genre_table_body");
     let letterTableBodyElement = jQuery("#letter_table_body");
-    let letter_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-    'Y', 'Z'];
+    let letter_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '*'];
+    let newrow = "<tr><td></td></tr>";
     for(let j = 0; j < letter_list.length; j++){
         let rowLetter = "";
-        if( (j + 1) % 10 == 0){
-            rowLetter += "<tr><td></td></tr>";
-            letterTableBodyElement.append(rowLetter);
+        if( (j + 1) % 11 == 0){
+            // rowLetter += "<tr><td></td></tr>";
+            letterTableBodyElement.append(newrow);
         }
 
-        rowLetter += '<a href = "movie.html?letter=' + letter_list[j] + '">' +' '
-            + letter_list[j] + ' ' + '</a>';
+        if(j == letter_list.length -1){
+            rowLetter += '<a href = "movie.html?letter=' + "others" + '">' +' '
+                + letter_list[j] + ' ' + '</a>';
+        }
+        else{
+            rowLetter += '<a href = "movie.html?letter=' + letter_list[j] + '">' +' '
+                + letter_list[j] + ' ' + '</a>';
+        }
+
         letterTableBodyElement.append(rowLetter);
+        console.log(rowLetter);
     }
 
     // Iterate through resultData, no more than 10 entries
