@@ -84,7 +84,8 @@ public class SingleMovieServlet extends HttpServlet {
 
                 // arraylist of genres
                 String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
-                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'";
+                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "' " +
+                        "ORDER BY g.name ASC";
                 Statement statement2 = dbcon.createStatement();
                 ResultSet temp1 = statement2.executeQuery(query2);
 

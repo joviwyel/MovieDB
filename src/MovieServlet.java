@@ -166,8 +166,9 @@ public class MovieServlet extends HttpServlet {
                     }
 
                     // Add three genre here
-                    String genre_query = "SELECT genreId FROM genres_in_movies WHERE movieId = '" +
-                            movie_id + "'" + " LIMIT 3";
+                    String genre_query = "SELECT gim.genreId FROM genres_in_movies gim, genres g" +
+                            " WHERE gim.genreId = g.id AND gim.movieId = '" + movie_id + "'" +
+                            " ORDER BY g.name ASC LIMIT 3";
                     Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                     ResultSet temp2 = statement3.executeQuery(genre_query);
 
