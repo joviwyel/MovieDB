@@ -121,8 +121,8 @@ public class MovieServlet extends HttpServlet {
                 String movies_id = moviesIdrs.getString("movieId");
 
                 // Perform the query
-                String query = "SELECT id, title, year, director, rating from movies " +
-                        "AS m, ratings as r WHERE m.id ='" + movies_id + "'" + "And r.movieId " +
+                String query = "SELECT id, title, year, director, rating FROM movies " +
+                        "AS m, ratings AS r WHERE m.id ='" + movies_id + "'" + "AND r.movieId " +
                         "= '" + movies_id + "'";
                 Statement statement = dbcon.createStatement();
                 ResultSet rs = statement.executeQuery(query);
@@ -137,11 +137,16 @@ public class MovieServlet extends HttpServlet {
 
                     JsonObject jsonObject = new JsonObject();
 
-                    // Add three stars here
-                    String query1 = "SELECT starId FROM stars_in_movies WHERE movieId = '" +
-                            movie_id + "'" + " LIMIT 3";
+                    // Add three stars here order by # of movies
+                    String star_query1 = "SELECT DISTINCT sim.starId FROM stars s, stars_in_movies sim " +
+                            "WHERE s.id = sim.starId AND" +
+                            " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = '" +
+                            movie_id + "')" +
+                            " GROUP BY sim.starId" +
+                            " ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC" +
+                            " LIMIT 3";
                     Statement statement1 = dbcon.createStatement();
-                    ResultSet temp = statement1.executeQuery(query1);
+                    ResultSet temp = statement1.executeQuery(star_query1);
 
                     int i = 1;
                     while (temp.next()) {
