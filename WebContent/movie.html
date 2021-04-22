@@ -29,9 +29,16 @@
 <form ACTION="movie.html" METHOD="GET">
     <label>First sort by (title/rating):  </label> <input TYPE="TEXT" name="sortby1"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order1"><br>
-    <label>Second sort by (title/rating:  </label> <input TYPE="TEXT" name="sortby2"><br>
+    <label>Second sort by (title/rating): </label> <input TYPE="TEXT" name="sortby2"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order2"><br>
-    <input TYPE="url" NAME="current_url" VALUE="javascript:window.location.href" hidden/>
+
+    <input TYPE="url" ID="u1" NAME="current_url" VALUE="" hidden/>
+    <script type = "text/javascript">
+        function urlFunction() {
+            let elem = document.getElementById("u1");
+            elem.value = window.location.href;
+        }
+    </script>
     <input TYPE="SUBMIT" VALUE="Sort Movies">
 </form>
 
