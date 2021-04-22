@@ -51,7 +51,12 @@ public class MovieServlet extends HttpServlet {
         String star = "";
         String genre = "";
         String letter = "";
+        String sortby1 = "";
+        String sortby2 = "";
+        String order1 = "";
+        String order2 = "";
 
+        // Receive data according to search/browse option
         if(request.getParameter("title") != null) {
             title = request.getParameter("title").toLowerCase();
             year = request.getParameter("year");
@@ -68,6 +73,14 @@ public class MovieServlet extends HttpServlet {
                 browsByLetter = true;
         }
 
+        // Receive data if sort
+        if(request.getParameter("sortby1") != null) {
+            sortby1 = request.getParameter("sortby1").toLowerCase();
+            order1 = request.getParameter("order1").toUpperCase();
+            sortby2 = request.getParameter("sortby2").toLowerCase();
+            order2 = request.getParameter("order2").toUpperCase();
+        }
+
         try {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
@@ -78,7 +91,7 @@ public class MovieServlet extends HttpServlet {
             Statement moviesIds = dbcon.createStatement();
             ResultSet moviesIdrs = null;
 
-            // Browse by letter option selected
+            // Browse by genre option selected
             if(browsByGenre) {
                 String genresIdquery = "SELECT id from genres where name = '" + genre + "'";
 
@@ -87,28 +100,43 @@ public class MovieServlet extends HttpServlet {
                 genresIdrs.next();
                 String genresId_inmovies = genresIdrs.getString("id");
 
-                String moviesIdquery = "Select movieId from genres_in_movies " +
-                        "where genreId ='" + genresId_inmovies + "'";
+                String moviesIdquery = "Select gim.movieId from genres_in_movies gim, movies m, ratings r " +
+                        "where r.movieId = m.id and gim.movieId = m.id and gim.genreId ='" + genresId_inmovies + "' ";
+                // Sort
+                if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
+                    moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
+
+                }
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
+            // Browse by letter option selected
             else if (browsByLetter) {
                 if(letter.length() > 3) {
 //                    String temp = "^[A-Z0-9a-z]";
-                    String letterIdquery = "select distinct id as movieId from movies where title "+
-                            "not regexp '" + "^[A-Z0-9a-z]'";
+                    String letterIdquery = "select distinct m.id as movieId from movies m, ratings r " +
+                            "where m.id = r.movieId and m.title not regexp '" + "^[A-Z0-9a-z]' ";
+
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
                 else {
-                    String letterIdquery = "SELECT distinct id as movieId from movies where lower(title) like '"
-                            + letter.toLowerCase() + "%'";
+                    String letterIdquery = "SELECT distinct m.id as movieId " +
+                            "from movies m, ratings r where m.id = r.movieId and lower(m.title) like '"
+                            + letter.toLowerCase() + "%' ";
+
+                    // Sort
+                    if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
+                        letterIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
+
+                    }
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
             }
 
             // Search option selected
             else if(search) {
-                String moviesIdquery = String.format("SELECT distinct m.id as movieId from movies m, stars_in_movies sim, " +
-                        "stars s where m.id = sim.movieId and s.id = sim.starId ");
+                String moviesIdquery = "SELECT distinct m.id as movieId from movies m, " +
+                        "stars_in_movies sim, ratings r, " +
+                        "stars s where m.id = sim.movieId and r.movieId = m.id and s.id = sim.starId ";
 
                 if(!title.equals("")){
                     moviesIdquery += "and lower(m.title) like '" + title + "' ";
@@ -121,6 +149,10 @@ public class MovieServlet extends HttpServlet {
                 }
                 if(!star.equals("")) {
                     moviesIdquery += "and lower(s.name) like '" + star + "' ";
+                }
+                if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
+                    moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
+
                 }
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }

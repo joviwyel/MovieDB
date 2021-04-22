@@ -12,7 +12,6 @@
  * @param target String
  * @returns {*}
  * */
-
 function getParameterByName(target) {
     // Get request URL
     let url = window.location.href;
@@ -105,43 +104,84 @@ function handleStarResult(resultData) {
     }
 }
 
-
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 if(getParameterByName('genre') != null) {
     let genreURL = getParameterByName('genre');
-    // Makes the HTTP GET request and registers on success callback function handleStarResult
-    jQuery.ajax({
-        dataType: "json", // Setting return data type
-        method: "GET", // Setting request method
-        url: "api/movie?genre=" + genreURL, // Setting request url, which is mapped by StarsServlet in Stars.java
-        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-    });
+    if(getParameterByName('sortby1') == null){
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?genre=" + genreURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
+    else {
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?genre=" + genreURL + "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby1=" + sortby2URL + "&order2=" + order2URL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
 }
 else if(getParameterByName('letter') != null){
     let letterURL = getParameterByName('letter');
     // Makes the HTTP GET request and registers on success callback function handleStarResult
-    jQuery.ajax({
-        dataType: "json", // Setting return data type
-        method: "GET", // Setting request method
-        url: "api/movie?letter=" + letterURL, // Setting request url, which is mapped by StarsServlet in Stars.java
-        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-    });
+    if(getParameterByName('sortby1') == null) {
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?letter=" + letterURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
+    else {
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?letter=" + letterURL + "&sortby1=" + sortby1URL + "&order1=" +
+                order1URL + "&sortby1=" + sortby2URL + "&order2=" + order2URL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
 }
-
 else {
     let titleURL = getParameterByName('title');
     let yearURL = getParameterByName('year');
     let dirURL = getParameterByName('director');
     let starURL = getParameterByName('star');
-
-    // ERROR 500 AT 110 -------------------
-    // Makes the HTTP GET request and registers on success callback function handleStarResult
-    jQuery.ajax({
-        dataType: "json", // Setting return data type
-        method: "GET", // Setting request method
-        url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL,
-        success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-    });
+    if(getParameterByName('sortby1') == null) {
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    } else {
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL +
+                "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby1=" + sortby2URL + "&order2=" + order2URL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
 }

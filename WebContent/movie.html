@@ -21,9 +21,19 @@
 </head>
 <body>
 
-<h1 style="color:red">Fabflix</h1>
+<h1 style="color:#ff0000">Fabflix</h1>
 <h2>Movies List</h2>
-<!--<h5>Top 20 Rated Movies</h5>-->
+
+<h5>Sort Movies by Title or Rating in ASC/DESC Order:</h5>
+
+<form ACTION="movie.html" METHOD="GET">
+    <label>First sort by (title/rating):  </label> <input TYPE="TEXT" name="sortby1"><br>
+    <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order1"><br>
+    <label>Second sort by (title/rating:  </label> <input TYPE="TEXT" name="sortby2"><br>
+    <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order2"><br>
+    <input TYPE="url" NAME="current_url" VALUE="javascript:window.location.href" hidden/>
+    <input TYPE="SUBMIT" VALUE="Sort Movies">
+</form>
 
 <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
 <table id=movie_table class="table table-striped">
