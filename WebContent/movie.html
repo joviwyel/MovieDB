@@ -36,10 +36,16 @@
     <input TYPE="hidden" ID="u2" NAME="year" VALUE=""/>
     <input TYPE="hidden" ID="u3" NAME="director" VALUE=""/>
     <input TYPE="hidden" ID="u4" NAME="star" VALUE=""/>
+    <input TYPE="hidden" ID="g1" NAME="genre" VALUE=""/>
+    <input TYPE="hidden" ID="l1" NAME="letter" VALUE=""/>
+
     <script type = "text/javascript">
         function getParameterByName(target) {
             // Get request URL
             let url = window.location.href;
+            //url = decodeURI(url);
+            // url = encodeURI(encodeURI(url));
+            // Encode target parameter name to url encoding
             target = target.replace(/[\[\]]/g, "\\$&");
 
             // Ues regular expression to find matched parameter value
@@ -55,10 +61,18 @@
             return results[2];
         }
 
-        document.getElementById('u1').value = getParameterByName('title');
-        document.getElementById('u2').value = getParameterByName('year');
-        document.getElementById('u3').value = getParameterByName('director');
-        document.getElementById('u4').value = getParameterByName('star');
+        if(getParameterByName('genre') != null){
+            document.getElementById('g1').value = getParameterByName('genre');
+        }
+        else if(getParameterByName('letter') != null){
+            document.getElementById('l1').value = getParameterByName('letter');
+        }
+        else {
+            document.getElementById('u1').value = getParameterByName('title');
+            document.getElementById('u2').value = getParameterByName('year');
+            document.getElementById('u3').value = getParameterByName('director');
+            document.getElementById('u4').value = getParameterByName('star');
+        }
     </script>
 
     <input TYPE="SUBMIT" VALUE="Sort Movies">
