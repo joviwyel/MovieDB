@@ -134,7 +134,7 @@ public class MovieServlet extends HttpServlet {
 
             // Search option selected
             else if(search) {
-                String moviesIdquery = "SELECT distinct m.id, r.rating, m.title as movieId from movies m, " +
+                String moviesIdquery = "SELECT distinct m.id as movieId, r.rating, m.title from movies m, " +
                         "stars_in_movies sim, ratings r, " +
                         "stars s where m.id = sim.movieId and r.movieId = m.id and s.id = sim.starId ";
 
