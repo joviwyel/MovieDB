@@ -32,13 +32,35 @@
     <label>Second sort by (title/rating): </label> <input TYPE="TEXT" name="sortby2"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order2"><br>
 
-    <input TYPE="url" ID="u1" NAME="current_url" VALUE="" hidden/>
+    <input TYPE="hidden" ID="u1" NAME="title" VALUE=""/>
+    <input TYPE="hidden" ID="u2" NAME="year" VALUE=""/>
+    <input TYPE="hidden" ID="u3" NAME="director" VALUE=""/>
+    <input TYPE="hidden" ID="u4" NAME="star" VALUE=""/>
     <script type = "text/javascript">
-        function urlFunction() {
-            let elem = document.getElementById("u1");
-            elem.value = window.location.href;
+        function getParameterByName(target) {
+            // Get request URL
+            let url = window.location.href;
+            target = target.replace(/[\[\]]/g, "\\$&");
+
+            // Ues regular expression to find matched parameter value
+            let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+
+            console.log(results);
+            if (!results) return null;
+            if (!results[2]) return '';
+
+            // Return the decoded parameter value
+            //return decodeURIComponent(results[2].replace(/\+/g, " "));
+            return results[2];
         }
+
+        document.getElementById('u1').value = getParameterByName('title');
+        document.getElementById('u2').value = getParameterByName('year');
+        document.getElementById('u3').value = getParameterByName('director');
+        document.getElementById('u4').value = getParameterByName('star');
     </script>
+
     <input TYPE="SUBMIT" VALUE="Sort Movies">
 </form>
 
