@@ -119,7 +119,7 @@ public class MovieServlet extends HttpServlet {
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
                 else {
-                    String letterIdquery = "SELECT distinct m.id as movieId " +
+                    String letterIdquery = "SELECT distinct m.id as movieId, m.title, r.rating " +
                             "from movies m, ratings r where m.id = r.movieId and lower(m.title) like '"
                             + letter.toLowerCase() + "%' ";
 
