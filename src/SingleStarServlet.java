@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,6 +47,10 @@ public class SingleStarServlet extends HttpServlet {
 
 		// Output stream to STDOUT
 		PrintWriter out = response.getWriter();
+
+		HttpSession session = request.getSession();
+		System.out.println(session.getAttribute("temp"));
+		session.setAttribute("back", true);
 
 		try {
 			// Get a connection from dataSource

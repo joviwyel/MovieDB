@@ -15,6 +15,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Locale;
+import javax.servlet.http.HttpSession;
 
 
 // Declaring a WebServlet called StarsServlet, which maps to url "/api/stars"
@@ -56,30 +58,104 @@ public class MovieServlet extends HttpServlet {
         String order1 = "";
         String order2 = "";
 
-        // Receive data according to search/browse option
-        if(request.getParameter("title") != null) {
-            title = request.getParameter("title").toLowerCase();
-            year = request.getParameter("year");
-            director = request.getParameter("director").toLowerCase();
-            star = request.getParameter("star").toLowerCase();
-            search = true;
+
+        // set session part for jump
+        HttpSession session = request.getSession();
+        JumpSession mySession = new JumpSession() ;
+        if(session.getAttribute("temp") == null) {
+            if (request.getParameter("title") != null)
+                mySession.setTitle(request.getParameter("title").toLowerCase());
+            if (request.getParameter("year") != null)
+                mySession.setYear(request.getParameter("year").toLowerCase());
+            if (request.getParameter("director") != null)
+                mySession.setDirector(request.getParameter("director").toLowerCase());
+            if (request.getParameter("star") != null)
+                mySession.setStar(request.getParameter("star").toLowerCase());
+            if (request.getParameter("genre") != null)
+                mySession.setGenre(request.getParameter("genre").toLowerCase());
+            if (request.getParameter("letter") != null)
+                mySession.setLetter(request.getParameter("letter").toLowerCase());
+            session.setAttribute("temp", mySession);
+            System.out.println("build:" + mySession);
         }
         else {
-            genre = request.getParameter("genre");
-            letter = request.getParameter("letter");
-            if(genre != null)
-                browsByGenre = true;
-            else
-                browsByLetter = true;
-        }
+            if (session.getAttribute("back") == null) {
+                mySession = (JumpSession) session.getAttribute("temp");
+                if (request.getParameter("sortby1") != null)
+                    mySession.setSortby1(request.getParameter("sortby1").toLowerCase());
+                if (request.getParameter("order1") != null)
+                    mySession.setOrder1(request.getParameter("order1").toUpperCase());
+                if (request.getParameter("sortby2") != null)
+                    mySession.setSortby2(request.getParameter("sortby2").toLowerCase());
+                if (request.getParameter("order2") != null)
+                    mySession.setOrder2(request.getParameter("order2").toUpperCase());
 
-        // Receive data if sort
-        if(request.getParameter("sortby1") != null) {
-            sortby1 = request.getParameter("sortby1").toLowerCase();
-            order1 = request.getParameter("order1").toUpperCase();
-            sortby2 = request.getParameter("sortby2").toLowerCase();
-            order2 = request.getParameter("order2").toUpperCase();
+                System.out.println("sort:" + mySession);
+            } else {
+                mySession = (JumpSession) session.getAttribute("temp");
+            }
         }
+        if(mySession.getTitle() != null)
+            title = mySession.getTitle();
+        if(mySession.getYear() != null)
+            year = mySession.getYear();
+        if(mySession.getDirector() != null)
+            director = mySession.getDirector();
+        if(mySession.getStar() != null)
+            star = mySession.getStar();
+        if(mySession.getGenre() != null)
+            genre = mySession.getGenre();
+        if(mySession.getLetter() != null)
+            letter = mySession.getLetter();
+        if(mySession.getSortby1() != null)
+            sortby1 = mySession.getSortby1();
+        if(mySession.getOrder1() != null)
+            order1 = mySession.getOrder1();
+        if(mySession.getSortby2() != null)
+            sortby2 = mySession.getSortby2();
+        if(mySession.getOrder2() != null)
+            order2 = mySession.getOrder2();
+        System.out.println("back:" + mySession);
+
+
+
+//        // Receive data according to search/browse option
+//        if(request.getParameter("title") != null) {
+//            title = request.getParameter("title").toLowerCase();
+//            year = request.getParameter("year");
+//            director = request.getParameter("director").toLowerCase();
+//            star = request.getParameter("star").toLowerCase();
+//            search = true;
+//        }
+//        else {
+//            genre = request.getParameter("genre");
+//            letter = request.getParameter("letter");
+//            if(genre != null)
+//                browsByGenre = true;
+//            else
+//                browsByLetter = true;
+//        }
+        if(genre != ""){
+            System.out.println("genre:" + genre);
+            System.out.println("genre != null");
+            browsByGenre = true;
+        }
+        else if(letter != ""){
+            System.out.println("letter != null");
+            browsByLetter = true;
+        }
+        else
+            search = true;
+
+
+
+//        // Receive data if sort
+//        if(request.getParameter("sortby1") != null) {
+//            sortby1 = request.getParameter("sortby1").toLowerCase();
+//            order1 = request.getParameter("order1").toUpperCase();
+//            sortby2 = request.getParameter("sortby2").toLowerCase();
+//            order2 = request.getParameter("order2").toUpperCase();
+//        }
 
         try {
             // Get a connection from dataSource
@@ -156,6 +232,8 @@ public class MovieServlet extends HttpServlet {
                 }
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
+
+
 
             // Populate JSON Array
             while (moviesIdrs.next()) {

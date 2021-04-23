@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 
 
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
@@ -50,6 +51,10 @@ public class SingleMovieServlet extends HttpServlet {
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
+
+        HttpSession session = request.getSession();
+        System.out.println(session.getAttribute("temp"));
+        session.setAttribute("back", true);
 
         try {
             // Get a connection from dataSource
@@ -145,7 +150,9 @@ public class SingleMovieServlet extends HttpServlet {
             response.setStatus(500);
         }
         out.close();
-
     }
 
+
 }
+
+

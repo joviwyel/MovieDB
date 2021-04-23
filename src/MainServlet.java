@@ -25,7 +25,22 @@ public class MainServlet extends HttpServlet {
         String sessionId = session.getId();
         long lastAccessTime = session.getLastAccessedTime();
 
-//        String sessionName = (String) session.getAttribute("user");
+        // set session part for jump functionality
+
+        if(session.getAttribute("jump") == null){
+            session.setAttribute("jump", true);
+        }
+        else{
+            session.removeAttribute("temp");
+        }
+        if(session.getAttribute("back") != null)
+            session.removeAttribute("back");
+
+        System.out.println(session.getAttribute("jump"));
+
+        System.out.println(session.getAttribute("temp"));
+
+
 
         JsonObject responseJsonObject = new JsonObject();
         responseJsonObject.addProperty("sessionID", sessionId);
