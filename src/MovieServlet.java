@@ -118,23 +118,6 @@ public class MovieServlet extends HttpServlet {
         System.out.println("back:" + mySession);
 
 
-
-//        // Receive data according to search/browse option
-//        if(request.getParameter("title") != null) {
-//            title = request.getParameter("title").toLowerCase();
-//            year = request.getParameter("year");
-//            director = request.getParameter("director").toLowerCase();
-//            star = request.getParameter("star").toLowerCase();
-//            search = true;
-//        }
-//        else {
-//            genre = request.getParameter("genre");
-//            letter = request.getParameter("letter");
-//            if(genre != null)
-//                browsByGenre = true;
-//            else
-//                browsByLetter = true;
-//        }
         if(genre != ""){
             System.out.println("genre:" + genre);
             System.out.println("genre != null");
@@ -146,16 +129,6 @@ public class MovieServlet extends HttpServlet {
         }
         else
             search = true;
-
-
-
-//        // Receive data if sort
-//        if(request.getParameter("sortby1") != null) {
-//            sortby1 = request.getParameter("sortby1").toLowerCase();
-//            order1 = request.getParameter("order1").toUpperCase();
-//            sortby2 = request.getParameter("sortby2").toLowerCase();
-//            order2 = request.getParameter("order2").toUpperCase();
-//        }
 
         try {
             // Get a connection from dataSource
