@@ -43,7 +43,7 @@
         function getParameterByName(target) {
             // Get request URL
             let url = window.location.href;
-            //url = decodeURI(url);
+            // url = decodeURI(url);
             // url = encodeURI(encodeURI(url));
             // Encode target parameter name to url encoding
             target = target.replace(/[\[\]]/g, "\\$&");
@@ -57,8 +57,8 @@
             if (!results[2]) return '';
 
             // Return the decoded parameter value
-            //return decodeURIComponent(results[2].replace(/\+/g, " "));
-            return results[2];
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+            //return results[2];
         }
 
         if(getParameterByName('genre') != null){
