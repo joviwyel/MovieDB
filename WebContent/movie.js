@@ -1,3 +1,5 @@
+let movie_table_body = $("#btnParent");
+
 /**
  * This example is following frontend and backend separation.
  *
@@ -58,6 +60,8 @@ function handleStarResult(resultData) {
             '</a>' +
             "</th>";
 
+    // </td><td><button id = 'btn3' onclick='deleteGoods(this)'>删除</button></td></tr>";
+        rowHTML += "<th>" + '<button onclick = addToCart(this)' + ">" + "Add to Cart" + '</button>' + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
 
@@ -102,6 +106,11 @@ function handleStarResult(resultData) {
         // Append the row created to the table body, which will refresh the page
         starTableBodyElement.append(rowHTML);
     }
+}
+function addToCart(item){
+    alert("here");
+    console.log(item);
+
 }
 
 /**
