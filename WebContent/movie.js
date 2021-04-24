@@ -12,37 +12,6 @@
 *  When the user clicks on the button,
 *  toggle between hiding and showing the dropdown content
 */
-
-function pageFunction() {
-    document.querySelector('#recNum').addEventListener("change", function() {
-        if (this.value == "10") {
-            console.log('10 selected');
-        } else if (this.value == "25") {
-            console.log('25 selected');
-        } else if (this.value == "50") {
-            console.log('50 selected');
-        } else if (this.value == "100") {
-            console.log('100 selected');
-        }
-    });
-}
-
-/**
- * Close the dropdown menu if the user clicks outside of it
- */
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        let dropdowns = document.getElementsByClassName("dropdown-content");
-        let i;
-        for (i = 0; i < dropdowns.length; i++) {
-            let openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
-    }
-}
-
 /**
  * Retrieve parameter from request URL, matching by parameter name
  * @param target String
@@ -149,6 +118,10 @@ function addToCart(thisId){
         url: "api/addto?addId=" + thisId, // Setting request url, which is mapped by StarsServlet in Stars.java
     });
 }
+function getPageSize(){
+    let e = document.getElementById("pageSize");
+    return e.options[e.selectedIndex].text;
+}
 
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
@@ -213,6 +186,7 @@ else{
         let order1URL = getParameterByName('order1');
         let sortby2URL = getParameterByName('sortby2');
         let order2URL = getParameterByName('order2');
+        let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
@@ -223,7 +197,7 @@ else{
                 method: "GET", // Setting request method
                 url: "api/movie?genre=" + genreURL + "&sortby1=" + sortby1URL + "&order1=" +
                     order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL
-                    + "&pageNum=" + pageNumURL,
+                    + "&pageNum=" + pageNumURL + "&pageSize=" + pageSizeURL,
                 success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
             });
 
@@ -235,6 +209,7 @@ else{
         let order1URL = getParameterByName('order1');
         let sortby2URL = getParameterByName('sortby2');
         let order2URL = getParameterByName('order2');
+        let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
@@ -243,7 +218,8 @@ else{
                 dataType: "json", // Setting return data type
                 method: "GET", // Setting request method
                 url: "api/movie?letter=" + letterURL + "&sortby1=" + sortby1URL + "&order1=" +
-                    order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL + "&pageNum=" + pageNumURL,
+                    order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL + "&pageNum=" + pageNumURL
+                + "&pageSize=" + pageSizeURL,
                 success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
             });
 
@@ -258,6 +234,7 @@ else{
         let order1URL = getParameterByName('order1');
         let sortby2URL = getParameterByName('sortby2');
         let order2URL = getParameterByName('order2');
+        let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
@@ -269,7 +246,7 @@ else{
                 method: "GET", // Setting request method
                 url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL +
                     "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL +
-                    "&pageNum=" + pageNumURL,
+                    "&pageNum=" + pageNumURL + "&pageSizeURL" + pageSizeURL,
                 success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
             });
         }

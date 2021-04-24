@@ -58,12 +58,13 @@ public class MovieServlet extends HttpServlet {
         String order1 = "";
         String order2 = "";
         String pageNum = "";
+        String pageSize = "";
 
         // set session part for jump
         HttpSession session = request.getSession();
         JumpSession mySession = new JumpSession() ;
         if(session.getAttribute("temp") == null) {
-            System.out.println("chicken");
+
             if (request.getParameter("title") != null)
                 mySession.setTitle(request.getParameter("title").toLowerCase());
             if (request.getParameter("year") != null)
@@ -76,7 +77,6 @@ public class MovieServlet extends HttpServlet {
                 mySession.setGenre(request.getParameter("genre").toLowerCase());
             if (request.getParameter("letter") != null)
                 mySession.setLetter(request.getParameter("letter").toLowerCase());
-//            if (request.getParameter("sortby1") != null)
             session.setAttribute("temp", mySession);
             System.out.println("build:" + mySession);
             mySession = (JumpSession) session.getAttribute("temp");
@@ -93,8 +93,8 @@ public class MovieServlet extends HttpServlet {
                     mySession.setSortby2(request.getParameter("sortby2").toLowerCase());
                 if (request.getParameter("order2") != null)
                     mySession.setOrder2(request.getParameter("order2").toUpperCase());
-
-                // page
+                if (request.getParameter("pageSize") != null)
+                    mySession.setPageSize(request.getParameter("pageSize").toUpperCase());
                 if (request.getParameter("pageNum") != null)
                     mySession.setPageNum(request.getParameter("pageNum"));
 
@@ -137,6 +137,8 @@ public class MovieServlet extends HttpServlet {
             sortby2 = mySession.getSortby2();
         if(mySession.getOrder2() != null)
             order2 = mySession.getOrder2();
+        if(mySession.getPageSize() != null)
+            pageSize = mySession.getPageSize();
         if(mySession.getPageNum() != null)
              pageNum = mySession.getPageNum();
 
@@ -154,8 +156,7 @@ public class MovieServlet extends HttpServlet {
         else
             search = true;
 
-        // Get page
-        int pageSize = 5;
+        // Get page num
         int pageNumInt = 0;
         if(pageNum == null){
             pageNumInt = 0;
@@ -163,9 +164,14 @@ public class MovieServlet extends HttpServlet {
         else {
             pageNumInt = Integer.parseInt(pageNum);
         }
-        int offset = (pageNumInt * pageSize);
+        // Get page size
+        int pageSizeInt = 25;
+        if(pageSize != null && pageSize != "" && pageSize != "25"){
+            pageSizeInt = Integer.parseInt(pageSize);
+        }
+        int offset = (pageNumInt * pageSizeInt);
         System.out.print("Offset: " + offset + " ");
-        System.out.print("Page size: " + pageSize + "\n");
+        System.out.print("Page size: " + pageSizeInt + "\n");
 
 
         try {
@@ -195,7 +201,7 @@ public class MovieServlet extends HttpServlet {
 
                 }
                 // Pagination
-                moviesIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+                moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
 
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
@@ -219,7 +225,7 @@ public class MovieServlet extends HttpServlet {
 
                     }
                     // Pagination
-                    letterIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+                    letterIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
 
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
@@ -248,7 +254,7 @@ public class MovieServlet extends HttpServlet {
 
                 }
                 // Pagination
-                moviesIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+                moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
 
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
