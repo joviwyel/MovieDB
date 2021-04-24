@@ -11,6 +11,8 @@ public class JumpSession {
     private String sortby2;
     private String order2;
 
+
+
     public JumpSession(String title, String director, String year, String star, String genre,
                         String letter, String sortby1, String order1, String sortby2, String order2) {
         this.title = title;
@@ -23,6 +25,8 @@ public class JumpSession {
         this.order1 = order1;
         this.sortby2 = sortby2;
         this.order2 = order2;
+
+
     }
 
     public JumpSession(){
@@ -36,6 +40,8 @@ public class JumpSession {
         this.order1 = null;
         this.sortby2 = null;
         this.order2 = null;
+
+
     }
 
     public void setTitle(String a){
@@ -68,6 +74,8 @@ public class JumpSession {
     public void setOrder2(String a){
         this.order2 = a;
     }
+
+
     public String getTitle(){
         return this.title;
     }
@@ -99,6 +107,8 @@ public class JumpSession {
         return this.order2;
     }
 
+
+
     @Override
     public String toString() {
         return "JumpSession{" +
@@ -112,6 +122,7 @@ public class JumpSession {
                 ", order1='" + order1 + '\'' +
                 ", sortby2='" + sortby2 + '\'' +
                 ", order2='" + order2 + '\'' +
+
                 '}';
     }
 }

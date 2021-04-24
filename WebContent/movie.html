@@ -7,6 +7,11 @@
 
 <!doctype html>
 <html lang="en">
+<style>
+    .text-center {
+        text-align: center;
+    }
+</style>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -24,8 +29,65 @@
 <h1 style="color:#ff0000">Fabflix</h1>
 <h2>Movies List</h2>
 
-<h5>Sort Movies by Title or Rating in ASC/DESC Order:</h5>
+<!-- Dropdown button for number of records per page !
+<h5>Choose Number of Records to be Displayed per Page:</h5>
+<form>
+    <label for="recNum">Choose number of records:</label>
+    <select id="recNum" name="recNum">
+        <option value="10">10</option>
+        <option value="25" selected>25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
 
+        <input TYPE="hidden" ID="u11" NAME="title" VALUE=""/>
+        <input TYPE="hidden" ID="u21" NAME="year" VALUE=""/>
+        <input TYPE="hidden" ID="u31" NAME="director" VALUE=""/>
+        <input TYPE="hidden" ID="u41" NAME="star" VALUE=""/>
+        <input TYPE="hidden" ID="g11" NAME="genre" VALUE=""/>
+        <input TYPE="hidden" ID="l11" NAME="letter" VALUE=""/>
+
+        <script type = "text/javascript">
+            function getParameterByName(target) {
+                // Get request URL
+                let url = window.location.href;
+                // url = decodeURI(url);
+                // url = encodeURI(encodeURI(url));
+                // Encode target parameter name to url encoding
+                target = target.replace(/[\[\]]/g, "\\$&");
+
+                // Ues regular expression to find matched parameter value
+                let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+
+                console.log(results);
+                if (!results) return null;
+                if (!results[2]) return '';
+
+                // Return the decoded parameter value
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+                //return results[2];
+            }
+
+            if(getParameterByName('genre') != null){
+                document.getElementById('g11').value = getParameterByName('genre');
+            }
+            else if(getParameterByName('letter') != null){
+                document.getElementById('l11').value = getParameterByName('letter');
+            }
+            else {
+                document.getElementById('u11').value = getParameterByName('title');
+                document.getElementById('u21').value = getParameterByName('year');
+                document.getElementById('u31').value = getParameterByName('director');
+                document.getElementById('u41').value = getParameterByName('star');
+            }
+        </script>
+
+    </select>
+    <input type="SUBMIT" VALUE="Submit">
+</form>
+-->
+<!-- Form for sorting by title and rating !-->
+<h5>Sort Movies by Title or Rating in ASC/DESC Order:</h5>
 <form ACTION="movie.html" METHOD="GET">
     <label>First sort by (title/rating):  </label> <input TYPE="TEXT" name="sortby1"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order1"><br>
@@ -38,6 +100,7 @@
     <input TYPE="hidden" ID="u4" NAME="star" VALUE=""/>
     <input TYPE="hidden" ID="g1" NAME="genre" VALUE=""/>
     <input TYPE="hidden" ID="l1" NAME="letter" VALUE=""/>
+    <input TYPE="hidden" ID="p1" NAME="pageNum" VALUE=0/>
 
     <script type = "text/javascript">
         function getParameterByName(target) {
@@ -60,24 +123,46 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
             //return results[2];
         }
+        function nextFunction(){
+            if(getParameterByName('pageNum') == null){
+                // go to second page
+                document.getElementById('p1').value = 1;
+            }
+            else {
+                document.getElementById('p1').value = getParameterByName('pageNum') - (-1);
+            }
+            console.log("next");
+        }
+        function prevFunction(){
+            if(getParameterByName('pageNum') == null){
+                // remain current first page
+                document.getElementById('p1').value = 0;
+            }
+            else {
+                document.getElementById('p1').value = getParameterByName('pageNum') - 1;
+            }
+            console.log("prev");
+        }
 
         if(getParameterByName('genre') != null){
             document.getElementById('g1').value = getParameterByName('genre');
+            document.getElementById('p1').value = 0;
         }
         else if(getParameterByName('letter') != null){
             document.getElementById('l1').value = getParameterByName('letter');
+            document.getElementById('p1').value = 0;
         }
-        else {
+        else if(getParameterByName('title') != null){
             document.getElementById('u1').value = getParameterByName('title');
             document.getElementById('u2').value = getParameterByName('year');
             document.getElementById('u3').value = getParameterByName('director');
             document.getElementById('u4').value = getParameterByName('star');
+            document.getElementById('p1').value = 0;
         }
-    </script>
 
-    <input TYPE="SUBMIT" VALUE="Sort Movies">
-</form>
-<a href="main.html"><button>Main Page</button></a>
+    </script>
+    <input TYPE="SUBMIT" VALUE="Sort Movies"> <br />
+
 <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
 <table id=movie_table class="table table-striped">
     <!-- Create a table header -->
@@ -97,7 +182,16 @@
     <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
     <tbody id=movie_table_body></tbody>
 </table>
+    <div class="text-center">
+        <button onclick="prevFunction()" >Prev</button>
+        <button onclick="nextFunction()">Next</button>
+    </div>
+<br/>
+    <!-- Button for main page !-->
+    <h5>Return to Main Page:</h5>
+    <a href="main.html"><button>Main Page</button></a>
 
+</form>
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

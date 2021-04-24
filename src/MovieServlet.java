@@ -57,7 +57,7 @@ public class MovieServlet extends HttpServlet {
         String sortby2 = "";
         String order1 = "";
         String order2 = "";
-
+        String pageNum = "";
 
         // set session part for jump
         HttpSession session = request.getSession();
@@ -75,6 +75,8 @@ public class MovieServlet extends HttpServlet {
                 mySession.setGenre(request.getParameter("genre").toLowerCase());
             if (request.getParameter("letter") != null)
                 mySession.setLetter(request.getParameter("letter").toLowerCase());
+       //     if (request.getParameter("pageNum") != null)
+       //         mySession.setPageNum(request.getParameter("pageNum").toLowerCase());
             session.setAttribute("temp", mySession);
             System.out.println("build:" + mySession);
         }
@@ -115,9 +117,13 @@ public class MovieServlet extends HttpServlet {
             sortby2 = mySession.getSortby2();
         if(mySession.getOrder2() != null)
             order2 = mySession.getOrder2();
+       // if(mySession.getPageNum() != null)
+        //     pageNum = mySession.getPageNum();
         System.out.println("back:" + mySession);
 
+        pageNum = request.getParameter("pageNum");
 
+        // Set boolean for search/browse
         if(genre != ""){
             System.out.println("genre:" + genre);
             System.out.println("genre != null");
@@ -129,6 +135,20 @@ public class MovieServlet extends HttpServlet {
         }
         else
             search = true;
+
+        // Get page
+        int pageSize = 5;
+        int pageNumInt = 0;
+        if(pageNum == null){
+            pageNumInt = 0;
+        }
+        else {
+            pageNumInt = Integer.parseInt(pageNum);
+        }
+        int offset = (pageNumInt * pageSize);
+        System.out.print("Offset: " + offset + " ");
+        System.out.print("Page size: " + pageSize);
+
 
         try {
             // Get a connection from dataSource
@@ -153,9 +173,12 @@ public class MovieServlet extends HttpServlet {
                         "where r.movieId = m.id and gim.movieId = m.id and gim.genreId ='" + genresId_inmovies + "' ";
                 // Sort
                 if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
-                    moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
+                    moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2 + " ";
 
                 }
+                // Pagination
+                moviesIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
             // Browse by letter option selected
@@ -177,6 +200,9 @@ public class MovieServlet extends HttpServlet {
                         letterIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
 
                     }
+                    // Pagination
+                    letterIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
             }
@@ -203,6 +229,9 @@ public class MovieServlet extends HttpServlet {
                     moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
 
                 }
+                // Pagination
+                moviesIdquery += " LIMIT " + pageSize + " OFFSET " + offset;
+
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
             }
 
