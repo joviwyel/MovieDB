@@ -54,7 +54,16 @@ public class AddtoServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
-
+        System.out.println("in single:");
+        if(session.getAttribute("back") == null){
+            JumpSession mySession = (JumpSession) session.getAttribute("temp");
+            session.setAttribute("back", mySession);
+            System.out.println("in single: " + mySession);
+        }
+        else{
+            JumpSession mySession = (JumpSession) session.getAttribute("back");
+            System.out.println("in single1: " + mySession);
+        }
 
         try {
             // Get a connection from dataSource

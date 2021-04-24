@@ -76,13 +76,14 @@ public class MovieServlet extends HttpServlet {
                 mySession.setGenre(request.getParameter("genre").toLowerCase());
             if (request.getParameter("letter") != null)
                 mySession.setLetter(request.getParameter("letter").toLowerCase());
-            if (request.getParameter("sortby1") != null)
+//            if (request.getParameter("sortby1") != null)
             session.setAttribute("temp", mySession);
             System.out.println("build:" + mySession);
+            mySession = (JumpSession) session.getAttribute("temp");
         }
         else {
             if (session.getAttribute("back") == null) {
-                System.out.println("noodle");
+                System.out.println("noodle" + request.getParameter("pageNum"));
                 mySession = (JumpSession) session.getAttribute("temp");
                 if (request.getParameter("sortby1") != null)
                     mySession.setSortby1(request.getParameter("sortby1").toLowerCase());
@@ -92,12 +93,29 @@ public class MovieServlet extends HttpServlet {
                     mySession.setSortby2(request.getParameter("sortby2").toLowerCase());
                 if (request.getParameter("order2") != null)
                     mySession.setOrder2(request.getParameter("order2").toUpperCase());
+
+                // page
+                if (request.getParameter("pageNum") != null)
+                    mySession.setPageNum(request.getParameter("pageNum"));
+
+                System.out.println("new page:" + request.getParameter("pageNum"));
+
                 session.setAttribute("back", mySession);
                 System.out.println("sort:" + mySession);
             } else {
-                System.out.println("soup");
-                mySession = (JumpSession) session.getAttribute("temp");
+                System.out.println("in back");
+                mySession = (JumpSession) session.getAttribute("back");
+                System.out.println("after:" + mySession);
+                System.out.println(request.getParameter("pageNum"));
+                int temp = Integer.parseInt((request.getParameter("pageNum")));
+                System.out.println("temp" + temp);
+                if(temp != 0){
+                    System.out.println(request.getParameter("pageNum"));
+                    mySession.setPageNum(request.getParameter("pageNum"));
+                    session.setAttribute("back", mySession);
+                }
             }
+            mySession = (JumpSession) session.getAttribute("back");
         }
         if(mySession.getTitle() != null)
             title = mySession.getTitle();
@@ -119,20 +137,18 @@ public class MovieServlet extends HttpServlet {
             sortby2 = mySession.getSortby2();
         if(mySession.getOrder2() != null)
             order2 = mySession.getOrder2();
-       // if(mySession.getPageNum() != null)
-        //     pageNum = mySession.getPageNum();
+        if(mySession.getPageNum() != null)
+             pageNum = mySession.getPageNum();
+
         System.out.println("back:" + mySession);
 
-        pageNum = request.getParameter("pageNum");
+        pageNum = mySession.getPageNum();
 
         // Set boolean for search/browse
         if(genre != ""){
-            System.out.println("genre:" + genre);
-            System.out.println("genre != null");
             browsByGenre = true;
         }
         else if(letter != ""){
-            System.out.println("letter != null");
             browsByLetter = true;
         }
         else
