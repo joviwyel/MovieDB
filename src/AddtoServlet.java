@@ -60,88 +60,19 @@ public class AddtoServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
-            System.out.println(id);
+            User myCart = (User) session.getAttribute("user");
+            String temp = myCart.getUsername();
 
-//            // Construct a query with parameter represented by "?"
-//            String query = "SELECT * from stars_in_movies as sim, movies as m, ratings as r " +
-//                    "where m.id = sim.movieId and m.id = r.movieId and m.id = ?";
-//
-//            // Declare our statement
-//            PreparedStatement statement = dbcon.prepareStatement(query);
-//
-//            // Set the parameter represented by "?" in the query to the id we get from url,
-//            // num 1 indicates the first "?" in the query
-//            statement.setString(1, id);
-//
-//            // Perform the query
-//            ResultSet rs = statement.executeQuery();
-//
-//            JsonArray jsonArray = new JsonArray();
-//
-//            ArrayList<String> starsIdList = new ArrayList<>();
-//            ArrayList<String> starsNameList = new ArrayList<>();
-//            // Iterate through each row of rs
-//            while (rs.next()) {
-//
-//                String movieId = rs.getString("movieId");
-//                String movieTitle = rs.getString("title");
-//                String movieYear = rs.getString("year");
-//                String movieDirector = rs.getString("director");
-//                String rating = rs.getString("rating");
-//
-//                // arraylist of genres
-//                String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
-//                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "' " +
-//                        "ORDER BY g.name ASC";
-//                Statement statement2 = dbcon.createStatement();
-//                ResultSet temp1 = statement2.executeQuery(query2);
-//
-//                ArrayList<String> genreList = new ArrayList<String>();
-//                while(temp1.next()){
-//                    genreList.add(temp1.getString("name"));
-//                }
-//                // arraylist of strings to JsonArray
-//                JsonArray genreJA = new Gson().toJsonTree(genreList).getAsJsonArray();
-//
-//
-//                JsonObject jsonObject = new JsonObject();
-//
-//
-//                // add stars ID
-//                String starId = rs.getString("starId");
-//                starsIdList.add(starId);
-//                JsonArray starIDJA = new Gson().toJsonTree(starsIdList).getAsJsonArray();
-//
-//                // add stars Name
-//                String query_star_name = "SELECT name FROM stars WHERE id = '" + starId + "'";
-//                Statement statement3 = dbcon.createStatement();
-//                ResultSet temp2 = statement3.executeQuery(query_star_name);
-//                temp2.next();
-//                String star_name = temp2.getString("name");
-//                starsNameList.add(star_name);
-//                JsonArray starNAMEJA = new Gson().toJsonTree(starsNameList).getAsJsonArray();
-//
-//                jsonObject.addProperty("movie_id", movieId);
-//                jsonObject.addProperty("movie_title", movieTitle);
-//                jsonObject.addProperty("movie_year", movieYear);
-//                jsonObject.addProperty("movie_dir", movieDirector);
-//                jsonObject.addProperty("rating", rating);
-//
-//                jsonObject.add("genre_name", genreJA);
-//                jsonObject.add("starId", starIDJA);
-//                jsonObject.add("starName", starNAMEJA);
-//
-//                jsonArray.add(jsonObject);
-//            }
-//
-//            // write JSON string to output
-//            out.write(jsonArray.toString());
-//            // set response status to 200 (OK)
-//            response.setStatus(200);
-//
-//            rs.close();
-//            statement.close();
-//            dbcon.close();
+            myCart.addToCart(id);
+
+            System.out.println("in add: " + myCart.toString());
+            session.setAttribute("user", myCart);
+
+            // for debug
+            User debugUser = (User) session.getAttribute("user");
+            System.out.print(debugUser);
+
+
         } catch (Exception e) {
             // write error message JSON object to output
             JsonObject jsonObject = new JsonObject();

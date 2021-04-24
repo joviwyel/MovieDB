@@ -1,5 +1,4 @@
 <!-- This example is following frontend and backend separation.
-
     This .html performs two steps:
     1. Create a html template skeleton, with all the elements defined (some left empty) and named with ids.
     2. Load movie.js to populate the data into empty elements.
@@ -28,7 +27,8 @@
 
 <h1 style="color:#ff0000">Fabflix</h1>
 <h2>Movies List</h2>
-
+<a href="main.html"><button>Main Page</button></a>
+<a href="shoppingcart.html"><button>Go to Cart</button></a>
 <!-- Dropdown button for number of records per page !
 <h5>Choose Number of Records to be Displayed per Page:</h5>
 <form>
@@ -38,14 +38,12 @@
         <option value="25" selected>25</option>
         <option value="50">50</option>
         <option value="100">100</option>
-
         <input TYPE="hidden" ID="u11" NAME="title" VALUE=""/>
         <input TYPE="hidden" ID="u21" NAME="year" VALUE=""/>
         <input TYPE="hidden" ID="u31" NAME="director" VALUE=""/>
         <input TYPE="hidden" ID="u41" NAME="star" VALUE=""/>
         <input TYPE="hidden" ID="g11" NAME="genre" VALUE=""/>
         <input TYPE="hidden" ID="l11" NAME="letter" VALUE=""/>
-
         <script type = "text/javascript">
             function getParameterByName(target) {
                 // Get request URL
@@ -54,20 +52,16 @@
                 // url = encodeURI(encodeURI(url));
                 // Encode target parameter name to url encoding
                 target = target.replace(/[\[\]]/g, "\\$&");
-
                 // Ues regular expression to find matched parameter value
                 let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
                     results = regex.exec(url);
-
                 console.log(results);
                 if (!results) return null;
                 if (!results[2]) return '';
-
                 // Return the decoded parameter value
                 return decodeURIComponent(results[2].replace(/\+/g, " "));
                 //return results[2];
             }
-
             if(getParameterByName('genre') != null){
                 document.getElementById('g11').value = getParameterByName('genre');
             }
@@ -81,7 +75,6 @@
                 document.getElementById('u41').value = getParameterByName('star');
             }
         </script>
-
     </select>
     <input type="SUBMIT" VALUE="Submit">
 </form>
@@ -163,37 +156,30 @@
     </script>
     <input TYPE="SUBMIT" VALUE="Sort Movies"> <br />
 
-<<<<<<< HEAD
-    <input TYPE="SUBMIT" VALUE="Sort Movies">
-</form>
-<a href="main.html"><button>Main Page</button></a>
-<a href="shoppingcart.html"><button>Go to Cart</button></a>
-=======
->>>>>>> 6e9381dd82ac130978b8e31d232ebb1157ec7624
-<!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
-<table id=movie_table class="table table-striped">
-    <!-- Create a table header -->
-    <thead>
-    <tr>
-        <!-- Titles of each column-->
-        <th>Title</th>
-        <th>Year</th>
-        <th>Director</th>
-        <th>Genres</th>
-        <th>Stars</th>
-        <th>Rating</th>
-        <th>Add to Cart</th>
-    </tr>
-    </thead>
-    <!-- Table body is left empty here, will be populated with the data retrieved with movie.js -->
-    <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
-    <tbody id=movie_table_body></tbody>
-</table>
+    <!-- Id "star_table" is useful for jQuery to find the html element with id, class here is mapping to Bootstrap defined class CSS -->
+    <table id=movie_table class="table table-striped">
+        <!-- Create a table header -->
+        <thead>
+        <tr>
+            <!-- Titles of each column-->
+            <th>Title</th>
+            <th>Year</th>
+            <th>Director</th>
+            <th>Genres</th>
+            <th>Stars</th>
+            <th>Rating</th>
+            <th>Add to Cart</th>
+        </tr>
+        </thead>
+        <!-- Table body is left empty here, will be populated with the data retrieved with movie.js -->
+        <!-- Again, id "star_table_body" is useful for jQuery to find this html element -->
+        <tbody id=movie_table_body></tbody>
+    </table>
     <div class="text-center">
         <button onclick="prevFunction()" >Prev</button>
         <button onclick="nextFunction()">Next</button>
     </div>
-<br/>
+    <br/>
     <!-- Button for main page !-->
     <h5>Return to Main Page:</h5>
     <a href="main.html"><button>Main Page</button></a>
@@ -203,8 +189,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-
 
 <!-- Load our own JS file -->
 <!-- The path is relative to movie.html, since these two files are in the same directory -->
