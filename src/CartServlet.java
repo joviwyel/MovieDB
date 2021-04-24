@@ -64,6 +64,7 @@ public class CartServlet extends HttpServlet {
             ArrayList<String> temp = myCart.getMyCartList();
             ArrayList<Integer> myQty = myCart.getMyQty();
             ArrayList<Double> myprice = myCart.getMyPrice();
+            double myTotal = myCart.getMyTotal();
             JsonArray jsonArray = new JsonArray();
             // Construct a query with parameter represented by "?"
             for(int i=0; i<temp.size(); i++) {
@@ -77,13 +78,14 @@ public class CartServlet extends HttpServlet {
                 // Iterate through each row of rs
                 rs.next();
                 String movieTitle = rs.getString("title");
-                System.out.println("title is:" + movieTitle);
+//                System.out.println("title is:" + movieTitle);
                 jsonObject.addProperty("title", movieTitle);
-                System.out.println("title is:1" + movieTitle);
+//                System.out.println("title is:1" + movieTitle);
                 jsonObject.addProperty("qty", myQty.get(i).toString() );
-                System.out.println("title is:2" + movieTitle);
+//                System.out.println("title is:2" + movieTitle);
                 jsonObject.addProperty("price", myprice.get(i).toString());
-                System.out.println("title is:3" + movieTitle);
+//                System.out.println("title is:3" + movieTitle);
+                jsonObject.addProperty("total", myTotal);
 
                 jsonArray.add(jsonObject);
             }

@@ -13,6 +13,7 @@ public class User {
     private ArrayList<String> myCartList;
     private ArrayList<Integer> myQty;
     private ArrayList<Double> myPrice;
+    private double myTotal;
 
     public User(String username) {
         this.username = username;
@@ -23,17 +24,31 @@ public class User {
         this.myCartList = ar;
         this.myQty = qty;
         this.myPrice = price;
+
     }
     public String getUsername(){return this.username;}
 
     public ArrayList<String> getMyCartList(){return this.myCartList;}
     public ArrayList<Integer> getMyQty(){return this.myQty;}
     public ArrayList<Double> getMyPrice(){return this.myPrice;}
+    public double getMyTotal(){
+        myTotal = 0;
+        for(int i=0; i<myCartList.size(); i++){
+            double temp = myPrice.get(i);
+            System.out.println("myprice is:" + temp);
+            System.out.println("qty is:" + myQty.get(i));
+            myTotal += myQty.get(i) * myPrice.get(i);
+            System.out.println("total:" + myTotal);
+        }
+        return myTotal;
+    }
 
     public boolean addToCart(String id){
         double price = Math.random() * 20;
         BigDecimal b = new BigDecimal(price);
-        double f1   =   b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
+
+        // keep only 2 digits after decimal point
+        double f1 = b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
         if(myCartList==null) {
             myCartList = new ArrayList<String>();
             myQty = new ArrayList<Integer>();
@@ -41,6 +56,7 @@ public class User {
             myCartList.add(id);
             myQty.add(1);
             myPrice.add(f1);
+            myTotal = f1;
         }
         else{
             for(int i=0; i<myCartList.size(); i++){
@@ -48,12 +64,14 @@ public class User {
                     int temp = myQty.get(i);
                     temp++;
                     myQty.set(i, temp);
+                    myTotal += temp;
                     return true;
                 }
             }
             myCartList.add(id);
             myQty.add(1);
             myPrice.add(f1);
+            myTotal += f1;
         }
         return true;
     }
@@ -72,6 +90,7 @@ public class User {
                 ", myCartList=" + myCartList +
                 ", myQty=" + myQty +
                 ", myPrice=" + myPrice +
+                ", myTotal=" + myTotal +
                 '}';
     }
 }

@@ -24,35 +24,28 @@ function handleResult(resultData) {
 
     console.log("handleResult: populating star info from resultData");
 
-    // // populate the star info h3
-    // // find the empty h3 body by id "star_info"
-    // let movieInfoElement = jQuery("#movie_info");
-    //
-    // // append two html <p> created to the h3 body, which will refresh the page
-    // movieInfoElement.append("<p>Movie Title: " + resultData[0]["movie_title"] + "</p>" +
-    //     "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
-    //     "<p>Director: " + resultData[0]["movie_dir"] + "</p>" +
-    //     "<p>Genre: " + resultData[0]["genre_name"] + "</p>" +
-    //     "<p>Rating: " + resultData[0]["rating"] + "</p>");
-    //
-    // console.log("handleResult: populating star table from resultData");
-    //
-    // // Populate the star table
-    // // Find the empty table body by id "star_table_body"
-    // let starTableBodyElement = jQuery("#star_table_body");
-    // for (let i = 0; i < resultData.length; i++) {
-    //     let rowHTML = "";
-    //     rowHTML += "<tr>";
-    //     rowHTML +=
-    //         "<th>" +
-    //         // Add a link to single-star.html with id passed with GET url parameter
-    //         '<a href="single-star.html?id=' + (resultData[resultData.length-1]["starId"])[i] + '">'
-    //         + (resultData[resultData.length-1]["starName"])[i] +  // display star_name for the link text
-    //         '</a>' +
-    //         "</th>";
-    //     rowHTML += "</tr>";
-    //     starTableBodyElement.append(rowHTML);
-    // }
+    console.log("handleResult: populating star table from resultData");
+
+    // Populate the star table
+    // Find the empty table body by id "star_table_body"
+    let CartTableBodyElement = jQuery("#cart_table_body");
+    for (let i = 0; i < resultData.length; i++) {
+        let rowHTML = "";
+        rowHTML += "<tr>";
+
+        rowHTML += "<th>" + resultData[i]["title"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["qty"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["price"] + "</th>";
+
+        rowHTML += "</tr>";
+        console.log(rowHTML);
+        CartTableBodyElement.append(rowHTML);
+    }
+    let totalTableBodyElement = jQuery("#total_table_body");
+    let totalHTML = "";
+    totalHTML += "<th>" + resultData[0]["total"] + "</th>";
+
+    totalTableBodyElement.append(totalHTML);
 }
 jQuery.ajax({
     dataType: "json",  // Setting return data type
