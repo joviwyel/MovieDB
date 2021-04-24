@@ -63,6 +63,7 @@ public class MovieServlet extends HttpServlet {
         HttpSession session = request.getSession();
         JumpSession mySession = new JumpSession() ;
         if(session.getAttribute("temp") == null) {
+            System.out.println("chicken");
             if (request.getParameter("title") != null)
                 mySession.setTitle(request.getParameter("title").toLowerCase());
             if (request.getParameter("year") != null)
@@ -75,13 +76,13 @@ public class MovieServlet extends HttpServlet {
                 mySession.setGenre(request.getParameter("genre").toLowerCase());
             if (request.getParameter("letter") != null)
                 mySession.setLetter(request.getParameter("letter").toLowerCase());
-       //     if (request.getParameter("pageNum") != null)
-       //         mySession.setPageNum(request.getParameter("pageNum").toLowerCase());
+            if (request.getParameter("sortby1") != null)
             session.setAttribute("temp", mySession);
             System.out.println("build:" + mySession);
         }
         else {
             if (session.getAttribute("back") == null) {
+                System.out.println("noodle");
                 mySession = (JumpSession) session.getAttribute("temp");
                 if (request.getParameter("sortby1") != null)
                     mySession.setSortby1(request.getParameter("sortby1").toLowerCase());
@@ -91,9 +92,10 @@ public class MovieServlet extends HttpServlet {
                     mySession.setSortby2(request.getParameter("sortby2").toLowerCase());
                 if (request.getParameter("order2") != null)
                     mySession.setOrder2(request.getParameter("order2").toUpperCase());
-
+                session.setAttribute("back", mySession);
                 System.out.println("sort:" + mySession);
             } else {
+                System.out.println("soup");
                 mySession = (JumpSession) session.getAttribute("temp");
             }
         }
@@ -147,7 +149,7 @@ public class MovieServlet extends HttpServlet {
         }
         int offset = (pageNumInt * pageSize);
         System.out.print("Offset: " + offset + " ");
-        System.out.print("Page size: " + pageSize);
+        System.out.print("Page size: " + pageSize + "\n");
 
 
         try {
