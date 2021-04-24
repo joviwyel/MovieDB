@@ -1,5 +1,3 @@
-let movie_table_body = $("#btnParent");
-
 /**
  * This example is following frontend and backend separation.
  *
@@ -59,9 +57,9 @@ function handleStarResult(resultData) {
             + resultData[i]["movie_name"] +     // display star_name for the link text
             '</a>' +
             "</th>";
-        var thisId = resultData[i]['movie_id'];
-
-        rowHTML += "<th>" + '<button id = thisId onclick = addToCart()' + ">" + "Add to Cart" + '</button>' + "</th>";
+        let thisId = resultData[i]['movie_id'];
+        console.log(thisId);
+        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\')' + ">" + "Add to Cart" + '</button>' + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
 
@@ -107,9 +105,8 @@ function handleStarResult(resultData) {
         starTableBodyElement.append(rowHTML);
     }
 }
-function addToCart(){
-    alert("here");
-    console.log();
+function addToCart(thisId){
+    alert(thisId);
 
 }
 
