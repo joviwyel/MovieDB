@@ -59,9 +59,9 @@ function handleStarResult(resultData) {
             + resultData[i]["movie_name"] +     // display star_name for the link text
             '</a>' +
             "</th>";
+        var thisId = resultData[i]['movie_id'];
 
-    // </td><td><button id = 'btn3' onclick='deleteGoods(this)'>删除</button></td></tr>";
-        rowHTML += "<th>" + '<button onclick = addToCart(this)' + ">" + "Add to Cart" + '</button>' + "</th>";
+        rowHTML += "<th>" + '<button id = thisId onclick = addToCart()' + ">" + "Add to Cart" + '</button>' + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
 
@@ -107,9 +107,9 @@ function handleStarResult(resultData) {
         starTableBodyElement.append(rowHTML);
     }
 }
-function addToCart(item){
+function addToCart(){
     alert("here");
-    console.log(item);
+    console.log();
 
 }
 
