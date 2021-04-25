@@ -12,8 +12,8 @@ public class User {
     private final String username;
     private ArrayList<String> myCartList;
     private ArrayList<Integer> myQty;
-    private ArrayList<Double> myPrice;
-    private double myTotal;
+    private ArrayList<Integer> myPrice;
+    private int myTotal;
 
     public User(String username) {
         this.username = username;
@@ -22,7 +22,7 @@ public class User {
         myPrice = null;
         myTotal = 0;
     }
-    public User(String username, ArrayList<String> ar, ArrayList<Integer> qty, ArrayList<Double> price){
+    public User(String username, ArrayList<String> ar, ArrayList<Integer> qty, ArrayList<Integer> price){
         this.username = username;
         this.myCartList = ar;
         this.myQty = qty;
@@ -33,24 +33,18 @@ public class User {
 
     public ArrayList<String> getMyCartList(){return this.myCartList;}
     public ArrayList<Integer> getMyQty(){return this.myQty;}
-    public ArrayList<Double> getMyPrice(){return this.myPrice;}
-    public double getMyTotal(){
-        System.out.println("getmytotal is being called");
-        double myt = 0;
+    public ArrayList<Integer> getMyPrice(){return this.myPrice;}
+    public int getMyTotal(){
+        int myt = 0;
         if(myCartList!=null)
             System.out.println("myCartlist size:" + myCartList.size());
         else{
             System.out.println("null");
         }
         for(int i=0; i<myCartList.size(); i++){
-            System.out.println("in my total for");
             double temp;
-            System.out.println("in my total for");
             temp = myPrice.get(i);
-            System.out.println("myprice is:" + temp);
-            System.out.println("qty is:" + myQty.get(i));
             myt += myQty.get(i) * myPrice.get(i);
-            System.out.println("total:" + myTotal);
         }
         return myt;
     }
@@ -65,7 +59,7 @@ public class User {
                     return true;
                 }
                 else{
-                    myQty.remove(id);
+                    myQty.remove(i);
                     myCartList.remove(i);
                     myPrice.remove(i);
                     myTotal = getMyTotal();
@@ -89,14 +83,11 @@ public class User {
         return false;
     }
     public boolean addToCart(String id){
-        double price = Math.random() * 20;
-//        BigDecimal b = new BigDecimal(price);
-//        // keep only 2 digits after decimal point
-//        double f1 = b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
+        int price = (int)(1+Math.random()*(20-1+1));
         if(myCartList==null) {
             myCartList = new ArrayList<String>();
             myQty = new ArrayList<Integer>();
-            myPrice = new ArrayList<Double>();
+            myPrice = new ArrayList<Integer>();
             myCartList.add(id);
             myQty.add(1);
             myPrice.add(price);
@@ -119,6 +110,16 @@ public class User {
             myTotal = myTotal + price;
         }
         return true;
+    }
+    public void changeQty(int index, int qty){
+        System.out.println("changeQty is being called");
+        if(qty!=0)
+            myQty.set(index, qty);
+        else{
+            myCartList.remove(index);
+            myQty.remove(index);
+            myPrice.remove(index);
+        }
     }
 
     @Override

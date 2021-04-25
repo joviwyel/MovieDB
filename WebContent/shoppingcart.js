@@ -10,7 +10,7 @@ function getParameterByName(target) {
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-
+    console.log(results);
     // Return the decoded parameter value
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
@@ -27,19 +27,19 @@ function handleResult(resultData) {
     for (let i = 0; i < resultData.length; i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
-        let thisId = resultData[i]["id"];
 
-        let plus = "plus";
-        let min = "min";
+        let thisId = i+1;
         let del = "delete";
+
+        rowHTML += "<th>" + (i+1) + "</th>";
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["qty"] + "</th>" ;
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+plus + '\')' + ">" + "+" + '</button>' + "</th>";
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+min + '\')' + ">" + "-" + '</button>' + "</th>";
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+del + '\')' + ">" + "Delete" + '</button>' + "</th>";
+        rowHTML += "<th>" + '<a href="shoppingcart.html?index=' + thisId +
+            "&qty=0" + '">'+ del +'</a>'+"</th>";
         rowHTML += "<th>" + resultData[i]["price"] + "</th>";
 
         rowHTML += "</tr>";
+
         console.log(rowHTML);
         CartTableBodyElement.append(rowHTML);
     }
@@ -52,10 +52,21 @@ function handleResult(resultData) {
 }
 
 
-
-jQuery.ajax({
-    dataType: "json",  // Setting return data type
-    method: "GET",// Setting request method
-    url: "api/shoppingcart", // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
-});
+if(getParameterByName('index') == null){
+    jQuery.ajax({
+        dataType: "json",  // Setting return data type
+        method: "GET",// Setting request method
+        url: "api/shoppingcart", // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    });
+}
+else{
+    let indexURL = getParameterByName('index');
+    let qtyURL = getParameterByName('qty');
+    jQuery.ajax({
+        dataType: "json",  // Setting return data type
+        method: "GET",// Setting request method
+        url: "api/shoppingcart?index=" + indexURL + "&qty=" + qtyURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    });
+}

@@ -57,13 +57,43 @@ public class CartServlet extends HttpServlet {
 
             User myCart = (User) session.getAttribute("user");
             System.out.println("in cart:" + myCart);
+            if(session.getAttribute("editCart") == null){
+                session.setAttribute("editCart", true);
+            }
 
+            int index = 0;
+            int qty = 0;
+            String convert = "";
+            if(request.getParameter("index")!=null){
+                System.out.println("index:" + request.getParameter("index"));
+                convert =  request.getParameter("index");
+                index = Integer.parseInt(convert);
+                System.out.println("index in int:" + index);
+                if(request.getParameter("qty") == null) {
+                    qty = 0;
+
+                }
+                else{
+                    System.out.println("here");
+                    convert = request.getParameter("qty");
+                    qty = Integer.parseInt(convert);
+                }
+
+                System.out.println("qty in int:" + qty);
+                index = index - 1;
+                System.out.println("here1");
+                myCart.changeQty(index, qty);
+                System.out.println(myCart);
+            }
+
+            System.out.println(myCart);
             ArrayList<String> temp = myCart.getMyCartList();
             ArrayList<Integer> myQty = myCart.getMyQty();
-            ArrayList<Double> myprice = myCart.getMyPrice();
+            ArrayList<Integer> myprice = myCart.getMyPrice();
 
             double myTotal;
             myTotal = myCart.getMyTotal();
+
             JsonArray jsonArray = new JsonArray();
             for (int i = 0; i < temp.size(); i++) {
                 String movieId = temp.get(i);
@@ -81,6 +111,7 @@ public class CartServlet extends HttpServlet {
                 String movieTitle = rs.getString("title");
                 jsonObject.addProperty("title", movieTitle);
                 jsonObject.addProperty("qty", myQty.get(i).toString());
+                System.out.println("qty:" + myQty.get(i));
                 jsonObject.addProperty("price", myprice.get(i).toString());
                 jsonObject.addProperty("total", myTotal);
 

@@ -51,34 +51,50 @@ public class AddtoServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
+
+
         User myCart = (User) session.getAttribute("user");
 
-        System.out.println("in addtoServlet:");
-//        if(session.getAttribute("back") == null){
-//            JumpSession mySession = (JumpSession) session.getAttribute("temp");
-//            session.setAttribute("back", mySession);
-//            System.out.println("in single: " + mySession);
-//        }
-//        else{
-//            JumpSession mySession = (JumpSession) session.getAttribute("back");
-//            System.out.println("in single1: " + mySession);
-//        }
-        // Get a connection from dataSource
-//            Connection dbcon = dataSource.getConnection();
+        if(session.getAttribute("editCart") == null){
+            System.out.println("in addtoServlet:");
 
-//                String temp = myCart.getUsername();
-        String addId = "";
-        // Retrieve parameter id from url request.
-        if (request.getParameter("addId") != null) {
-            addId = request.getParameter("addId");
+            String addId = "";
+            // Retrieve parameter id from url request.
+            if (request.getParameter("addId") != null) {
+                addId = request.getParameter("addId");
+            }
+            myCart.addToCart(addId);
+
+            session.setAttribute("user", myCart);
+
+            // for debug
+            User debugUser = (User) session.getAttribute("user");
+            System.out.print("in add debug:" + debugUser);
         }
-        myCart.addToCart(addId);
+        else{
+            String type = "";
+            String id = "";
+            if(request.getParameter("type")!=null)
+                type = request.getParameter("type");
+            if(request.getParameter("id")!=null)
+                id = request.getParameter("id");
 
-        session.setAttribute("user", myCart);
+            System.out.println("edit Cart: ---- type :" + type);
+            System.out.println("edit Cart: ---- id: " + id);
 
-        // for debug
-        User debugUser = (User) session.getAttribute("user");
-        System.out.print("in add debug:" + debugUser);
+            if(type.equals("plus"))
+                myCart.addToCart(id);
+            else if(type.equals("min"))
+                myCart.minCart(id);
+            else if(type.equals("delete"))
+                myCart.removeItem(id);
+
+            session.setAttribute("user", myCart);
+
+            // for debug
+            System.out.println("after edit in add:" + myCart);
+
+        }
 
         out.close();
     }
