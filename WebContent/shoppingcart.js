@@ -37,7 +37,7 @@ function handleResult(resultData) {
         rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+plus + '\')' + ">" + "+" + '</button>' + "</th>";
         rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+min + '\')' + ">" + "-" + '</button>' + "</th>";
         rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+del + '\')' + ">" + "Delete" + '</button>' + "</th>";
-        rowHTML += "<th>" + resultData[i]["price"] + "</th>";
+        rowHTML += "<th>$ " + resultData[i]["price"] + "</th>";
 
         rowHTML += "</tr>";
         console.log(rowHTML);
@@ -45,7 +45,7 @@ function handleResult(resultData) {
     }
     let totalTableBodyElement = jQuery("#total_table_body");
     let totalHTML = "";
-    totalHTML += "<th>" + resultData[0]["total"] + "</th>";
+    totalHTML += "<th>$ " + resultData[0]["total"] + "</th>";
 
     totalTableBodyElement.append(totalHTML);
 

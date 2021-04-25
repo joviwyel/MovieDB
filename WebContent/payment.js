@@ -18,7 +18,7 @@ function getParameterByName(target) {
 function handleResult(resultData) {
     let totalTableBodyElement = jQuery("#total_table_body");
     let totalHTML = "";
-    totalHTML += "<th>" + resultData[0]["total"] + "</th>";
+    totalHTML += "<th>$ " + resultData[0]["total"] + "</th>";
     totalTableBodyElement.append(totalHTML);
 }
 
