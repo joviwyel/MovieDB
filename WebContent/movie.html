@@ -28,8 +28,14 @@
 <h1 style="color:#ff0000">Fabflix</h1>
 <h2>Movies List</h2>
 
+<!-- Button for main and shopping cart page !-->
+<h5>Return to Main Page:</h5>
+<a href="main.html"><button>Main Page</button></a>
+<h5>Go to Shopping Cart Page:</h5>
+<a href="shoppingcart.html"><button>Go to Cart</button></a>
+
 <!-- Form for sorting by title and rating !-->
-<h5>Sort Movies by Title or Rating in ASC/DESC Order:</h5>
+<h5>Sort Movies List:</h5>
 <form ACTION="movie.html" METHOD="GET">
     <!--
     <label>First sort by (title/rating):  </label> <input TYPE="TEXT" name="sortby1"><br>
@@ -58,6 +64,7 @@
         <option value="DESC">DESC</option>
     </select>
     <br><br>
+
     <label for="pageSize">Choose number of records per page:</label>
     <select name="pageSize" id="pageSize">
         <option value="10">10</option>
