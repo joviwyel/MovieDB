@@ -87,7 +87,8 @@ function handleResult(resultData) {
             + (resultData[resultData.length-1]["starName"])[i] +  // display star_name for the link text
             '</a>' +
             "</th>";
-
+        rowHTML += "<th>" + resultData[resultData.length-1]["num"][i] + "</th>";
+        console.log(resultData[resultData.length-1]["num"][i]);
         rowHTML += "</tr>";
         starTableBodyElement.append(rowHTML);
     }

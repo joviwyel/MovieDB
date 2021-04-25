@@ -88,6 +88,7 @@ public class SingleMovieServlet extends HttpServlet {
 
             ArrayList<String> starsIdList = new ArrayList<>();
             ArrayList<String> starsNameList = new ArrayList<>();
+            ArrayList<String> starsCount = new ArrayList<>();
             // Iterate through each row of rs
             while (rs.next()) {
 
@@ -134,7 +135,7 @@ public class SingleMovieServlet extends HttpServlet {
                 }
 
 
-                String star_query1 = "SELECT DISTINCT sim.starId, s.name FROM stars s, stars_in_movies sim " +
+                String star_query1 = "SELECT DISTINCT sim.starId,COUNT(DISTINCT sim.movieId) as qty, s.name FROM stars s, stars_in_movies sim " +
                         "WHERE s.id = sim.starId AND" +
                         " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = '" +
                         movieId + "')" +
@@ -150,9 +151,12 @@ public class SingleMovieServlet extends HttpServlet {
                     starsIdList.add(starId);
                     String star_name = temp_star.getString("name");
                     starsNameList.add(star_name);
+                    String play_count = temp_star.getString("qty");
+                    starsCount.add(play_count);
                 }
                 JsonArray starIDJA = new Gson().toJsonTree(starsIdList).getAsJsonArray();
                 JsonArray starNAMEJA = new Gson().toJsonTree(starsNameList).getAsJsonArray();
+                JsonArray starsCOUNTJA = new Gson().toJsonTree(starsCount).getAsJsonArray();
 
                 jsonObject.addProperty("movie_id", movieId);
                 jsonObject.addProperty("movie_title", movieTitle);
@@ -162,6 +166,7 @@ public class SingleMovieServlet extends HttpServlet {
 
                 jsonObject.add("starId", starIDJA);
                 jsonObject.add("starName", starNAMEJA);
+                jsonObject.add("num", starsCOUNTJA);
 
                 jsonArray.add(jsonObject);
             }
