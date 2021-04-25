@@ -48,6 +48,11 @@ public class User {
         }
         return myt;
     }
+    public void clear(){
+        myCartList = null;
+        myPrice = null;
+        myQty = null;
+    }
     public boolean minCart(String id){
         for (int i=0; i<myCartList.size(); i++){
             if(myCartList.get(i).equals(id)){
