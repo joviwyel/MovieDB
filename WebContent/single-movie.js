@@ -62,14 +62,15 @@ function handleResult(resultData) {
             + resultData[0]["genre_name3"] +
             '</a>';
     };
-
+    let thisId = resultData[0]['movie_id'];
     // append two html <p> created to the h3 body, which will refresh the page
     movieInfoElement.append("<p>Movie Title: " + resultData[0]["movie_title"] + "</p>" +
         "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
         "<p>Director: " + resultData[0]["movie_dir"] + "</p>" +
         "<p>Genre: " + genreList + "</p>" +
         "<p>Rating: " + resultData[0]["rating"] + "</p>");
-
+    let addbutton = "<th>" + '<button onclick = addToCart(\''+thisId + '\')' + ">" + "Add to Cart" + '</button>' + "</th>";
+    movieInfoElement.append(addbutton);
     console.log("handleResult: populating star table from resultData");
 
     // Populate the star table
@@ -77,6 +78,7 @@ function handleResult(resultData) {
     let starTableBodyElement = jQuery("#star_table_body");
     for (let i = 0; i < resultData.length; i++) {
         let rowHTML = "";
+
         rowHTML += "<tr>";
         rowHTML +=
             "<th>" +
@@ -85,6 +87,7 @@ function handleResult(resultData) {
             + (resultData[resultData.length-1]["starName"])[i] +  // display star_name for the link text
             '</a>' +
             "</th>";
+
         rowHTML += "</tr>";
         starTableBodyElement.append(rowHTML);
     }
@@ -93,7 +96,14 @@ function handleResult(resultData) {
 /**
  * Once this .js is loaded, following scripts will be executed by the browser\
  */
-
+function addToCart(thisId){
+    alert("Added to Shopping Cart!");
+    $.ajax({
+        dataType: "json", // Setting return data type
+        method: "GET", // Setting request method
+        url: "api/addTo?addId=" + thisId, // Setting request url, which is mapped by StarsServlet in Stars.java
+    });
+}
 // Get id from URL
 let movieId = getParameterByName('id');
 
