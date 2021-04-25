@@ -32,21 +32,70 @@ public class User {
     public ArrayList<Integer> getMyQty(){return this.myQty;}
     public ArrayList<Double> getMyPrice(){return this.myPrice;}
     public double getMyTotal(){
-        myTotal = 0;
+        System.out.println("getmytotal is being called");
+        double myt = 0;
+        if(myCartList!=null)
+            System.out.println("myCartlist size:" + myCartList.size());
+        else{
+            System.out.println("null");
+        }
         for(int i=0; i<myCartList.size(); i++){
-            double temp = myPrice.get(i);
+            System.out.println("in my total for");
+            double temp;
+            System.out.println("in my total for");
+            temp = myPrice.get(i);
             System.out.println("myprice is:" + temp);
             System.out.println("qty is:" + myQty.get(i));
-            myTotal += myQty.get(i) * myPrice.get(i);
+            myt += myQty.get(i) * myPrice.get(i);
             System.out.println("total:" + myTotal);
         }
-        return myTotal;
+        return myt;
+    }
+    public boolean minCart(String id){
+        for (int i=0; i<myCartList.size(); i++){
+            if(myCartList.get(i).equals(id)){
+                if(myQty.get(i) > 1){
+                    int temp = myQty.get(i);
+                    temp = temp -1 ;
+                    myQty.set(i, temp);
+                    myTotal = getMyTotal();
+                    return true;
+                }
+                else{
+                    myQty.remove(i);
+                    myCartList.remove(i);
+                    myPrice.remove(i);
+                    myTotal = getMyTotal();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
+    public boolean removeItem(String id){
+//        System.out.println("1");
+        for(int i=0; i<myCartList.size(); i++){
+//            System.out.println("2");
+            if(myCartList.get(i).equals(id)){
+//                System.out.println("3");
+                myCartList.remove(i);
+//                System.out.println("4");
+                myQty.remove(i);
+//                System.out.println("5");
+                myPrice.remove(i);
+//                System.out.println("6");
+                myTotal = getMyTotal();
+//                System.out.println("7");
+
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean addToCart(String id){
         double price = Math.random() * 20;
         BigDecimal b = new BigDecimal(price);
-
         // keep only 2 digits after decimal point
         double f1 = b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
         if(myCartList==null) {
@@ -57,30 +106,24 @@ public class User {
             myQty.add(1);
             myPrice.add(f1);
             myTotal = f1;
+            return true;
         }
         else{
             for(int i=0; i<myCartList.size(); i++){
                 if(myCartList.get(i).equals(id)){
                     int temp = myQty.get(i);
-                    temp++;
+                    temp = temp+1;
                     myQty.set(i, temp);
-                    myTotal += temp;
+                    myTotal = getMyTotal();
                     return true;
                 }
             }
             myCartList.add(id);
             myQty.add(1);
             myPrice.add(f1);
-            myTotal += f1;
+            myTotal = getMyTotal();
         }
         return true;
-    }
-
-    public boolean ifEmpty(){
-        if(myCartList == null)
-            return true;
-        else
-            return false;
     }
 
     @Override

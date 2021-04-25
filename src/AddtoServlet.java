@@ -47,14 +47,14 @@ public class AddtoServlet extends HttpServlet {
 
         response.setContentType("application/json"); // Response mime type
 
-        // Retrieve parameter id from url request.
-        String id = request.getParameter("addId");
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
-        System.out.println("in single:");
+        User myCart = (User) session.getAttribute("user");
+
+        System.out.println("in addtoServlet:");
         if(session.getAttribute("back") == null){
             JumpSession mySession = (JumpSession) session.getAttribute("temp");
             session.setAttribute("back", mySession);
@@ -69,17 +69,21 @@ public class AddtoServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
-            User myCart = (User) session.getAttribute("user");
-            String temp = myCart.getUsername();
 
-            myCart.addToCart(id);
+                String temp = myCart.getUsername();
+                String addId = "";
+                // Retrieve parameter id from url request.
+                if (request.getParameter("addId") != null) {
+                    addId = request.getParameter("addId");
+                }
+                myCart.addToCart(addId);
 
-            System.out.println("in add: " + myCart.toString());
-            session.setAttribute("user", myCart);
+                System.out.println("in add: " + myCart);
+                session.setAttribute("user", myCart);
 
-            // for debug
-            User debugUser = (User) session.getAttribute("user");
-            System.out.print(debugUser);
+                // for debug
+                User debugUser = (User) session.getAttribute("user");
+                System.out.print(debugUser);
 
 
         } catch (Exception e) {
@@ -93,8 +97,6 @@ public class AddtoServlet extends HttpServlet {
         }
         out.close();
     }
-
-
 }
 
 

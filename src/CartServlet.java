@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
@@ -39,7 +36,7 @@ public class CartServlet extends HttpServlet {
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
+     * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,41 +47,41 @@ public class CartServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("temp"));
-        session.setAttribute("back", true);
 
-        User myCart = (User) session.getAttribute("user");
-        System.out.println(myCart);
 
         try {
-            // Get a connection from dataSource
+
             Connection dbcon = dataSource.getConnection();
+
+            HttpSession session = request.getSession();
+
+            User myCart = (User) session.getAttribute("user");
+            System.out.println("in cart:" + myCart);
 
             ArrayList<String> temp = myCart.getMyCartList();
             ArrayList<Integer> myQty = myCart.getMyQty();
             ArrayList<Double> myprice = myCart.getMyPrice();
-            double myTotal = myCart.getMyTotal();
+
+            double myTotal;
+            myTotal = myCart.getMyTotal();
             JsonArray jsonArray = new JsonArray();
-            // Construct a query with parameter represented by "?"
-            for(int i=0; i<temp.size(); i++) {
+            for (int i = 0; i < temp.size(); i++) {
                 String movieId = temp.get(i);
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", movieId);
+
                 String query = "SELECT title from movies where id = '" + movieId + "'";
 
                 Statement cartS = dbcon.createStatement();
                 ResultSet rs = cartS.executeQuery(query);
 
-                JsonObject jsonObject = new JsonObject();
+
                 // Iterate through each row of rs
                 rs.next();
                 String movieTitle = rs.getString("title");
-//                System.out.println("title is:" + movieTitle);
                 jsonObject.addProperty("title", movieTitle);
-//                System.out.println("title is:1" + movieTitle);
-                jsonObject.addProperty("qty", myQty.get(i).toString() );
-//                System.out.println("title is:2" + movieTitle);
+                jsonObject.addProperty("qty", myQty.get(i).toString());
                 jsonObject.addProperty("price", myprice.get(i).toString());
-//                System.out.println("title is:3" + movieTitle);
                 jsonObject.addProperty("total", myTotal);
 
                 jsonArray.add(jsonObject);
@@ -105,8 +102,6 @@ public class CartServlet extends HttpServlet {
         }
         out.close();
     }
-
-
 }
 
 

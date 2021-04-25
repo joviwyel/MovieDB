@@ -142,7 +142,7 @@ function handleStarResult(resultData) {
     }
 }
 function addToCart(thisId){
-    alert(thisId);
+    alert("Added to Shopping Cart!");
     jQuery.ajax({
         dataType: "json", // Setting return data type
         method: "GET", // Setting request method

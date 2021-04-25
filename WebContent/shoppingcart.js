@@ -22,19 +22,21 @@ function getParameterByName(target) {
 
 function handleResult(resultData) {
 
-    console.log("handleResult: populating star info from resultData");
-
-    console.log("handleResult: populating star table from resultData");
-
-    // Populate the star table
     // Find the empty table body by id "star_table_body"
     let CartTableBodyElement = jQuery("#cart_table_body");
     for (let i = 0; i < resultData.length; i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
+        let thisId = resultData[i]["id"];
 
+        let plus = "plus";
+        let min = "min";
+        let del = "delete";
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["qty"] + "</th>";
+        rowHTML += "<th>" + resultData[i]["qty"] + "</th>" ;
+        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+plus + '\')' + ">" + "+" + '</button>' + "</th>";
+        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+min + '\')' + ">" + "-" + '</button>' + "</th>";
+        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+del + '\')' + ">" + "Delete" + '</button>' + "</th>";
         rowHTML += "<th>" + resultData[i]["price"] + "</th>";
 
         rowHTML += "</tr>";
@@ -46,7 +48,11 @@ function handleResult(resultData) {
     totalHTML += "<th>" + resultData[0]["total"] + "</th>";
 
     totalTableBodyElement.append(totalHTML);
+
 }
+
+
+
 jQuery.ajax({
     dataType: "json",  // Setting return data type
     method: "GET",// Setting request method
