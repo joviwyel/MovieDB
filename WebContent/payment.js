@@ -16,15 +16,15 @@ function getParameterByName(target) {
 
 
 function handleResult(resultData) {
+    let totalTableBodyElement = jQuery("#total_table_body");
     let totalHTML = "";
     totalHTML += "<th>" + resultData[0]["total"] + "</th>";
+    totalTableBodyElement.append(totalHTML);
 }
 
-
-// Request data from shopping
 jQuery.ajax({
     dataType: "json",  // Setting return data type
-    method: "POST",// Setting request method
-    url: "api/shopping cart", // Setting request url, which is mapped by StarsServlet in Stars.java
+    method: "GET",// Setting request method
+    url: "api/shoppingcart", // Setting request url, which is mapped by StarsServlet in Stars.java
     success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
 });
