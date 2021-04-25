@@ -41,6 +41,7 @@ id VARCHAR(20) DEFAULT '',
 firstName VARCHAR(50) DEFAULT '',
 lastName VARCHAR(50) DEFAULT '',
 expiration DATE NOT NULL,
+qty INT DEFAULT 1,
 PRIMARY KEY(id)
 );
 CREATE TABLE customers(
