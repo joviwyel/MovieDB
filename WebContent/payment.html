@@ -37,15 +37,18 @@
 </table>
 
 <h5>Credit Card Information: </h5>
-<form ACTION="" METHOD="GET">
-    <label>First Name               :    </label> <input TYPE="TEXT" name="firstName"><br>
-    <label>Last Name                :    </label> <input TYPE="TEXT" name="lastName"><br>
-    <label>Credit Card Number       :    </label> <input TYPE="TEXT" name="creditNum"><br>
-    <label>Expiration Date (MM/YYYY):    </label> <input TYPE="TEXT" name="expDate"><br>
+<form ID="credit_card_form" ACTION="#" METHOD="POST">
+    <label>First Name                  :    </label> <input TYPE="TEXT" name="firstName"><br>
+    <label>Last Name                   :    </label> <input TYPE="TEXT" name="lastName"><br>
+    <label>Credit Card Number          :    </label> <input TYPE="TEXT" name="creditNum"><br>
+    <label>Expiration Date (YYYY-MM-DD):    </label> <input TYPE="TEXT" name="expDate"><br>
+    <input TYPE="SUBMIT" VALUE="Place Order"> <br />
 </form>
-<input TYPE="SUBMIT" VALUE="Place Order"> <br />
+
 <br />
 <a href="shoppingcart.html"><button>Checkout</button></a>
+
+<div id="payment_error_message"></div>
 
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
