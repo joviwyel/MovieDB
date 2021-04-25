@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
@@ -53,12 +54,23 @@ public class SaleServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
 //            JsonObject responseJsonObject = new JsonObject();
 
-
             // Construct a query with parameter represented by "?"
             HttpSession session = request.getSession();
             User myInfo = (User) session.getAttribute("user");
 
             JsonArray jsonArray = new JsonArray();
+
+            // alert table to drop pk
+            String alterQuery = "ALTER TABLE sales add column qty int";
+
+            Statement st = dbcon.createStatement();
+            st.executeUpdate(alterQuery);
+
+            // get now data
+            SimpleDateFormat sdf = new SimpleDateFormat();
+            sdf.applyPattern("yyyy-MM-dd");
+            Date date = new Date();
+            String data = sdf.format(date);
 
             // get username from session
             String myUsername = myInfo.getUsername();
@@ -79,6 +91,10 @@ public class SaleServlet extends HttpServlet {
             salesIdRs.next();
             String salesId = salesIdRs.getString("id");
 
+            int salestemp = Integer.parseInt(salesId);
+            salestemp = salestemp + 1;
+            salesId = String.valueOf(salestemp);
+
             // get movies title
             for(int i=0; i<myInfo.getMyCartList().size(); i++){
                 String movieTitleQuery = "select title from movies where id='"
@@ -98,8 +114,24 @@ public class SaleServlet extends HttpServlet {
                 jsonObject.addProperty("Total", total);
 
                 jsonArray.add(jsonObject);
+
+                // insert data into table sale
+                String query = " insert into sales (id, customerId, movieId, saleDate, qty)"
+                        + " values (?, ?, ?, ?, ?)";
+
+                // for insert
+                PreparedStatement preparedStmt = dbcon.prepareStatement(query);
+                preparedStmt.setString (1, salesId);
+                preparedStmt.setString (2, cusId);
+                preparedStmt.setString   (3, myInfo.getMyCartList().get(i));
+                preparedStmt.setString(4, data);
+                preparedStmt.setInt    (5, qty);
+                // execute the preparedstatement
+                preparedStmt.execute();
             }
 
+            myInfo.clear();
+            session.setAttribute("user", myInfo);
 
             out.write(jsonArray.toString());
             response.setStatus(200);
