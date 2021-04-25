@@ -28,64 +28,36 @@
 <h1 style="color:#ff0000">Fabflix</h1>
 <h2>Movies List</h2>
 
-<!-- Dropdown button for number of records per page !
-<h5>Choose Number of Records to be Displayed per Page:</h5>
-<form>
-    <label for="recNum">Choose number of records:</label>
-    <select id="recNum" name="recNum">
-        <option value="10">10</option>
-        <option value="25" selected>25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <input TYPE="hidden" ID="u11" NAME="title" VALUE=""/>
-        <input TYPE="hidden" ID="u21" NAME="year" VALUE=""/>
-        <input TYPE="hidden" ID="u31" NAME="director" VALUE=""/>
-        <input TYPE="hidden" ID="u41" NAME="star" VALUE=""/>
-        <input TYPE="hidden" ID="g11" NAME="genre" VALUE=""/>
-        <input TYPE="hidden" ID="l11" NAME="letter" VALUE=""/>
-        <script type = "text/javascript">
-            function getParameterByName(target) {
-                // Get request URL
-                let url = window.location.href;
-                // url = decodeURI(url);
-                // url = encodeURI(encodeURI(url));
-                // Encode target parameter name to url encoding
-                target = target.replace(/[\[\]]/g, "\\$&");
-                // Ues regular expression to find matched parameter value
-                let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
-                    results = regex.exec(url);
-                console.log(results);
-                if (!results) return null;
-                if (!results[2]) return '';
-                // Return the decoded parameter value
-                return decodeURIComponent(results[2].replace(/\+/g, " "));
-                //return results[2];
-            }
-            if(getParameterByName('genre') != null){
-                document.getElementById('g11').value = getParameterByName('genre');
-            }
-            else if(getParameterByName('letter') != null){
-                document.getElementById('l11').value = getParameterByName('letter');
-            }
-            else {
-                document.getElementById('u11').value = getParameterByName('title');
-                document.getElementById('u21').value = getParameterByName('year');
-                document.getElementById('u31').value = getParameterByName('director');
-                document.getElementById('u41').value = getParameterByName('star');
-            }
-        </script>
-    </select>
-    <input type="SUBMIT" VALUE="Submit">
-</form>
--->
 <!-- Form for sorting by title and rating !-->
 <h5>Sort Movies by Title or Rating in ASC/DESC Order:</h5>
 <form ACTION="movie.html" METHOD="GET">
+    <!--
     <label>First sort by (title/rating):  </label> <input TYPE="TEXT" name="sortby1"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order1"><br>
     <label>Second sort by (title/rating): </label> <input TYPE="TEXT" name="sortby2"><br>
     <label>Order (ASC/DESC):              </label> <input TYPE="TEXT" name="order2"><br>
-
+    -->
+    <label for="sortby1">First sort by:</label>
+    <select name="sortby1" id="sortby1">
+        <option value="title">Title</option>
+        <option value="rating">Rating</option>
+    </select>
+    <label for="order1">First order:</label>
+    <select name="order1" id="order1">
+        <option value="ASC">ASC</option>
+        <option value="DESC">DESC</option>
+    </select>
+    <label for="sortby2">Second sort by:</label>
+    <select name="sortby2" id="sortby2">
+        <option value="title">Title</option>
+        <option value="rating">Rating</option>
+    </select>
+    <label for="order2">Second order:</label>
+    <select name="order2" id="order2">
+        <option value="ASC">ASC</option>
+        <option value="DESC">DESC</option>
+    </select>
+    <br><br>
     <label for="pageSize">Choose number of records per page:</label>
     <select name="pageSize" id="pageSize">
         <option value="10">10</option>

@@ -122,6 +122,22 @@ function getPageSize(){
     let e = document.getElementById("pageSize");
     return e.options[e.selectedIndex].text;
 }
+function getOrder1(){
+    let e = document.getElementById("order1");
+    return e.options[e.selectedIndex].text;
+}
+function getOrder2(){
+    let e = document.getElementById("order2");
+    return e.options[e.selectedIndex].text;
+}
+function getSortby1(){
+    let e = document.getElementById("sortby1");
+    return e.options[e.selectedIndex].text;
+}
+function getSortby2(){
+    let e = document.getElementById("sortby2");
+    return e.options[e.selectedIndex].text;
+}
 
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
@@ -182,10 +198,10 @@ if(getParameterByName('sortby1') == null){
 else{
     if(getParameterByName('genre') != "") {
         let genreURL = getParameterByName('genre');
-        let sortby1URL = getParameterByName('sortby1');
-        let order1URL = getParameterByName('order1');
-        let sortby2URL = getParameterByName('sortby2');
-        let order2URL = getParameterByName('order2');
+        let sortby1URL = getSortby1();
+        let order1URL = getOrder1();
+        let sortby2URL = getSortby2();
+        let order2URL = getOrder2();
         let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
@@ -205,10 +221,10 @@ else{
     else if(getParameterByName('letter') != ""){
         let letterURL = getParameterByName('letter');
         // Makes the HTTP GET request and registers on success callback function handleStarResult
-        let sortby1URL = getParameterByName('sortby1');
-        let order1URL = getParameterByName('order1');
-        let sortby2URL = getParameterByName('sortby2');
-        let order2URL = getParameterByName('order2');
+        let sortby1URL = getSortby1();
+        let order1URL = getOrder1();
+        let sortby2URL = getSortby2();
+        let order2URL = getOrder2();
         let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
@@ -230,10 +246,10 @@ else{
         let yearURL = getParameterByName('year');
         let dirURL = getParameterByName('director');
         let starURL = getParameterByName('star');
-        let sortby1URL = getParameterByName('sortby1');
-        let order1URL = getParameterByName('order1');
-        let sortby2URL = getParameterByName('sortby2');
-        let order2URL = getParameterByName('order2');
+        let sortby1URL = getSortby1();
+        let order1URL = getOrder1();
+        let sortby2URL = getSortby2();
+        let order2URL = getOrder2();
         let pageSizeURL = getPageSize();
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
