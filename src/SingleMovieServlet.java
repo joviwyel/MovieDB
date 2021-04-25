@@ -69,8 +69,13 @@ public class SingleMovieServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
 
             // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars_in_movies as sim, movies as m, ratings as r " +
-                    "where m.id = sim.movieId and m.id = r.movieId and m.id = ?";
+            String query = "SELECT sim.starId, sim.movieId, m.title, m.year, m.director, r.rating " +
+                    "from stars as s, stars_in_movies as sim, movies as m, ratings as r " +
+                    "where m.id = sim.movieId and m.id = r.movieId and s.id = sim.starId " +
+                    "and sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = ?) " +
+                    "GROUP BY sim.starId " +
+                    "ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC";
+
 
             // Declare our statement
             PreparedStatement statement = dbcon.prepareStatement(query);
@@ -95,23 +100,41 @@ public class SingleMovieServlet extends HttpServlet {
                 String movieDirector = rs.getString("director");
                 String rating = rs.getString("rating");
 
-                // arraylist of genres
-                String query2 = "SELECT g.name FROM genres AS g, genres_in_movies AS gim " +
-                        "WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "' " +
-                        "ORDER BY g.name ASC";
-                Statement statement2 = dbcon.createStatement();
-                ResultSet temp1 = statement2.executeQuery(query2);
-
-                ArrayList<String> genreList = new ArrayList<String>();
-                while(temp1.next()){
-                    genreList.add(temp1.getString("name"));
-                }
-                // arraylist of strings to JsonArray
-                JsonArray genreJA = new Gson().toJsonTree(genreList).getAsJsonArray();
-
-
                 JsonObject jsonObject = new JsonObject();
 
+                // arraylist of genres
+                String genre_query = "SELECT gim.genreId FROM genres_in_movies gim, genres g" +
+                        " WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'" +
+                        " ORDER BY g.name ASC";
+                Statement statement4 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                ResultSet temp4 = statement4.executeQuery(genre_query);
+
+                temp4.last();
+                int genresnum = temp4.getRow();
+                temp4.beforeFirst();
+
+                int loopnum = 3;
+                int j = 1;
+                while (loopnum != 0) {
+                    temp4.next();
+                    genresnum--;
+                    if (genresnum >= 0) {
+                        String genre1 = temp4.getString("genreId");
+                        String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
+                        Statement statement5 = dbcon.createStatement();
+                        ResultSet temp3 = statement5.executeQuery(query2);
+                        temp3.next();
+                        String genre_name = temp3.getString("name");
+                        jsonObject.addProperty("genre_name" + j, genre_name);
+                        j++;
+                        loopnum--;
+                    } else {
+                        jsonObject.addProperty("genre_name" + j, "N/A");
+                        j++;
+                        loopnum--;
+                    }
+
+                }
 
                 // add stars ID
                 String starId = rs.getString("starId");
@@ -120,6 +143,7 @@ public class SingleMovieServlet extends HttpServlet {
 
                 // add stars Name
                 String query_star_name = "SELECT name FROM stars WHERE id = '" + starId + "'";
+
                 Statement statement3 = dbcon.createStatement();
                 ResultSet temp2 = statement3.executeQuery(query_star_name);
                 temp2.next();
@@ -133,7 +157,6 @@ public class SingleMovieServlet extends HttpServlet {
                 jsonObject.addProperty("movie_dir", movieDirector);
                 jsonObject.addProperty("rating", rating);
 
-                jsonObject.add("genre_name", genreJA);
                 jsonObject.add("starId", starIDJA);
                 jsonObject.add("starName", starNAMEJA);
 

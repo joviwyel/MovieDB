@@ -12,11 +12,13 @@ public class JumpSession {
     private String order2;
 
     // page
+    private String pageSize;
     private String pageNum;
 
 
     public JumpSession(String title, String director, String year, String star, String genre,
-                        String letter, String sortby1, String order1, String sortby2, String order2, String pageNum) {
+                        String letter, String sortby1, String order1, String sortby2, String order2,
+                       String pageNum, String pageSize) {
         this.title = title;
         this.director = director;
         this.year = year;
@@ -29,6 +31,7 @@ public class JumpSession {
         this.order2 = order2;
 
         //page
+        this.pageSize = pageNum;
         this.pageNum = pageNum;
     }
 
@@ -45,6 +48,7 @@ public class JumpSession {
         this.order2 = null;
 
         // page
+        this.pageSize = null;
         this.pageNum = null;
 
     }
@@ -81,6 +85,7 @@ public class JumpSession {
     }
 
     //page
+    public void setPageSize(String a){ this.pageSize = a;}
     public void setPageNum(String a){ this.pageNum = a;}
 
     public String getTitle(){
@@ -115,6 +120,7 @@ public class JumpSession {
     }
 
     // page
+    public String getPageSize(){ return this.pageSize; }
     public String getPageNum(){ return this.pageNum; }
 
     @Override
@@ -130,6 +136,7 @@ public class JumpSession {
                 ", order1='" + order1 + '\'' +
                 ", sortby2='" + sortby2 + '\'' +
                 ", order2='" + order2 + '\'' +
+                ", pageSize='" + pageSize + '\'' +
                 ", pageNum='" + pageNum + '\'' +
                 '}';
     }

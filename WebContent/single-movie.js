@@ -43,12 +43,31 @@ function handleResult(resultData) {
     // populate the star info h3
     // find the empty h3 body by id "star_info"
     let movieInfoElement = jQuery("#movie_info");
+    let genreList = "";
+    if (resultData[0]["genre_name1"] != "N/A") {
+        genreList +=
+            '<a href="movie.html?genre=' + resultData[0]['genre_name1'] + '">'
+            + resultData[0]["genre_name1"] +
+            '</a>';
+    }
+    if (resultData[0]["genre_name2"] != "N/A") {
+        genreList += ",  " +
+            '<a href="movie.html?genre=' + resultData[0]['genre_name2'] + '">'
+            + resultData[0]["genre_name2"] +
+            '</a>';
+    }
+    if (resultData[0]["genre_name3"] != "N/A") {
+        genreList += ",  " +
+            '<a href="movie.html?genre=' + resultData[0]['genre_name3'] + '">'
+            + resultData[0]["genre_name3"] +
+            '</a>';
+    };
 
     // append two html <p> created to the h3 body, which will refresh the page
     movieInfoElement.append("<p>Movie Title: " + resultData[0]["movie_title"] + "</p>" +
         "<p>Year: " + resultData[0]["movie_year"] + "</p>" +
         "<p>Director: " + resultData[0]["movie_dir"] + "</p>" +
-        "<p>Genre: " + resultData[0]["genre_name"] + "</p>" +
+        "<p>Genre: " + genreList + "</p>" +
         "<p>Rating: " + resultData[0]["rating"] + "</p>");
 
     console.log("handleResult: populating star table from resultData");
