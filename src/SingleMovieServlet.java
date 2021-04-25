@@ -69,13 +69,10 @@ public class SingleMovieServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
 
             // Construct a query with parameter represented by "?"
-            String query = "SELECT sim.starId, sim.movieId, m.title, m.year, m.director, r.rating " +
-                    "from stars as s, stars_in_movies as sim, movies as m, ratings as r " +
-                    "where m.id = sim.movieId and m.id = r.movieId and s.id = sim.starId " +
-                    "and sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = ?) " +
-                    "GROUP BY sim.starId " +
-                    "ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC";
-
+            String query = "SELECT * " +
+                    "from ratings r, stars_in_movies sim, movies m  " +
+                    "where m.id = sim.movieId and m.id = r.movieId " +
+                    "and m.id = ? ";
 
             // Declare our statement
             PreparedStatement statement = dbcon.prepareStatement(query);
@@ -136,19 +133,25 @@ public class SingleMovieServlet extends HttpServlet {
 
                 }
 
-                // add stars ID
-                String starId = rs.getString("starId");
-                starsIdList.add(starId);
+
+                String star_query1 = "SELECT DISTINCT sim.starId, s.name FROM stars s, stars_in_movies sim " +
+                        "WHERE s.id = sim.starId AND" +
+                        " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = '" +
+                        movieId + "')" +
+                        " GROUP BY sim.starId" +
+                        " ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC";
+                Statement statement1_star = dbcon.createStatement();
+                ResultSet temp_star = statement1_star.executeQuery(star_query1);
+
+
+                // Add star
+                while(temp_star.next()) {
+                    String starId = temp_star.getString("starId");
+                    starsIdList.add(starId);
+                    String star_name = temp_star.getString("name");
+                    starsNameList.add(star_name);
+                }
                 JsonArray starIDJA = new Gson().toJsonTree(starsIdList).getAsJsonArray();
-
-                // add stars Name
-                String query_star_name = "SELECT name FROM stars WHERE id = '" + starId + "'";
-
-                Statement statement3 = dbcon.createStatement();
-                ResultSet temp2 = statement3.executeQuery(query_star_name);
-                temp2.next();
-                String star_name = temp2.getString("name");
-                starsNameList.add(star_name);
                 JsonArray starNAMEJA = new Gson().toJsonTree(starsNameList).getAsJsonArray();
 
                 jsonObject.addProperty("movie_id", movieId);
