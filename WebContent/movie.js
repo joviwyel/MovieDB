@@ -112,10 +112,10 @@ function handleStarResult(resultData) {
 }
 function addToCart(thisId){
     alert("Added to Shopping Cart!");
-    jQuery.ajax({
+    $.ajax({
         dataType: "json", // Setting return data type
         method: "GET", // Setting request method
-        url: "api/addto?addId=" + thisId, // Setting request url, which is mapped by StarsServlet in Stars.java
+        url: "api/addTo?addId=" + thisId, // Setting request url, which is mapped by StarsServlet in Stars.java
     });
 }
 function getPageSize(){

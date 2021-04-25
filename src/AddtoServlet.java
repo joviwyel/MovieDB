@@ -23,20 +23,20 @@ import javax.servlet.http.HttpSession;
 
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/addto
 // This is only for calculate the backend data when adding to shopping cart
-@WebServlet(name = "AddtoServlet", urlPatterns = "/api/addto")
+@WebServlet(name = "AddtoServlet", urlPatterns = "/api/addTo")
 public class AddtoServlet extends HttpServlet {
-    private static final long serialVersionUID = 3L;
+//    private static final long serialVersionUID = 3L;
 
     // Create a dataSource which registered in web.xml
-    private DataSource dataSource;
-
-    public void init(ServletConfig config) {
-        try {
-            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
+//    private DataSource dataSource;
+//
+//    public void init(ServletConfig config) {
+//        try {
+//            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -45,8 +45,7 @@ public class AddtoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("application/json"); // Response mime type
-
+        response.setContentType("text/html"); // Response mime type
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -55,46 +54,32 @@ public class AddtoServlet extends HttpServlet {
         User myCart = (User) session.getAttribute("user");
 
         System.out.println("in addtoServlet:");
-        if(session.getAttribute("back") == null){
-            JumpSession mySession = (JumpSession) session.getAttribute("temp");
-            session.setAttribute("back", mySession);
-            System.out.println("in single: " + mySession);
+//        if(session.getAttribute("back") == null){
+//            JumpSession mySession = (JumpSession) session.getAttribute("temp");
+//            session.setAttribute("back", mySession);
+//            System.out.println("in single: " + mySession);
+//        }
+//        else{
+//            JumpSession mySession = (JumpSession) session.getAttribute("back");
+//            System.out.println("in single1: " + mySession);
+//        }
+        // Get a connection from dataSource
+//            Connection dbcon = dataSource.getConnection();
+
+//                String temp = myCart.getUsername();
+        String addId = "";
+        // Retrieve parameter id from url request.
+        if (request.getParameter("addId") != null) {
+            addId = request.getParameter("addId");
         }
-        else{
-            JumpSession mySession = (JumpSession) session.getAttribute("back");
-            System.out.println("in single1: " + mySession);
-        }
+        myCart.addToCart(addId);
 
-        try {
-            // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
+        session.setAttribute("user", myCart);
 
+        // for debug
+        User debugUser = (User) session.getAttribute("user");
+        System.out.print("in add debug:" + debugUser);
 
-                String temp = myCart.getUsername();
-                String addId = "";
-                // Retrieve parameter id from url request.
-                if (request.getParameter("addId") != null) {
-                    addId = request.getParameter("addId");
-                }
-                myCart.addToCart(addId);
-
-                System.out.println("in add: " + myCart);
-                session.setAttribute("user", myCart);
-
-                // for debug
-                User debugUser = (User) session.getAttribute("user");
-                System.out.print(debugUser);
-
-
-        } catch (Exception e) {
-            // write error message JSON object to output
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("errorMessage", e.getMessage());
-            out.write(jsonObject.toString());
-
-            // set response status to 500 (Internal Server Error)
-            response.setStatus(500);
-        }
         out.close();
     }
 }
