@@ -80,6 +80,7 @@ public class CreditCardServlet extends HttpServlet {
                         success = true;
                         responseJsonObject.addProperty("status", "success");
                         responseJsonObject.addProperty("message", "Payment success!");
+
                     }
                     // Return error
                     else{

@@ -37,7 +37,7 @@ function getParameterByName(target) {
     //return decodeURIComponent(results[2].replace(/\+/g, " "));
     return results[2];
 }
-//
+
 /**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
@@ -118,64 +118,49 @@ function addToCart(thisId){
         url: "api/addTo?addId=" + thisId, // Setting request url, which is mapped by StarsServlet in Stars.java
     });
 }
-function getPageSize(){
-    let e = document.getElementById("pageSize");
-    return e.options[e.selectedIndex].text;
-}
-function getOrder1(){
-    let e = document.getElementById("order1");
-    return e.options[e.selectedIndex].text;
-}
-function getOrder2(){
-    let e = document.getElementById("order2");
-    return e.options[e.selectedIndex].text;
-}
-function getSortby1(){
-    let e = document.getElementById("sortby1");
-    return e.options[e.selectedIndex].text;
-}
-function getSortby2(){
-    let e = document.getElementById("sortby2");
-    return e.options[e.selectedIndex].text;
-}
 
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
+console.log("getParamByName sortby1: " + getParameterByName('sortby1'));
+
 if(getParameterByName('sortby1') == null){
     if(getParameterByName('genre') != null) {
+        console.log("[SORTBY1 == NULL, GENRE != NULL");
         let genreURL = getParameterByName('genre');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
         }
-            // Makes the HTTP GET request and registers on success callback function handleStarResult
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?genre=" + genreURL + "&pageNum=" + pageNumURL, // Setting request url, which is mapped by StarsServlet in Stars.java
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?genre=" + genreURL + "&pageNum=" + pageNumURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
 
     }
     else if(getParameterByName('letter') != null){
+        console.log("[SORTBY1 == NULL, LETTER != NULL");
         let letterURL = getParameterByName('letter');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
         }
 
-            // Makes the HTTP GET request and registers on success callback function handleStarResult
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?letter=" + letterURL + "&pageNum=" + pageNumURL, // Setting request url, which is mapped by StarsServlet in Stars.java
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?letter=" + letterURL + "&pageNum=" + pageNumURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
 
 
     }
     else {
+        console.log("[SORTBY1 == NULL, SEARCH");
         let titleURL = getParameterByName('title');
         let yearURL = getParameterByName('year');
         let dirURL = getParameterByName('director');
@@ -185,87 +170,90 @@ if(getParameterByName('sortby1') == null){
             pageNumURL = getParameterByName('pageNum');
         }
 
-            // Makes the HTTP GET request and registers on success callback function handleStarResult
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL + "&pageNum=" + pageNumURL,
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL + "&pageNum=" + pageNumURL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
 
     }
 }
 else{
     if(getParameterByName('genre') != "") {
+        console.log("[SORTBY1 != NULL, GENRE != emp_str");
         let genreURL = getParameterByName('genre');
-        let sortby1URL = getSortby1();
-        let order1URL = getOrder1();
-        let sortby2URL = getSortby2();
-        let order2URL = getOrder2();
-        let pageSizeURL = getPageSize();
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        let pageSizeURL = getParameterByName('pageSize');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
         }
-            // Makes the HTTP GET request and registers on success callback function handleStarResult
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?genre=" + genreURL + "&sortby1=" + sortby1URL + "&order1=" +
-                    order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL
-                    + "&pageNum=" + pageNumURL + "&pageSize=" + pageSizeURL,
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?genre=" + genreURL + "&sortby1=" + sortby1URL + "&order1=" +
+                order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL
+                + "&pageNum=" + pageNumURL + "&pageSize=" + pageSizeURL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
 
     }
     else if(getParameterByName('letter') != ""){
+        console.log("[SORTBY1 != NULL, LETTER != emp_str");
         let letterURL = getParameterByName('letter');
         // Makes the HTTP GET request and registers on success callback function handleStarResult
-        let sortby1URL = getSortby1();
-        let order1URL = getOrder1();
-        let sortby2URL = getSortby2();
-        let order2URL = getOrder2();
-        let pageSizeURL = getPageSize();
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        let pageSizeURL = getParameterByName('pageSize');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
         }
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?letter=" + letterURL + "&sortby1=" + sortby1URL + "&order1=" +
-                    order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL + "&pageNum=" + pageNumURL
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?letter=" + letterURL + "&sortby1=" + sortby1URL + "&order1=" +
+                order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL + "&pageNum=" + pageNumURL
                 + "&pageSize=" + pageSizeURL,
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
 
 
     }
     else {
+        console.log("[SORTBY1 != NULL, SEARCH");
         let titleURL = getParameterByName('title');
         let yearURL = getParameterByName('year');
         let dirURL = getParameterByName('director');
         let starURL = getParameterByName('star');
-        let sortby1URL = getSortby1();
-        let order1URL = getOrder1();
-        let sortby2URL = getSortby2();
-        let order2URL = getOrder2();
-        let pageSizeURL = getPageSize();
+        let sortby1URL = getParameterByName('sortby1');
+        let order1URL = getParameterByName('order1');
+        let sortby2URL = getParameterByName('sortby2');
+        let order2URL = getParameterByName('order2');
+        let pageSizeURL = getParameterByName('pageSize');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
             pageNumURL = getParameterByName('pageNum');
         }
 
-            // Makes the HTTP GET request and registers on success callback function handleStarResult
-            jQuery.ajax({
-                dataType: "json", // Setting return data type
-                method: "GET", // Setting request method
-                url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL +
-                    "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL +
-                    "&pageNum=" + pageNumURL + "&pageSizeURL" + pageSizeURL,
-                success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
-            });
-        }
+        // Makes the HTTP GET request and registers on success callback function handleStarResult
+        jQuery.ajax({
+            dataType: "json", // Setting return data type
+            method: "GET", // Setting request method
+            url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL +
+                "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL +
+                "&pageNum=" + pageNumURL + "&pageSizeURL" + pageSizeURL,
+            success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
+        });
+    }
 
 
 }

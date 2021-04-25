@@ -57,7 +57,7 @@ public class SingleMovieServlet extends HttpServlet {
         if(session.getAttribute("back") == null){
             JumpSession mySession = (JumpSession) session.getAttribute("temp");
             session.setAttribute("back", mySession);
-            System.out.println("in single: " + mySession);
+            System.out.println("Single movie: " + mySession);
         }
         else{
             JumpSession mySession = (JumpSession) session.getAttribute("back");
