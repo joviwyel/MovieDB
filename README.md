@@ -7,16 +7,10 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
-
-# Project 1
-This is team10 project 1 final version. Team members developed team10 version of the project based on the api-example.
-
-
+# Project 2
 ## Demo video URL:
 
-https://youtu.be/i2CiywA60Yg
-
-## How to deploy this application with Tomcat:
+## ## How to deploy this application with Tomcat:
 
 You can either use gui to deploy war file into Tomcat or do it in Terminal.
 By gui:
@@ -28,6 +22,41 @@ Use Terminal:
   cp ./target/*.war /var/lib/tomcat9/webapps/
   
 After that, Tomcat web apps should have the new war file.
+
+## Substring matching design:
+
++ 'ABC%': All strings that start with 'ABC'. E.g. 'ABCD' and 'ABCABC'.
+
++ '%XYZ': All strings that end with 'XYZ'. E.g. 'WXYZ' and 'ZZXYZ'.
+
++ '%AN%': All strings that contain the pattern 'AN' anywhere. E.g. 'LOS ANGELES' and 'SAN FRANCISCO'.
+
+## Each mamber's contribution:
+
++ Task 1:
+    - Jing Wu did Login page and Main page. For our main page is an nagvigation page to jump to Browsing and Searching.
+    
++ Task 2: 
+    - Kai Li Tan did Searching page.
+    - Jing Wu did Browsing page.
+
++ Task 3:
+    - Kai li Tan did Movie List Page(Extended from Project 1) and related jump functionaly. 
+    - Jing Wu did Single Movie Page(Extended from Project 1) and related jump functionaly.
+
++ Task 4:
+    - Kai Li Tan did Payment Page, Place Order action.
+    - Jing Wu did Shopping Cart Page, Add to Shopping Cart Button.
+    
++ The two of us communicated very timely, discussed and solved many difficult problems together.
+
+# Project 1
+This is team10 project 1 final version. Team members developed team10 version of the project based on the api-example.
+
+
+## Demo video URL:
+
+https://youtu.be/i2CiywA60Yg
 
 ## Some briefly explain:
 
