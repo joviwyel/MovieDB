@@ -34,16 +34,11 @@ function handleResult(resultData) {
         rowHTML += "<th>" + (i+1) + "</th>";
         rowHTML += "<th>" + resultData[i]["title"] + "</th>";
         rowHTML += "<th>" + resultData[i]["qty"] + "</th>" ;
-<<<<<<< HEAD
+
         rowHTML += "<th>" + '<a href="shoppingcart.html?index=' + thisId +
             "&qty=0" + '">'+ del +'</a>'+"</th>";
-        rowHTML += "<th>" + resultData[i]["price"] + "</th>";
-=======
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+plus + '\')' + ">" + "+" + '</button>' + "</th>";
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+min + '\')' + ">" + "-" + '</button>' + "</th>";
-        rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\',\''+del + '\')' + ">" + "Delete" + '</button>' + "</th>";
         rowHTML += "<th>$ " + resultData[i]["price"] + "</th>";
->>>>>>> 356dafb6c02513107840ac69749d0b2495270b0d
+
 
         rowHTML += "</tr>";
 
