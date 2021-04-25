@@ -10,7 +10,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # Project 2
 ## Demo video URL:
 
-## ## How to deploy this application with Tomcat:
+## How to deploy this application with Tomcat:
 
 You can either use gui to deploy war file into Tomcat or do it in Terminal.
 By gui:
