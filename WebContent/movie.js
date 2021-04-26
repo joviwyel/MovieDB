@@ -261,7 +261,7 @@ else{
             method: "GET", // Setting request method
             url: "api/movie?title=" + titleURL + "&year=" + yearURL + "&director=" + dirURL + "&star=" + starURL +
                 "&sortby1=" + sortby1URL + "&order1=" + order1URL + "&sortby2=" + sortby2URL + "&order2=" + order2URL +
-                "&pageNum=" + pageNumURL + "&pageSizeURL" + pageSizeURL,
+                "&pageNum=" + pageNumURL + "&pageSize=" + pageSizeURL,
             success: (resultData) => handleStarResult(resultData) // Setting callback function to handle data returned successfully by the StarsServlet
         });
     }
