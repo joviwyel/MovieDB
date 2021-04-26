@@ -83,10 +83,18 @@ public class MovieServlet extends HttpServlet {
             System.out.println("SESSION (Build new): " + mySession);
             mySession = (JumpSession) session.getAttribute("temp");
         }
-        // 进list后的第一页
+        // First page of list
         else if(session.getAttribute("back") == null) {
+            // Genre clicked on first page, new session temp
+            if(request.getParameter("genre") != null && request.getParameter("genre") != ""){
+                mySession = (JumpSession) session.getAttribute("temp");
+                if (request.getParameter("genre") != null){
+                    mySession.setGenre(request.getParameter("genre").toLowerCase());}
+                System.out.println("SESSION (Build new with genre): " + mySession);
+                mySession = (JumpSession) session.getAttribute("temp");
+            }
             // Sort form submitted, new session temp
-            if (request.getParameter("sortby1") != null && (request.getParameter("sortby1") != ""
+            else if (request.getParameter("sortby1") != null && (request.getParameter("sortby1") != ""
                     || request.getParameter("pageSize") != "")) {
                 mySession = (JumpSession) session.getAttribute("temp");
                 if (request.getParameter("sortby1") != null)
@@ -117,8 +125,16 @@ public class MovieServlet extends HttpServlet {
         }
         // back != null
         else {
+            // Genre clicked on other than first page, new session temp
+            if(request.getParameter("genre") != null && request.getParameter("genre") != ""){
+                mySession = (JumpSession) session.getAttribute("temp");
+                if (request.getParameter("genre") != null){
+                    mySession.setGenre(request.getParameter("genre").toLowerCase());}
+                System.out.println("SESSION (Build new with genre): " + mySession);
+                mySession = (JumpSession) session.getAttribute("temp");
+            }
             // Sort after back
-            if (request.getParameter("sortby1") != null && (
+            else if (request.getParameter("sortby1") != null && (
                     request.getParameter("sortby1") != "" || request.getParameter("pageSize") != "")) {
                 mySession = (JumpSession) session.getAttribute("temp");
                 if (request.getParameter("sortby1") != null)
