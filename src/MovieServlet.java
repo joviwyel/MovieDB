@@ -279,16 +279,16 @@ public class MovieServlet extends HttpServlet {
                         "stars s where m.id = sim.movieId and r.movieId = m.id and s.id = sim.starId ";
 
                 if(!title.equals("")){
-                    moviesIdquery += "and lower(m.title) like '" + title + "' ";
+                    moviesIdquery += "and lower(m.title) like '%" + title + "%' ";
                 }
                 if(!year.equals("")){
                     moviesIdquery += "and m.year = '" + year + "' ";
                 }
                 if(!director.equals("")){
-                    moviesIdquery += "and lower(m.director) like '" + director + "' ";
+                    moviesIdquery += "and lower(m.director) like '%" + director + "%' ";
                 }
                 if(!star.equals("")) {
-                    moviesIdquery += "and lower(s.name) like '" + star + "' ";
+                    moviesIdquery += "and lower(s.name) like '%" + star + "%' ";
                 }
                 if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
                     moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
