@@ -55,7 +55,7 @@ public class CreditCardServlet extends HttpServlet {
             String expDate = request.getParameter("expDate");
 
             // Check if match with data from creditcards table
-            if(firstName != "" && lastName != "" && creditNum != "" && expDate != ""){
+            if(firstName != "" && lastName != "" && creditNum != "" && expDate != "") {
                 System.out.println("-- CREDIT CARD SERVLET: INPUT NOT EMPTY --");
                 // Get all information of credit card
                 String query_cc = "SELECT * from creditcards where id = '" + creditNum + "' ";
@@ -64,7 +64,9 @@ public class CreditCardServlet extends HttpServlet {
                 ResultSet rs_cc = statement_cc.executeQuery(query_cc);
 
                 boolean success = false;
-
+                boolean inLoop = false;
+                while(rs_cc.next()){
+                    inLoop = true;
                     String firstNameDB = rs_cc.getString("firstName");
                     String lastNameDB = rs_cc.getString("lastName");
                     java.sql.Date expDateOriDB = rs_cc.getDate("expiration"); // Convert date to string
@@ -81,12 +83,17 @@ public class CreditCardServlet extends HttpServlet {
 
                     }
                     // Return error
-                    else{
+                    else {
                         System.out.println("-- CREDIT CARD SERVLET: FAILED --");
                         responseJsonObject.addProperty("status", "fail");
                         responseJsonObject.addProperty("message", "Payment failed! Please try again.");
                     }
-
+                }
+                if(!inLoop){
+                    System.out.println("-- CREDIT CARD SERVLET: FAILED --");
+                    responseJsonObject.addProperty("status", "fail");
+                    responseJsonObject.addProperty("message", "Payment failed! Please try again.");
+                }
                 rs_cc.close();
                 statement_cc.close();
                 dbcon.close();
