@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -40,6 +39,8 @@ public class MainServlet extends HttpServlet {
         System.out.println(session.getAttribute("jump"));
 
         System.out.println(session.getAttribute("temp"));
+
+
 
         JsonObject responseJsonObject = new JsonObject();
         responseJsonObject.addProperty("sessionID", sessionId);

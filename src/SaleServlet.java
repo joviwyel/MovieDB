@@ -93,10 +93,12 @@ public class SaleServlet extends HttpServlet {
 
             int salestemp = Integer.parseInt(salesId);
             salestemp = salestemp + 1;
-            salesId = String.valueOf(salestemp);
+
 
             // get movies title
             for(int i=0; i<myInfo.getMyCartList().size(); i++){
+
+                salesId = String.valueOf(salestemp);
                 String movieTitleQuery = "select title from movies where id='"
                         + myInfo.getMyCartList().get(i) + "'";
                 Statement movieSt = dbcon.createStatement();
@@ -128,6 +130,7 @@ public class SaleServlet extends HttpServlet {
                 preparedStmt.setInt    (5, qty);
                 // execute the preparedstatement
                 preparedStmt.execute();
+                salestemp++;
             }
 
             myInfo.clear();
