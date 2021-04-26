@@ -135,6 +135,7 @@
                 document.getElementById('p1').value = 0;
             }
             else {
+                document.getElementById("firstbtn").disabled=false;
                 document.getElementById('p1').value = getParameterByName('pageNum') - 1;
             }
             console.log("prev");
@@ -180,8 +181,8 @@
         <tbody id=movie_table_body></tbody>
     </table>
     <div class="text-center">
-        <button onclick="prevFunction()" >Prev</button>
-        <button onclick="nextFunction()">Next</button>
+        <button id="prevButton" onclick="prevFunction()" >Prev</button>
+        <button id="nextButton" onclick="nextFunction()">Next</button>
     </div>
     <br/>
 </form>

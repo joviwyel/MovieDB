@@ -105,7 +105,8 @@ function handleStarResult(resultData) {
 
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
         rowHTML += "</tr>";
-
+        // if(i==resultData.length-1)
+        //     $("#nextButton").attr('disabled',true);
         // Append the row created to the table body, which will refresh the page
         starTableBodyElement.append(rowHTML);
     }
@@ -123,6 +124,12 @@ function addToCart(thisId){
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 console.log("getParamByName sortby1: " + getParameterByName('sortby1'));
+if(getParameterByName('pageNum') == null)
+    $("#prevButton").attr('disabled',true);
+else if(getParameterByName('pageNum') == 0)
+    $("#prevButton").attr('disabled',true);
+else
+    $("#prevButton").attr('disabled',false);
 
 if(getParameterByName('sortby1') == null){
     if(getParameterByName('genre') != null) {
