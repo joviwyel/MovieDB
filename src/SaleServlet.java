@@ -61,10 +61,10 @@ public class SaleServlet extends HttpServlet {
             JsonArray jsonArray = new JsonArray();
 
             // alert table to drop pk
-//            String alterQuery = "ALTER TABLE sales add column qty int";
+            String alterQuery = "ALTER TABLE sales add column qty int";
 //
-//            Statement st = dbcon.createStatement();
-//            st.executeUpdate(alterQuery);
+            Statement st = dbcon.createStatement();
+            st.executeUpdate(alterQuery);
 
             // get now data
             SimpleDateFormat sdf = new SimpleDateFormat();
