@@ -24,10 +24,10 @@ Use Terminal:
 After that, Tomcat web apps should have the new war file.
 
 ## Substring matching design:
-+ LIKE was used to search for a specified pattern in the Title, Director, and Star Name columns using the wildcards, '%' and '\_'_.
- '%' represent more than zero or more characters while '\_' represents only one character.
- For example, the movie "Dominator" can be search by 
-  i) domina%
++ LIKE was used to search for a specified pattern in the Title, Director, and Star Name columns using the wildcards, '%' and '\_'.
+ - '%' represent more than zero or more characters while '\_' represents only one character.
+ - For example, the movie "Dominator" can be search by 
+  1) domina%
   ii) %mina%
   iii) %tor
  and many more combinations.
