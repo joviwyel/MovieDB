@@ -8,7 +8,7 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
 # Project 2
-## Demo video URL: https://www.youtube.com/watch?v=tO_jPLh5l84
+## Demo video URL: https://www.youtube.com/watch?v=rE5Uz4C_JIo
 
 ## How to deploy this application with Tomcat:
 
