@@ -56,8 +56,11 @@ After that, Tomcat web apps should have the new war file.
 + Task 4:
     - Kai Li Tan did Payment Page, Place Order action.
     - Jing Wu did Shopping Cart Page, Add to Shopping Cart Button.
+
++ Kai Li Tan make the demo video for project 2.
++ Both members beautify the webpage and work report.  
     
-+ The two of us communicated very timely, discussed and solved many difficult problems together.
++ The two of us communicated very timely, discussed, solved many difficult problems and fixed some bugs together. 
 
 # Project 1
 This is team10 project 1 final version. Team members developed team10 version of the project based on the api-example.
