@@ -86,11 +86,12 @@ public class MovieServlet extends HttpServlet {
         // First page of list
         else if(session.getAttribute("back") == null) {
             // Genre clicked on first page, new session temp
-            if(request.getParameter("genre") != null && request.getParameter("genre") != ""){
+            if(request.getParameter("genre") != null && request.getParameter("genre") != "" &&
+            request.getParameter("pageSize") == null){
                 mySession = (JumpSession) session.getAttribute("temp");
                 if (request.getParameter("genre") != null){
                     mySession.setGenre(request.getParameter("genre").toLowerCase());}
-                System.out.println("SESSION (Build new with genre): " + mySession);
+                System.out.println("SESSION (Build new with genre 1): " + mySession);
                 mySession = (JumpSession) session.getAttribute("temp");
             }
             // Sort form submitted, new session temp
@@ -125,12 +126,13 @@ public class MovieServlet extends HttpServlet {
         }
         // back != null
         else {
+            mySession = (JumpSession) session.getAttribute("temp");
             // Genre clicked on other than first page, new session temp
-            if(request.getParameter("genre") != null && request.getParameter("genre") != ""){
-                mySession = (JumpSession) session.getAttribute("temp");
+            if(request.getParameter("genre") != null && request.getParameter("genre") != "" &&
+                    request.getParameter("pageSize") == ""){
                 if (request.getParameter("genre") != null){
                     mySession.setGenre(request.getParameter("genre").toLowerCase());}
-                System.out.println("SESSION (Build new with genre): " + mySession);
+                System.out.println("SESSION (Build new with genre 2): " + mySession);
                 mySession = (JumpSession) session.getAttribute("temp");
             }
             // Sort after back
@@ -317,6 +319,7 @@ public class MovieServlet extends HttpServlet {
                 moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
 
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+
             }
 
 
