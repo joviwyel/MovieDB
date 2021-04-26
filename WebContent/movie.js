@@ -50,8 +50,7 @@ function handleStarResult(resultData) {
     let starTableBodyElement = jQuery("#movie_table_body");
 
     // Iterate through resultData, no more than 10 entries
-    for (let i = 0; i < resultData.length; i++) {
-
+    for (let i = 0; i < resultData.length-1; i++) {
         // Concatenate the html tags with resultData jsonObject
         let rowHTML = "";
         rowHTML += "<tr>";
@@ -109,6 +108,11 @@ function handleStarResult(resultData) {
         //     $("#nextButton").attr('disabled',true);
         // Append the row created to the table body, which will refresh the page
         starTableBodyElement.append(rowHTML);
+
+        if(resultData[resultData.length -1]["more"])
+            $("#nextButton").attr('disabled',false);
+        else
+            $("#nextButton").attr('disabled',true);
     }
 }
 function addToCart(thisId){

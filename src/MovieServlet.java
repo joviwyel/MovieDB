@@ -241,10 +241,13 @@ public class MovieServlet extends HttpServlet {
                     moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2 + " ";
 
                 }
+
                 // Pagination
                 moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
 
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+
+
             }
             // Browse by letter option selected
             else if (browsByLetter) {
@@ -301,7 +304,7 @@ public class MovieServlet extends HttpServlet {
             }
 
 
-
+            int checkMore = 0;
             // Populate JSON Array
             while (moviesIdrs.next()) {
                 String movies_id = moviesIdrs.getString("movieId");
@@ -312,7 +315,7 @@ public class MovieServlet extends HttpServlet {
                         "= '" + movies_id + "'";
                 Statement statement = dbcon.createStatement();
                 ResultSet rs = statement.executeQuery(query);
-
+                checkMore = moviesIdrs.getRow();
                 // Iterate through each row of rs
                 while (rs.next()) {
                     String movie_id = rs.getString("id");
@@ -391,7 +394,20 @@ public class MovieServlet extends HttpServlet {
 
                     jsonArray.add(jsonObject);
                 }
+
             }
+            // check more
+            JsonObject checkMoreJson = new JsonObject();
+
+            System.out.println("checkmore:" + checkMore);
+            System.out.println("pageSize:" + pageSizeInt);
+            if(checkMore < pageSizeInt){
+                checkMoreJson.addProperty("more", false);
+            }
+            else{
+                checkMoreJson.addProperty("more", true);
+            }
+            jsonArray.add(checkMoreJson);
             // write JSON string to output
             out.write(jsonArray.toString());
             // set response status to 200 (OK)
