@@ -27,7 +27,7 @@ After that, Tomcat web apps should have the new war file.
 + LIKE was used to search for a specified pattern in the Title, Director, and Star Name columns using the wildcards, '%'.
  - '%' represent more than zero or more characters.
  - For example, the movie "Dominator" can be search by 
-  1) domina%
+  i) domina%
   ii) %mina%
   iii) %tor
  and many more combinations.
