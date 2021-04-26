@@ -65,8 +65,6 @@ public class CreditCardServlet extends HttpServlet {
 
                 boolean success = false;
 
-                while(rs_cc.next()) {
-
                     String firstNameDB = rs_cc.getString("firstName");
                     String lastNameDB = rs_cc.getString("lastName");
                     java.sql.Date expDateOriDB = rs_cc.getDate("expiration"); // Convert date to string
@@ -88,7 +86,7 @@ public class CreditCardServlet extends HttpServlet {
                         responseJsonObject.addProperty("status", "fail");
                         responseJsonObject.addProperty("message", "Payment failed! Please try again.");
                     }
-                }
+
                 rs_cc.close();
                 statement_cc.close();
                 dbcon.close();
