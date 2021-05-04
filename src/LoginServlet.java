@@ -3,6 +3,7 @@ import com.google.gson.JsonObject;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -42,13 +43,15 @@ public class LoginServlet extends HttpServlet {
         try {
             RecaptchaVerifyUtils.verify(gRecaptchaResponse);
         } catch (Exception e) {
-            out.println("<html>");
-            out.println("<head><title>Error</title></head>");
-            out.println("<body>");
-            out.println("<p>recaptcha verification error</p>");
-            out.println("<p>" + e.getMessage() + "</p>");
-            out.println("</body>");
-            out.println("</html>");
+            JsonObject responseJsonObject = new JsonObject();
+
+            responseJsonObject.addProperty("status", "fail");
+            // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
+
+            responseJsonObject.addProperty("message", "Invalid reCAPTCHA. Please try again.");
+
+            out.write(responseJsonObject.toString());
+
 
             out.close();
             return;
@@ -116,5 +119,9 @@ public class LoginServlet extends HttpServlet {
             out.close();
         }
 
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        doGet(request, response);
     }
 }
