@@ -76,7 +76,7 @@ FOREIGN KEY(movieId) REFERENCES movies(id)
 
 CREATE TABLE employees(
 email varchar(50) primary key, 
-password varchar(20) not null, 
+password varchar(20) NOT NULL, 
 fullname varchar(100)
 );
 
