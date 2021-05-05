@@ -1,4 +1,5 @@
 import com.google.gson.JsonObject;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -75,10 +76,12 @@ public class LoginServlet extends HttpServlet {
             JsonObject responseJsonObject = new JsonObject();
             boolean success = false;
             while(rs.next()) {
-                String passwordDb = rs.getString("password");
-                if (password.equals(passwordDb)) {
+                String encryptedPasswordDb = rs.getString("password");
+                /*if (password.equals(passwordDb)) {
                     success = true;
                 }
+                */
+                success = new StrongPasswordEncryptor().checkPassword(password, encryptedPasswordDb);
             }
             if (success) {
                 // Login success:
