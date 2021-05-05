@@ -73,3 +73,10 @@ rating FLOAT NOT NULL,
 numVotes INT NOT NULL,
 FOREIGN KEY(movieId) REFERENCES movies(id)
 );
+
+CREATE TABLE employees(
+email varchar(50) primary key, 
+password varchar(20) NOT NULL, 
+fullname varchar(100)
+);
+INSERT INTO employees VALUES ('classta@email.edu', 'classta', 'TA CS122B');
