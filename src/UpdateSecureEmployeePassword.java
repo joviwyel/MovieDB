@@ -9,10 +9,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 
 public class UpdateSecureEmployeePassword {
 
-    /* RESET CUSTOMERS PASSWORD BY USING SQL UPDATE BELOW:
-     * update customers C1 set password = (select password from customers_backup C2 where C1.id = C2.id);
-     *
-     *
+    /*
      * This program updates your existing moviedb customers table to change the
      * plain text passwords to encrypted passwords.
      *

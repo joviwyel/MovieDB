@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>DashboardServlet</title>
+
+    <style type="text/css">
+        body{
+            background-color: #FDF5E6
+
+        }
+        fieldset
+        {
+            margin:30px auto;
+            width:300px;
+            height:300px;
+            padding:20px auto;
+            color:blue;
+            text-align:center;
+        }
+        label
+        {
+            display: inline-block;
+            width: 60px;
+            text-align: justify;
+            text-align-last: justify;
+            margin-right: 10px;
+        }
+
+    </style>
+
+</head>
+<body BGCOLOR="#FDF5E6" style = "text-align: center">
+
+<h1 style="color:red">Fabflix</h1>
+<h2>DashboardServlet</h2>
+<h5>Only accessible by employees.</h5>
+<h5>Insert star into database.</h5>
+
+<form id="insert_star_form" ACTION="#" METHOD="GET">
+    <label>Name (required):</label>   <input TYPE="TEXT" name="name" required="required"><br>
+    <label>Birth Year (optional):</label>   <input TYPE="number" name="birthYear"><br>
+    <input TYPE="SUBMIT" VALUE="Insert Star">
+</form>
+
+
+</body>
+</html>
