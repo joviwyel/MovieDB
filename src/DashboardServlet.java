@@ -59,20 +59,21 @@ public class DashboardServlet extends HttpServlet {
             Connection dbcon = dataSource.getConnection();
             System.out.println("Dashboard: Database connected");
 
-            /*Get last id from stars
-            String getLastIDString = "SELECT id from stars ORDER BY id DESC LIMIT 1";
-            PreparedStatement statement_id = dbcon.prepareStatement(getLastIDString);
+            // Get last id from stars
+            String getLastIDString = "SELECT MAX(id) AS id from stars";
+            PreparedStatement statement_mid = dbcon.prepareStatement(getLastIDString);
+            ResultSet rs_mid = statement_mid.executeQuery();
+            rs_mid.next();
+            String last_id = rs_mid.getString("id");
+            System.out.println("Dashboard: Received last id from stars table: " + last_id);
+
+            // Get id from stored procedure get_id
+            String getIdString = "CALL get_id('" + last_id + "')";
+            CallableStatement statement_id = dbcon.prepareCall(getIdString);
             ResultSet rs_id = statement_id.executeQuery();
             rs_id.next();
             String id = rs_id.getString("id");
-            System.out.println("Dashboard: Received last id from stars table: " + id);
-            */
-
-            // Get id from stored procedure get_id
-            String getIdString = "{ ? = CALL get_id() }";
-            CallableStatement statement_id = dbcon.prepareCall(getIdString);
-            ResultSet rs_id = statement_id.executeQuery();
-            String id = rs_id.getString("id");
+            System.out.println("Dashboard: Parsed id from stored procedure: " + id);
 
             // Insert star into database
             String insertStarString = "INSERT stars(id, name, birthYear) VALUES (?, ?, ?)";
