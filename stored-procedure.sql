@@ -1,0 +1,7 @@
+-- DASHBOARD: get_id
+DELIMITER $$
+CREATE PROCEDURE get_id(IN last_id VARCHAR(10))
+BEGIN
+    SELECT CONCAT(SUBSTR(last_id, 1, 2), (CAST(SUBSTR((last_id), 3) AS UNSIGNED)+1)) AS id;
+END $$
+DELIMITER ;
