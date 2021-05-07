@@ -63,6 +63,8 @@ public class DashboardServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
             System.out.println("Dashboard: Database connected");
+            JsonArray jsonArray = new JsonArray();
+
             if (name != "") {
                 // Get last id from stars
                 String getLastIDString = "SELECT MAX(id) AS id from stars";
@@ -94,17 +96,24 @@ public class DashboardServlet extends HttpServlet {
                     int row = statement_insert.executeUpdate();
                     System.out.println("Dashboard: Star without dob inserted into table: " + row);
                 }
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("message", "Star inserted successfully!");
+                jsonArray.add(jsonObject);
+            }
+            else{
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("message", "No star inserted.");
+                jsonArray.add(jsonObject);
             }
 
             // Get metadata
             System.out.println("Dashboard: Preparing metadata from database.");
-            String metadataString = "SELECT t1.table_name, c1.column_name, c1.data_type " +
+            String metadataString = "SELECT DISTINCT t1.table_name, c1.column_name, c1.data_type " +
                     "FROM information_schema.tables t1, information_schema.columns c1 " +
                     "WHERE t1.table_schema = 'moviedb' AND t1.table_name = c1.table_name";
             PreparedStatement statement_meta = dbcon.prepareStatement(metadataString);
             ResultSet rs_meta = statement_meta.executeQuery();
             System.out.println("Dashboard: Prepared statement executed.");
-            JsonArray jsonArray = new JsonArray();
             System.out.println("Dashboard: Getting metadata from database.");
             while (rs_meta.next()) {
                 JsonObject jsonObject = new JsonObject();

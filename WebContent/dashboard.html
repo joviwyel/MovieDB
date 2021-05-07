@@ -46,12 +46,13 @@
 
 <br/>
 <br/>
-<h5>Insert star into database.</h5>
-<form id="insert_star_form" ACTION="_dashboard" METHOD="GET">
+<h5>Insert star into database:</h5>
+<form id="insert_star_form" ACTION="dashboard.html" METHOD="GET">
     <label>Name (required):</label>   <input TYPE="TEXT" name="name" required="required"><br>
     <label>Birth Year (optional):</label>   <input TYPE="number" name="birthYear"><br>
     <input TYPE="SUBMIT" VALUE="Insert Star">
 </form>
+<div id="insert_message"></div>
 
 <br/>
 <h5>Metadata of Database:</h5>
@@ -68,6 +69,8 @@
     <!-- single-star.js will find this html element by it's id "movie_table_body" -->
     <tbody id=metadata_table_body></tbody>
 </table>
+
+<a href="main.html"><button>Main Page</button></a>
 <!-- Load jQuery and Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

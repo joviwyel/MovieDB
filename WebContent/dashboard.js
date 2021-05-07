@@ -15,6 +15,8 @@ function getParameterByName(target) {
 }
 
 function handleResult(resultData) {
+    console.log(resultData[0]["message"]);
+    $("#insert_message").text(resultData[0]["message"]);
 
     console.log("handleResult: populating metadata info from resultData");
 
@@ -23,7 +25,7 @@ function handleResult(resultData) {
     let metadataTableBodyElement = jQuery("#metadata_table_body");
 
     // Concatenate the html tags with resultData jsonObject to create table rows
-    for (let i = 0; i < resultData.length; i++) {
+    for (let i = 1; i < resultData.length; i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + resultData[i]["table_name"] + "</th>";
@@ -34,13 +36,32 @@ function handleResult(resultData) {
         // Append the row created to the table body, which will refresh the page
         metadataTableBodyElement.append(rowHTML);
     }
-}
+/*
+    let resultDataJSON = JSON.parse(resultData);
+    if(resultDataJSON["message"] != null) {
+        console.log("Insert message: "+resultDataJSON["message"]);
+        $("#insert_message").text(resultDataJSON["message"]);
+    }
 
-// Makes the HTTP GET request and registers on success callback function handleResult
-console.log("Dashboard.js: Before ajax");
-jQuery.ajax({
-    dataType: "json",  // Setting return data type
-    method: "GET",// Setting request method
-    url: "_dashboard", // Setting request url, which is mapped by StarsServlet in Stars.java
-    success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
-});
+ */
+}
+if(getParameterByName('name') == null){
+    console.log("Dashboard.js: No star inserting");
+    jQuery.ajax({
+        dataType: "json",  // Setting return data type
+        method: "GET",// Setting request method
+        url: "_dashboard", // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    });
+}
+else {
+    let nameURL = getParameterByName('name');
+    let birthYearURL = getParameterByName('birthYear');
+    console.log("Dashboard.js: Star inserting");
+    jQuery.ajax({
+        dataType: "json",  // Setting return data type
+        method: "GET",// Setting request method
+        url: "_dashboard?name=" + nameURL + "&birthYear=" + birthYearURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    });
+}
