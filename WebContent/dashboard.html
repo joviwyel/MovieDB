@@ -41,16 +41,37 @@
 <body BGCOLOR="#FDF5E6" style = "text-align: center">
 
 <h1 style="color:red">Fabflix</h1>
-<h2>DashboardServlet</h2>
-<h5>Only accessible by employees.</h5>
-<h5>Insert star into database.</h5>
+<h2>Dashboard</h2>
+<h7>Only accessible by employees.</h7>
 
+<br/>
+<br/>
+<h5>Insert star into database.</h5>
 <form id="insert_star_form" ACTION="_dashboard" METHOD="GET">
     <label>Name (required):</label>   <input TYPE="TEXT" name="name" required="required"><br>
     <label>Birth Year (optional):</label>   <input TYPE="number" name="birthYear"><br>
     <input TYPE="SUBMIT" VALUE="Insert Star">
 </form>
 
+<br/>
+<h5>Metadata of Database:</h5>
+<table id=metadata_table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Table Name</th>
+        <th>Attribute</th>
+        <th>Attribute Type</th>
+    </tr>
+    </thead>
 
+    <!-- Table body is left empty here, will be populated with the data retrieved with single-star.js -->
+    <!-- single-star.js will find this html element by it's id "movie_table_body" -->
+    <tbody id=metadata_table_body></tbody>
+</table>
+<!-- Load jQuery and Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="dashboard.js"></script>
 </body>
 </html>

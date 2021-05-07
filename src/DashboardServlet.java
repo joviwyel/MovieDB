@@ -42,15 +42,20 @@ public class DashboardServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("application/json"); // Response mime type
+        System.out.println("Dashboard: In servlet");
 
-        // Retrieve star parameter from url request.
-        String name = request.getParameter("name");
+        String name = "";
         int birthYear = 0;
-        if (request.getParameter("birthYear") != "") {
-            birthYear = Integer.parseInt(request.getParameter("birthYear"));
-            System.out.println("Dashboard: Birth year entered: " + birthYear);
+        System.out.println("Dashboard: Checking if name is null");
+        if (request.getParameter("name") != null) {
+            // Retrieve star parameter from url request.
+            name = request.getParameter("name");
+            birthYear = 0;
+            if (request.getParameter("birthYear") != "") {
+                birthYear = Integer.parseInt(request.getParameter("birthYear"));
+                System.out.println("Dashboard: Birth year entered: " + birthYear);
+            }
         }
-
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
@@ -58,44 +63,64 @@ public class DashboardServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
             System.out.println("Dashboard: Database connected");
+            if (name != "") {
+                // Get last id from stars
+                String getLastIDString = "SELECT MAX(id) AS id from stars";
+                PreparedStatement statement_mid = dbcon.prepareStatement(getLastIDString);
+                ResultSet rs_mid = statement_mid.executeQuery();
+                rs_mid.next();
+                String last_id = rs_mid.getString("id");
+                System.out.println("Dashboard: Received last id from stars table: " + last_id);
 
-            // Get last id from stars
-            String getLastIDString = "SELECT MAX(id) AS id from stars";
-            PreparedStatement statement_mid = dbcon.prepareStatement(getLastIDString);
-            ResultSet rs_mid = statement_mid.executeQuery();
-            rs_mid.next();
-            String last_id = rs_mid.getString("id");
-            System.out.println("Dashboard: Received last id from stars table: " + last_id);
+                // Get id from stored procedure get_id
+                String getIdString = "CALL get_id('" + last_id + "')";
+                CallableStatement statement_id = dbcon.prepareCall(getIdString);
+                ResultSet rs_id = statement_id.executeQuery();
+                rs_id.next();
+                String id = rs_id.getString("id");
+                System.out.println("Dashboard: Parsed id from stored procedure: " + id);
 
-            // Get id from stored procedure get_id
-            String getIdString = "CALL get_id('" + last_id + "')";
-            CallableStatement statement_id = dbcon.prepareCall(getIdString);
-            ResultSet rs_id = statement_id.executeQuery();
-            rs_id.next();
-            String id = rs_id.getString("id");
-            System.out.println("Dashboard: Parsed id from stored procedure: " + id);
-
-            // Insert star into database
-            String insertStarString = "INSERT stars(id, name, birthYear) VALUES (?, ?, ?)";
-            PreparedStatement statement_insert = dbcon.prepareStatement(insertStarString);
-            statement_insert.setString(1, id);
-            statement_insert.setString(2, name);
-            if (birthYear != 0){
-                statement_insert.setInt(3,birthYear);
-                int row = statement_insert.executeUpdate();
-                System.out.println("Dashboard: Star with dob inserted into table " + row);
+                // Insert star into database
+                String insertStarString = "INSERT stars(id, name, birthYear) VALUES (?, ?, ?)";
+                PreparedStatement statement_insert = dbcon.prepareStatement(insertStarString);
+                statement_insert.setString(1, id);
+                statement_insert.setString(2, name);
+                if (birthYear != 0) {
+                    statement_insert.setInt(3, birthYear);
+                    int row = statement_insert.executeUpdate();
+                    System.out.println("Dashboard: Star with dob inserted into table " + row);
+                } else {
+                    statement_insert.setString(3, null);
+                    int row = statement_insert.executeUpdate();
+                    System.out.println("Dashboard: Star without dob inserted into table: " + row);
+                }
             }
-            else {
-                statement_insert.setString(3, null);
-                int row = statement_insert.executeUpdate();
-                System.out.println("Dashboard: Star without dob inserted into table: " + row);
-            }
 
-            // set response status to 200 (OK)
+            // Get metadata
+            System.out.println("Dashboard: Preparing metadata from database.");
+            String metadataString = "SELECT t1.table_name, c1.column_name, c1.data_type " +
+                    "FROM information_schema.tables t1, information_schema.columns c1 " +
+                    "WHERE t1.table_schema = 'moviedb' AND t1.table_name = c1.table_name";
+            PreparedStatement statement_meta = dbcon.prepareStatement(metadataString);
+            ResultSet rs_meta = statement_meta.executeQuery();
+            System.out.println("Dashboard: Prepared statement executed.");
+            JsonArray jsonArray = new JsonArray();
+            System.out.println("Dashboard: Getting metadata from database.");
+            while (rs_meta.next()) {
+                JsonObject jsonObject = new JsonObject();
+                String tableName = rs_meta.getString("table_name");
+                String columnName = rs_meta.getString("column_name");
+                String dataType = rs_meta.getString("data_type");
+                jsonObject.addProperty("table_name", tableName);
+                jsonObject.addProperty("column_name", columnName);
+                jsonObject.addProperty("data_type", dataType);
+                jsonArray.add(jsonObject);
+            }
+            System.out.println("Dashboard: Done obtaining metadata from database.");
+            // Set response status to 200 (OK)
+            out.write(jsonArray.toString());
             response.setStatus(200);
 
-            rs_id.close();
-            statement_id.close();
             dbcon.close();
         } catch (Exception e) {
             // write error message JSON object to output
@@ -108,6 +133,4 @@ public class DashboardServlet extends HttpServlet {
         }
         out.close();
     }
-
-
 }
