@@ -57,13 +57,11 @@ public class SAXParserMovies extends DefaultHandler {
      * the contents
      */
     private void printData() {
-
-        System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
-
         Iterator<NewMovie> it = myNewMovie.iterator();
         while (it.hasNext()) {
             System.out.println(it.next().toString());
         }
+        System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
     }
 
     //Event Handlers

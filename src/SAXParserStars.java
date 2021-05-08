@@ -67,13 +67,11 @@ public class SAXParserStars extends DefaultHandler {
      * the contents
      */
     private void printData() {
-
-        System.out.println("No of newMovie '" + myNewStar.size() + "'.");
-
         Iterator<NewStar> it = myNewStar.iterator();
         while (it.hasNext()) {
             System.out.println(it.next().toString());
         }
+        System.out.println("No of newMovie '" + myNewStar.size() + "'.");
     }
 
     //Event Handlers
