@@ -24,7 +24,7 @@ DELIMITER ;
 
 -- DASHBOARD: insert new movie
 DELIMITER $$
-CREATE PROCEDURE insert_movie(IN movie_id VARCHAR(10), title VARCHAR(100),  year int, director VARCHAR(100))
+CREATE PROCEDURE add_movie(IN movie_id VARCHAR(10), title VARCHAR(100),  year int, director VARCHAR(100))
 BEGIN
     INSERT movies VALUES (movie_id, title, year, director);
 END $$
