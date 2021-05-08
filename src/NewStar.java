@@ -10,7 +10,7 @@ public class NewStar {
     public NewStar(){
         this.name = null;
         this.id = null;
-        this.birthYear = 0;
+        this.birthYear = -1;
         this.starId = null;
         this.movieId = null;
     }

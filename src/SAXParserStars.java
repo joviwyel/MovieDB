@@ -22,7 +22,7 @@ public class SAXParserStars extends DefaultHandler {
     List<NewStar> myNewStar;
 
     private String tempVal;
-
+    private String newMaxId;
     //to maintain context
     private NewStar tempStar;
 
@@ -30,6 +30,7 @@ public class SAXParserStars extends DefaultHandler {
 
 
     private HashMap<String, NewStar> starsMap;
+    private int insertStarStatus = 0;
 
     public SAXParserStars() {
         myNewStar = new ArrayList<NewStar>();
@@ -66,20 +67,33 @@ public class SAXParserStars extends DefaultHandler {
         int i=0;
         while (allStars.next()){
 
-            starsMap.put(allStars.getString("id"),
+            starsMap.put(allStars.getString("name"),
                     new NewStar(allStars.getString("id"),
                                 allStars.getString("name"),
                                 allStars.getInt("birthYear"))
             );
             if(i<20){
-                System.out.println(starsMap.get(allStars.getString("id")));
+                System.out.println(allStars.getInt("birthYear"));
+                System.out.println(starsMap.get(allStars.getString("name")));
             }
             i++;
         }
         allStars.close();
 
+        String getMaxId = "SELECT max(id) from stars;";
+        Statement getMaxSt = connection.createStatement();
+        ResultSet MaxId = getMaxSt.executeQuery(getMaxId);
+        MaxId.next();
+        String nowId = MaxId.getString("max(id)");
+        newMaxId = nowId;
+
+        System.out.println("maxid is : " + newMaxId);
+
         System.out.println(starsMap.size());
     }
+
+
+
     public void run() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         init();
         parseDocument();
@@ -146,7 +160,17 @@ public class SAXParserStars extends DefaultHandler {
         if (qName.equalsIgnoreCase("actor")) {
             //add it to the list
             myNewStar.add(tempStar);
-
+            try {
+                insertIntoStars(tempStar);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         } else if (qName.equalsIgnoreCase("stagename")) {
             tempStar.setName(tempVal);
         } else if (qName.equalsIgnoreCase("dob")) {
@@ -156,11 +180,59 @@ public class SAXParserStars extends DefaultHandler {
                 tempStar.setBirthYear(-1);
         }
     }
+    public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+        if(tempStar.getName() == null)
+            return;
 
+
+        if(!starsMap.containsKey(tempStar.getName())){
+            String nowId = newMaxId.substring(2);
+            int temp = Integer.parseInt(nowId);
+            temp = temp + 1;
+            nowId = Integer.toString(temp);
+            newMaxId = "nm" + nowId;
+
+            if(tempStar.getBirthYear() <= 0){
+                String insertStar = "INSERT INTO stars (id, name) VALUES(?, ?);";
+                PreparedStatement insertStarStatement = connection.prepareStatement(insertStar);
+                insertStarStatement.setString(1, newMaxId);
+                insertStarStatement.setString(2, tempStar.getName());
+                temp = insertStarStatement.executeUpdate();
+                insertStarStatus += temp;
+                insertStarStatement.close();
+                System.out.println("insert:");
+                System.out.println("insert id: " + newMaxId);
+                System.out.println("insert name:" + tempStar.getName());
+                System.out.println("insert num:" + insertStarStatus);
+
+            }
+            else{
+                String insertStar = "INSERT INTO stars (id, name, birthYear) VALUES(?,?,?);";
+                PreparedStatement insertStarStatement = connection.prepareStatement(insertStar);
+                insertStarStatement.setString(1, newMaxId);
+                insertStarStatement.setString(2, tempStar.getName());
+                insertStarStatement.setInt(3, tempStar.getBirthYear());
+                temp = insertStarStatement.executeUpdate();
+                insertStarStatus += temp;
+                insertStarStatement.close();
+                System.out.println("insert:");
+                System.out.println("insert id: " + newMaxId);
+                System.out.println("insert name:" + tempStar.getName());
+                System.out.println("insert num:" + insertStarStatus);
+                System.out.println("insert birthYear:" + tempStar.getBirthYear());
+            }
+        System.out.println("Total insert stars:" + insertStarStatus);
+        }
+    }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         SAXParserStars spe = new SAXParserStars();
+        long insertStart;
+        long insertEnd;
+        insertStart = System.currentTimeMillis();
         spe.run();
+        insertEnd = System.currentTimeMillis();
+        System.out.println("Time in Seconds for insert stars Parser: " + ((insertEnd - insertStart) / 1000.0));
     }
 
 }
