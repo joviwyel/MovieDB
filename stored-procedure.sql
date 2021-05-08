@@ -1,8 +1,16 @@
--- DASHBOARD: generate new star and movie id
+-- DASHBOARD: generate new star id
 DELIMITER $$
-CREATE PROCEDURE get_id()
+CREATE PROCEDURE get_star_id()
 BEGIN
     SELECT CONCAT(SUBSTR((SELECT MAX(id) FROM stars), 1, 2), (CAST(SUBSTR((SELECT MAX(id) FROM stars), 3) AS UNSIGNED)+1)) AS id;
+END $$
+DELIMITER ;
+
+-- DASHBOARD: generate new movie id
+DELIMITER $$
+CREATE PROCEDURE get_movie_id()
+BEGIN
+    SELECT CONCAT(SUBSTR((SELECT MAX(id) FROM movies), 1, 2), (CAST(SUBSTR((SELECT MAX(id) FROM movies), 3) AS UNSIGNED)+1)) AS id;
 END $$
 DELIMITER ;
 
