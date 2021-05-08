@@ -17,6 +17,8 @@ function getParameterByName(target) {
 function handleResult(resultData) {
     console.log(resultData[0]["message"]);
     $("#insert_message").text(resultData[0]["message"]);
+    console.log(resultData[1]["message_movie"]);
+    $("#insert_movie_message").text(resultData[1]["message_movie"]);
 
     console.log("handleResult: populating metadata info from resultData");
 
@@ -25,7 +27,7 @@ function handleResult(resultData) {
     let metadataTableBodyElement = jQuery("#metadata_table_body");
 
     // Concatenate the html tags with resultData jsonObject to create table rows
-    for (let i = 1; i < resultData.length; i++) {
+    for (let i = 2; i < resultData.length; i++) {
         let rowHTML = "";
         rowHTML += "<tr>";
         rowHTML += "<th>" + resultData[i]["table_name"] + "</th>";
@@ -36,17 +38,10 @@ function handleResult(resultData) {
         // Append the row created to the table body, which will refresh the page
         metadataTableBodyElement.append(rowHTML);
     }
-/*
-    let resultDataJSON = JSON.parse(resultData);
-    if(resultDataJSON["message"] != null) {
-        console.log("Insert message: "+resultDataJSON["message"]);
-        $("#insert_message").text(resultDataJSON["message"]);
-    }
 
- */
 }
-if(getParameterByName('name') == null){
-    console.log("Dashboard.js: No star inserting");
+if(getParameterByName('name') == null && getParameterByName('title') == null){
+    console.log("Dashboard.js: No star or movie inserting");
     jQuery.ajax({
         dataType: "json",  // Setting return data type
         method: "GET",// Setting request method
@@ -54,7 +49,7 @@ if(getParameterByName('name') == null){
         success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
     });
 }
-else {
+else if (getParameterByName('name') != null){
     let nameURL = getParameterByName('name');
     let birthYearURL = getParameterByName('birthYear');
     console.log("Dashboard.js: Star inserting");
@@ -62,6 +57,22 @@ else {
         dataType: "json",  // Setting return data type
         method: "GET",// Setting request method
         url: "_dashboard?name=" + nameURL + "&birthYear=" + birthYearURL, // Setting request url, which is mapped by StarsServlet in Stars.java
+        success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
+    });
+}
+else{
+    let titleURL = getParameterByName('title');
+    let yearURL = getParameterByName('year');
+    let directorURL = getParameterByName('director');
+    let starURL = getParameterByName('star');
+    let genreURL = getParameterByName('genre');
+    let ratingURL = getParameterByName('rating');
+    console.log("Dashboard.js: Movie inserting");
+    jQuery.ajax({
+        dataType: "json",  // Setting return data type
+        method: "GET",// Setting request method
+        url: "_dashboard?title=" + titleURL + "&year=" + yearURL + "&director=" +
+            directorURL + "&star=" + starURL + "&genre=" + genreURL + "&rating=" + ratingURL,
         success: (resultData) => handleResult(resultData) // Setting callback function to handle data returned successfully by the SingleStarServlet
     });
 }

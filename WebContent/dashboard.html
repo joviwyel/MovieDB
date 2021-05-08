@@ -48,12 +48,28 @@
 <br/>
 <h5>Insert star into database:</h5>
 <form id="insert_star_form" ACTION="dashboard.html" METHOD="GET">
-    <label>Name (required):</label>   <input TYPE="TEXT" name="name" required="required"><br>
+    <label>Name (required):</label>         <input TYPE="TEXT" name="name" required="required"><br>
     <label>Birth Year (optional):</label>   <input TYPE="number" name="birthYear"><br>
     <input TYPE="SUBMIT" VALUE="Insert Star">
 </form>
 <div id="insert_message"></div>
 
+
+<br/>
+<br/>
+<h5>Insert movie into database:</h5>
+<form id="insert_movie_form" ACTION="dashboard.html" METHOD="GET">
+    <label>Title (required):</label>      <input TYPE="TEXT" name="title" required="required"><br>
+    <label>Year (required):</label>       <input TYPE="number" name="year"><br>
+    <label>Director (required):</label>   <input TYPE="TEXT" name="director" required="required"><br>
+    <label>Star (required):</label>       <input TYPE="TEXT" name="star" required="required"><br>
+    <label>Genre (required):</label>      <input TYPE="TEXT" name="genre" required="required"><br>
+    <label>Rating (required):</label>     <input TYPE="number" name="rating"><br>
+    <input TYPE="SUBMIT" VALUE="Insert Movie">
+</form>
+<div id="insert_movie_message"></div>
+
+<br/>
 <br/>
 <h5>Metadata of Database:</h5>
 <table id=metadata_table class="table table-striped">
