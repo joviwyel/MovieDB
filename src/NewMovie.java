@@ -5,7 +5,7 @@ public class NewMovie {
     private int year;
     private String director;
     private String genre;
-    private String id;
+
 
     // Genre information
     private int genreId;
@@ -18,6 +18,7 @@ public class NewMovie {
         this.genre = null;
         this.genreId = -1;
         this.movieId = null;
+
     }
 
     public NewMovie(String title, int year, String director, String movieId){
@@ -63,6 +64,28 @@ public class NewMovie {
                 ", genreId='" + genreId + '\'' +
                 ", movieId='" + movieId + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object thatObj) {
+
+        NewMovie that = (NewMovie) thatObj;
+
+        if (this.title != null && that.getTitle() != null && !this.title.equals(that.getTitle()))
+            return false;
+        if (this.year != that.getYear())
+            return false;
+        if (this.director != null && that.getDirector() != null && !this.director.equals(that.getDirector()))
+            return false;
+        if (this.genre != null && that.getGenre() != null && !this.genre.equals(that.getGenre()))
+            return false;
+        if (this.genreId != that.getGenreId())
+            return false;
+        if (this.movieId != that.getMovieId())
+            return false;
+
+        return true;
+
     }
 
 

@@ -51,4 +51,14 @@ public class NewStar {
                 ", movieId='" + movieId + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object object) {
+        System.out.println("I am being called");
+        NewStar that = (NewStar) object;
+        if (this.name != null && that.getName() != null && !this.name.equals(that.getName()))
+            return false;
+        return true;
+
+    }
 }
