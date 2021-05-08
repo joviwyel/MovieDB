@@ -15,7 +15,7 @@ public class NewStar {
         this.movieId = null;
     }
 
-    public NewStar(String name, String id, int birthYear){
+    public NewStar(String id, String name, int birthYear){
         this();
         this.name = name;
         this.id = id;
