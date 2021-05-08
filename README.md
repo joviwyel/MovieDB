@@ -7,6 +7,13 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
+
+# Project 3
+
+## XML file insert time report:
+  Parser actors63.xml file and insert 6025 records into table stars cost total 2.73 sec.
+
+
 # Project 2
 ## Demo video URL: https://www.youtube.com/watch?v=rE5Uz4C_JIo
 
