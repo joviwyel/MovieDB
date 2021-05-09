@@ -24,6 +24,11 @@ public class SAXParserMovies extends DefaultHandler {
     private int insertGenreStatus;
     private int insertGimStatus;
 
+    private int ignoredMovie;
+    private int ignoredGim;
+    private int duplicateMovie;
+
+
     private String newMaxId;
     private Integer newGenreMax;
 
@@ -49,6 +54,9 @@ public class SAXParserMovies extends DefaultHandler {
         insertGenreStatus = 0;
         insertMovieStatus = 0;
         insertGimStatus = 0;
+        ignoredMovie = 0;
+        ignoredGim = 0;
+
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
@@ -75,11 +83,7 @@ public class SAXParserMovies extends DefaultHandler {
         init();
         parseDocument();
         printData();
-        connection.commit();
-        System.out.println("insert genre: " + insertGenreStatus);
-        System.out.println("insert Movies: " + insertMovieStatus);
-        System.out.println("insert genre_in_movie:" + insertGimStatus);
-//        System.out.println("fid + movieId: " + simMovieMap);
+//        connection.commit();
     }
 
     private void parseDocument() {
@@ -114,8 +118,16 @@ public class SAXParserMovies extends DefaultHandler {
 //            if(temp == null)
 //                System.out.println("movieId is null");
 //        }
-        System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
+//        System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
 //        System.out.println(genreMap);
+        System.out.println("insert genre: " + insertGenreStatus);
+        System.out.println("insert Movies: " + insertMovieStatus);
+        System.out.println("insert genre_in_movie:" + insertGimStatus);
+        System.out.println("ignored movies:" + ignoredMovie);
+        System.out.println("ignored gim: " + ignoredGim);
+        System.out.println("duplicate movies:" + duplicateMovie);
+
+//        System.out.println("fid + movieId: " + simMovieMap);
     }
 
     //Event Handlers
@@ -136,13 +148,11 @@ public class SAXParserMovies extends DefaultHandler {
         ResultSet allMovies = statement.executeQuery(getAllMovies);
 
         while (allMovies.next()){
-            moviesMap.put(new NewMovie(allMovies.getString("id"),
-                            allMovies.getString("title"),
-                            allMovies.getInt("year"),
-                            allMovies.getString("director")),
-                            allMovies.getString("id")
-                    );
-
+            NewMovie nm = new NewMovie();
+            nm.setTitle(allMovies.getString("title"));
+            nm.setDirector(allMovies.getString("director"));
+            nm.setYear(allMovies.getInt("year"));
+            moviesMap.put(nm, allMovies.getString("id"));
         }
 //        System.out.println(moviesMap);
 
@@ -179,10 +189,6 @@ public class SAXParserMovies extends DefaultHandler {
         MaxId.next();
         String nowId = MaxId.getString("max(id)");
         newMaxId = nowId;
-
-        System.out.println("maxid is : " + newMaxId);
-        System.out.println("old movies table number:" + moviesMap.size());
-
         allMovies.close();
 
         // get genre max id;
@@ -191,8 +197,6 @@ public class SAXParserMovies extends DefaultHandler {
         ResultSet getGenreMaxSet = getGenreMaxSt.executeQuery(getGenreMax);
         getGenreMaxSet.next();
         newGenreMax = getGenreMaxSet.getInt("max(id)");
-
-        System.out.println("genre max id is : " + newGenreMax);
         getGenreMaxSet.close();
 
     }
@@ -221,7 +225,7 @@ public class SAXParserMovies extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("t")) {
             tempMovie.setTitle(tempVal);
         } else if (qName.equalsIgnoreCase("fid")) {
-            if(tempVal!=null)
+//            if(tempVal!=null)
                 tempMovie.setFid(tempVal);
         } else if (qName.equalsIgnoreCase("year")) {
             if(isValidYear(tempVal))
@@ -232,8 +236,9 @@ public class SAXParserMovies extends DefaultHandler {
             tempMovie.setDirector(tempVal);
         }  else if(qName.equalsIgnoreCase("cat")) {
             tempMovie.setGenre(tempVal);
-            if(genreMap.containsKey(tempVal))
+            if(genreMap.containsKey(tempVal)) {
                 tempMovie.setGenreID(genreMap.get(tempVal));
+            }
         }
     }
 
@@ -248,10 +253,40 @@ public class SAXParserMovies extends DefaultHandler {
 
     public void insertIntoMovies(NewMovie tempMovie) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 
-        if(tempMovie.getTitle() == null)
+        if(tempMovie.getTitle().equals("")) {
+            int temp = 1;
+            ignoredMovie += temp;
             return;
+        }
+        if(tempMovie.getYear()<=0){
+            int temp = 1;
+            ignoredMovie += temp;
+            return;
+        }
+        if(tempMovie.getDirector() == null || tempMovie.getDirector().equals("")){
+            int temp = 1;
+            ignoredMovie += temp;
+            return;
+        }
+
+//        if(tempMovie.getTitle().equals("The Virgin Spring")) {
+//            NewMovie copyTemp = new NewMovie();
+//            copyTemp.setYear(tempMovie.getYear());
+//            copyTemp.setDirector(tempMovie.getDirector());
+//            copyTemp.setTitle(tempMovie.getTitle());
+//
+//            System.out.println(tempMovie);
+//            System.out.println(copyTemp);
+//            System.out.println(moviesMap.containsKey(copyTemp));
+//            System.out.println(moviesMap.containsKey(tempMovie));
+//        }
 
         if(!moviesMap.containsKey(tempMovie)){
+//            if(tempMovie.getTitle().equals("The Virgin Spring")) {
+//                System.out.println(tempMovie);
+//                System.out.println(copyTemp);
+//            }
+//            System.out.println(tempMovie);
             String insertMovie = "INSERT INTO movies VALUES (?,?,?,?);";
             PreparedStatement insertMovieStatement = connection.prepareStatement(insertMovie);
             int temp ;
@@ -275,12 +310,13 @@ public class SAXParserMovies extends DefaultHandler {
                 }
             }
         }
-//            System.out.println("Total insert movies:" + insertMovieStatus);
-
+        else{
+            int temp = 1;
+            duplicateMovie += temp;
+        }
         if(!genreMap.containsKey(tempMovie.getGenre())){
             if(tempMovie.getGenre()!= null) {
-                if(tempMovie.getGenre()!="") {
-//                    System.out.println(tempMovie.getGenre());
+                if(!tempMovie.getGenre().equals("")) {
                     String insertGenre = "INSERT INTO genres VALUES (?,?);";
                     PreparedStatement insertGenreStatement = connection.prepareStatement(insertGenre);
                     newGenreMax = newGenreMax + 1;
@@ -292,14 +328,13 @@ public class SAXParserMovies extends DefaultHandler {
                     int temp = insertGenreStatement.executeUpdate();
                     insertGenreStatus += temp;
                     insertGenreStatement.close();
-
                 }
             }
         }
 
         // Insert into genres_in_movies;
         if(tempMovie.getGenre()!=null) {
-            if(tempMovie.getGenre()!="") {
+            if(!tempMovie.getGenre().equals("")) {
                 int gId = tempMovie.getGenreId();
                 String mId = tempMovie.getMovieId();
                 if (!genreInMoviesMap.contains(new NewMovie(mId, gId))) {
@@ -312,9 +347,16 @@ public class SAXParserMovies extends DefaultHandler {
                     int temp = insertGimSt.executeUpdate();
                     insertGimStatus += temp;
                     insertGimSt.close();
-
                 }
             }
+            else{
+                int temp = 1;
+                ignoredGim += temp;
+            }
+        }
+        else{
+            int temp = 1;
+            ignoredGim += temp;
         }
     }
 

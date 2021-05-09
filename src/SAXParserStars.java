@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import org.xml.sax.helpers.DefaultHandler;
 
+
 public class SAXParserStars extends DefaultHandler {
 
     List<NewStar> myNewStar;
@@ -32,6 +33,7 @@ public class SAXParserStars extends DefaultHandler {
 
     private HashMap<String, NewStar> starsMap;
     private int insertStarStatus = 0;
+    private int duplicatesStar = 0;
 
     public SAXParserStars() {
         myNewStar = new ArrayList<NewStar>();
@@ -108,6 +110,7 @@ public class SAXParserStars extends DefaultHandler {
 //        }
 //        System.out.println("No of newStar '" + myNewStar.size() + "'.");
         System.out.println("Total insert stars:" + insertStarStatus);
+        System.out.println("Duplicates star found: " + duplicatesStar);
 //        System.out.println("name + starID:" + simStarMap);
         System.out.println();
     }
@@ -144,7 +147,7 @@ public class SAXParserStars extends DefaultHandler {
         String nowId = MaxId.getString("max(id)");
         newMaxId = nowId;
 
-        System.out.println("maxid is : " + newMaxId);
+//        System.out.println("maxid is : " + newMaxId);
 //        System.out.println(starsMap);
 
         allStars.close();
@@ -183,8 +186,10 @@ public class SAXParserStars extends DefaultHandler {
     public HashMap<String, String> getSimStarMap(){ return simStarMap;}
 
     public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-        if(tempStar.getName() == null)
+        if(tempStar.getName() == null) {
+            System.out.println("found null");
             return;
+        }
 
         if(!starsMap.containsKey(tempStar.getName())){
             String nowId = newMaxId.substring(2);
@@ -227,6 +232,11 @@ public class SAXParserStars extends DefaultHandler {
             simStarMap.put(tempStar.getName(), tempStar.getStarId());
         }
 //        System.out.println("Total insert stars:" + insertStarStatus);
+
+        else{
+            int temp = 1;
+            duplicatesStar += temp;
+        }
     }
 
 

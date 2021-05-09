@@ -65,7 +65,11 @@ public class NewStar {
 
         if(this.fid != null && that.getFid() != null && !this.fid.equals(that.getFid()))
             return false;
+
+        if(this.starId != null && that.getStarId() != null && !this.starId.equals(that.getStarId()))
+            return false;
         return true;
+
 
     }
 }

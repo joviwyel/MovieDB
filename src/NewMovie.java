@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class NewMovie {
 
     // Movie attributes
@@ -37,6 +39,12 @@ public class NewMovie {
         this.movieId = movieId;
     }
 
+    public NewMovie(String title, int year, String director){
+        this();
+        this.title = title;
+        this.year = year;
+        this.director = director;
+    }
     public NewMovie(String movieId, int genreId){
         this();
         this.genreId = genreId;
@@ -70,7 +78,7 @@ public class NewMovie {
     public String toString() {
         return "Movie{" +
                 "id='" + id + '\'' +
-                "title='" + title + '\'' +
+                ", title='" + title + '\'' +
                 ", year='" + year + '\'' +
                 ", director='" + director + '\'' +
                 ", genre='" + genre + '\'' +
@@ -83,16 +91,29 @@ public class NewMovie {
     public boolean equals(Object thatObj) {
 
         NewMovie that = (NewMovie) thatObj;
-
         if (this.director != null && that.getDirector() != null && !this.director.equals(that.getDirector()))
             return false;
         if (this.year != that.getYear())
             return false;
         if (this.title != null && that.getTitle() != null && !this.title.equals(that.getTitle()))
             return false;
+        if (this.genre != null && that.getGenre() != null && !this.genre.equals(that.getGenre()))
+            return false;
+        if (this.id != null && that.getId() != null && !this.id.equals(that.getId()))
+            return false;
+        if (this.genreId != -1 && that.getGenreId() != -1 && this.genreId != that.getGenreId())
+            return false;
+        if (this.movieId != null && that.getMovieId() != null && !this.movieId.equals(that.getMovieId()))
+            return false;
 
         return true;
 
+    }
+
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getTitle(), getDirector(), getYear());
     }
 
 
