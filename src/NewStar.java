@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class NewStar {
 
     private String name;
@@ -17,10 +19,9 @@ public class NewStar {
         this.fid = null;
     }
 
-    public NewStar(String id, String name, int birthYear){
+    public NewStar(String name, int birthYear){
         this();
         this.name = name;
-        this.id = id;
         this.birthYear = birthYear;
     }
 
@@ -71,5 +72,10 @@ public class NewStar {
         return true;
 
 
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(getName(), getBirthYear(), getStarId(), getMovieId());
     }
 }

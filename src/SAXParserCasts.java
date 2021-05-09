@@ -41,7 +41,7 @@ public class SAXParserCasts extends DefaultHandler {
     private double timeOfMovie;
 
     private int insertSimStatus;
-    private int ingoredSim;
+    private int ignoredSim;
 
     public SAXParserCasts() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
@@ -50,7 +50,7 @@ public class SAXParserCasts extends DefaultHandler {
         speMovies = new SAXParserMovies();
         speStars = new SAXParserStars();
         insertSimStatus = 0;
-        ingoredSim = 0;
+        ignoredSim = 0;
 
         insertMovieStart = System.currentTimeMillis();
         speStars.run();
@@ -95,12 +95,12 @@ public class SAXParserCasts extends DefaultHandler {
         init();
         parseDocument();
         printData();
-//        connection.commit();
+        connection.commit();
     }
     private void printData() {
         System.out.println();
         System.out.println("Total insert stars_in_movie:" + insertSimStatus);
-        System.out.println("ignored stars_in_movie: " + ingoredSim);
+        System.out.println("ignored stars_in_movie: " + ignoredSim);
     }
 
     private void init() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
@@ -109,13 +109,11 @@ public class SAXParserCasts extends DefaultHandler {
         Statement statement = connection.createStatement();
         String sim = "SELECT * FROM stars_in_movies; ";
         ResultSet allSim = statement.executeQuery(sim);
-
         while (allSim.next()){
             simMap.add(new NewStar(allSim.getString("starId"),
                     allSim.getString("movieId")));
         }
         allSim.close();
-
     }
 
     private void parseDocument() {
@@ -191,13 +189,13 @@ public class SAXParserCasts extends DefaultHandler {
                 if (!starId.equals("")) {
                     NewStar temp = new NewStar(starId, movieId);
                     if (!simMap.contains(temp)) {
-                        int num = 1;
+                        int num = 0;
                         String insertStar = "INSERT INTO stars_in_movies VALUES (?, ?);";
                         PreparedStatement insertStarStatement = connection.prepareStatement(insertStar);
                         insertStarStatement.setString(1, temp.getStarId());
                         insertStarStatement.setString(2, temp.getMovieId());
                         simMap.add(temp);
-//                    num = insertStarStatement.executeUpdate();
+                        num = insertStarStatement.executeUpdate();
                         insertSimStatus += num;
                         insertStarStatement.close();
                     }
@@ -205,12 +203,12 @@ public class SAXParserCasts extends DefaultHandler {
             }
             else{
                 int temp = 1;
-                ingoredSim += temp;
+                ignoredSim += temp;
             }
         }
         else{
             int temp = 1;
-            ingoredSim += temp;
+            ignoredSim += temp;
         }
 
 

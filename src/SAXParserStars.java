@@ -31,13 +31,13 @@ public class SAXParserStars extends DefaultHandler {
 
     private HashMap<String, String> simStarMap;
 
-    private HashMap<String, NewStar> starsMap;
+    private HashMap<NewStar, String> starsMap;
     private int insertStarStatus = 0;
     private int duplicatesStar = 0;
 
     public SAXParserStars() {
         myNewStar = new ArrayList<NewStar>();
-        starsMap = new HashMap<String, NewStar>();
+        starsMap = new HashMap<NewStar, String>();
         simStarMap = new HashMap<String, String>();
 
         try {
@@ -66,7 +66,7 @@ public class SAXParserStars extends DefaultHandler {
         init();
         parseDocument();
         printData();
-        connection.commit();
+//        connection.commit();
     }
 
 
@@ -131,10 +131,9 @@ public class SAXParserStars extends DefaultHandler {
         ResultSet allStars = statement.executeQuery(getAllStars);
 
         while (allStars.next()){
-            starsMap.put(allStars.getString("name"),
-                    new NewStar(allStars.getString("id"),
-                    allStars.getString("name"),
-                    allStars.getInt("birthYear"))
+            starsMap.put(new NewStar(allStars.getString("name"),
+                    allStars.getInt("birthYear")),
+                    allStars.getString("name")
             );
 
         }
@@ -187,11 +186,12 @@ public class SAXParserStars extends DefaultHandler {
 
     public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
         if(tempStar.getName() == null) {
-            System.out.println("found null");
+//            System.out.println("found null");
             return;
         }
 
-        if(!starsMap.containsKey(tempStar.getName())){
+        if(!starsMap.containsKey(tempStar)){
+//            System.out.print(tempStar);
             String nowId = newMaxId.substring(2);
             int temp = Integer.parseInt(nowId);
             temp = temp + 1;
@@ -228,7 +228,7 @@ public class SAXParserStars extends DefaultHandler {
 //                System.out.println("insert num:" + insertStarStatus);
 //                System.out.println("insert birthYear:" + tempStar.getBirthYear());
             }
-            starsMap.put(newMaxId, tempStar);
+            starsMap.put(tempStar, newMaxId);
             simStarMap.put(tempStar.getName(), tempStar.getStarId());
         }
 //        System.out.println("Total insert stars:" + insertStarStatus);

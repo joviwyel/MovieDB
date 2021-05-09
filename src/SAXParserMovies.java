@@ -27,6 +27,7 @@ public class SAXParserMovies extends DefaultHandler {
     private int ignoredMovie;
     private int ignoredGim;
     private int duplicateMovie;
+    private int insertRatingStatus;
 
 
     private String newMaxId;
@@ -37,6 +38,7 @@ public class SAXParserMovies extends DefaultHandler {
     private HashMap<NewMovie, String> moviesMap;
     private HashSet<NewMovie> genreInMoviesMap;
     private HashMap<String, Integer> genreMap;
+    private HashMap<String, Float> ratingMap;
 
     private HashMap<String, String> simMovieMap;
 
@@ -50,12 +52,13 @@ public class SAXParserMovies extends DefaultHandler {
         genreInMoviesMap = new HashSet<NewMovie>();
         genreMap = new HashMap<String, Integer>();
         simMovieMap = new HashMap<String, String>();
-
+        ratingMap = new HashMap<String, Float>();
         insertGenreStatus = 0;
         insertMovieStatus = 0;
         insertGimStatus = 0;
         ignoredMovie = 0;
         ignoredGim = 0;
+        insertRatingStatus = 0;
 
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -83,7 +86,7 @@ public class SAXParserMovies extends DefaultHandler {
         init();
         parseDocument();
         printData();
-//        connection.commit();
+        connection.commit();
     }
 
     private void parseDocument() {
@@ -126,6 +129,7 @@ public class SAXParserMovies extends DefaultHandler {
         System.out.println("ignored movies:" + ignoredMovie);
         System.out.println("ignored gim: " + ignoredGim);
         System.out.println("duplicate movies:" + duplicateMovie);
+        System.out.println("insert rating:" + insertRatingStatus);
 
 //        System.out.println("fid + movieId: " + simMovieMap);
     }
@@ -199,6 +203,15 @@ public class SAXParserMovies extends DefaultHandler {
         newGenreMax = getGenreMaxSet.getInt("max(id)");
         getGenreMaxSet.close();
 
+        // get rating map;
+        Statement rSt = connection.createStatement();
+        String r = "SELECT * FROM ratings; ";
+        ResultSet rSet = rSt.executeQuery(r);
+
+        while (rSet.next()){
+            ratingMap.put(rSet.getString("movieId"), rSet.getFloat("rating"));
+        }
+        rSet.close();
     }
 
     public void characters(char[] ch, int start, int length) throws SAXException {
@@ -309,6 +322,19 @@ public class SAXParserMovies extends DefaultHandler {
                     simMovieMap.put(tempMovie.getFid(), tempMovie.getMovieId());
                 }
             }
+
+
+            // insert into rating
+            String insertRating = "INSERT INTO ratings VALUES (?,?,?);";
+            PreparedStatement insertRatingStatement = connection.prepareStatement(insertRating);
+            insertRatingStatement.setString(1, tempMovie.getMovieId());
+            insertRatingStatement.setFloat(2, 0);
+            insertRatingStatement.setInt(3,0);
+            int insertR = 0;
+            insertR = insertRatingStatement.executeUpdate();
+            insertRatingStatus += insertR;
+            insertRatingStatement.close();
+
         }
         else{
             int temp = 1;
