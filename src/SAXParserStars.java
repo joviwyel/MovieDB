@@ -61,7 +61,7 @@ public class SAXParserStars extends DefaultHandler {
         init();
         parseDocument();
         printData();
-        connection.commit();
+//        connection.commit();
     }
 
 
@@ -104,6 +104,7 @@ public class SAXParserStars extends DefaultHandler {
 //            System.out.println(it.next().toString());
 //        }
         System.out.println("No of newStar '" + myNewStar.size() + "'.");
+        System.out.println("Total insert stars:" + insertStarStatus);
     }
 
     //Event Handlers
@@ -214,18 +215,18 @@ public class SAXParserStars extends DefaultHandler {
 //                System.out.println("insert birthYear:" + tempStar.getBirthYear());
             }
         }
-        System.out.println("Total insert stars:" + insertStarStatus);
+//        System.out.println("Total insert stars:" + insertStarStatus);
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        SAXParserStars spe = new SAXParserStars();
-        long insertStart;
-        long insertEnd;
-        insertStart = System.currentTimeMillis();
-        spe.run();
-
-        insertEnd = System.currentTimeMillis();
-        System.out.println("Time in Seconds for insert stars Parser: " + ((insertEnd - insertStart) / 1000.0));
-    }
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+//        SAXParserStars spe = new SAXParserStars();
+//        long insertStart;
+//        long insertEnd;
+//        insertStart = System.currentTimeMillis();
+//        spe.run();
+//
+//        insertEnd = System.currentTimeMillis();
+//        System.out.println("Time in Seconds for insert stars Parser: " + ((insertEnd - insertStart) / 1000.0));
+//    }
 
 }

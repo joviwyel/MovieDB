@@ -286,32 +286,35 @@ public class SAXParserMovies extends DefaultHandler {
 
         // Insert into genres_in_movies;
         if(tempMovie.getGenre()!=null) {
-            int gId = tempMovie.getGenreId();
-            String mId = tempMovie.getMovieId();
-            if (!genreInMoviesMap.contains(new NewMovie(mId, gId))) {
-//                System.out.println(mId + ": " + gId);
-                String insertGim = "INSERT INTO genres_in_movies VALUES(?,?);";
-                PreparedStatement insertGimSt = connection.prepareStatement(insertGim);
-                insertGimSt.setInt(1, gId);
-                insertGimSt.setString(2, mId);
-                genreInMoviesMap.add(new NewMovie(mId, gId));
-                int temp = insertGimSt.executeUpdate();
-                insertGimStatus += temp;
-                insertGimSt.close();
+            if(tempMovie.getGenre()!="") {
+                int gId = tempMovie.getGenreId();
+                String mId = tempMovie.getMovieId();
+                if (!genreInMoviesMap.contains(new NewMovie(mId, gId))) {
+                    //                System.out.println(mId + ": " + gId);
+                    String insertGim = "INSERT INTO genres_in_movies VALUES(?,?);";
+                    PreparedStatement insertGimSt = connection.prepareStatement(insertGim);
+                    insertGimSt.setInt(1, gId);
+                    insertGimSt.setString(2, mId);
+                    genreInMoviesMap.add(new NewMovie(mId, gId));
+                    int temp = insertGimSt.executeUpdate();
+                    insertGimStatus += temp;
+                    insertGimSt.close();
+
+                }
             }
         }
     }
 
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        SAXParserMovies spe = new SAXParserMovies();
-        long insertMovieStart;
-        long insertMovieEnd;
-        insertMovieStart = System.currentTimeMillis();
-        spe.run();
-        insertMovieEnd = System.currentTimeMillis();
-
-        System.out.println("Time in Seconds for insert Movie Parser: " + ((insertMovieEnd - insertMovieStart) / 1000.0));
-    }
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+//        SAXParserMovies spe = new SAXParserMovies();
+//        long insertMovieStart;
+//        long insertMovieEnd;
+//        insertMovieStart = System.currentTimeMillis();
+//        spe.run();
+//        insertMovieEnd = System.currentTimeMillis();
+//
+//        System.out.println("Time in Seconds for insert Movie Parser: " + ((insertMovieEnd - insertMovieStart) / 1000.0));
+//    }
 
 }
