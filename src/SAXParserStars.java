@@ -106,8 +106,8 @@ public class SAXParserStars extends DefaultHandler {
 //        while (it.hasNext()) {
 //            System.out.println(it.next().toString());
 //        }
-        System.out.println("No of newStar '" + myNewStar.size() + "'.");
-//        System.out.println("Total insert stars:" + insertStarStatus);
+//        System.out.println("No of newStar '" + myNewStar.size() + "'.");
+        System.out.println("Total insert stars:" + insertStarStatus);
 //        System.out.println("name + starID:" + simStarMap);
         System.out.println();
     }
