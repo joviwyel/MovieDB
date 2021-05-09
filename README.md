@@ -28,6 +28,15 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
   Method Two:
   Another method is to use load data infile statement. By using this, can read rows from a text file into a table in a short time. 
+  
+## Each mamber's contribution:
+
+Kai Li Tan: 1)Password Encryption 
+            2)Prepared Statement 
+            3)Employee Dashboard.
+Jing Wu   : 1)reCAPTCHA           
+            2)HTTPS               
+            3)XML Parsing.
 
 # Project 2
 ## Demo video URL: https://www.youtube.com/watch?v=rE5Uz4C_JIo
