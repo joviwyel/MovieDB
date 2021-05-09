@@ -31,7 +31,7 @@ public class NewMovie {
         this.director = director;
     }
 
-    public NewMovie(int genreId, String movieId){
+    public NewMovie(String movieId, int genreId){
         this();
         this.genreId = genreId;
         this.movieId = movieId;

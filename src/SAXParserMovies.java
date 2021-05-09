@@ -22,13 +22,15 @@ public class SAXParserMovies extends DefaultHandler {
     List<NewMovie> myNewMovie;
     private int insertMovieStatus;
     private int insertGenreStatus;
+    private int insertGimStatus;
+
     private String newMaxId;
     private Integer newGenreMax;
 
     private String tempVal;
     private Connection connection;
     private HashMap<NewMovie, String> moviesMap;
-    private HashMap<String, Integer> genreInMoviesMap;
+    private HashSet<NewMovie> genreInMoviesMap;
     private HashMap<String, Integer> genreMap;
 
     //to maintain context
@@ -38,10 +40,11 @@ public class SAXParserMovies extends DefaultHandler {
 
         myNewMovie = new ArrayList<NewMovie>();
         moviesMap = new HashMap<NewMovie, String>();
-        genreInMoviesMap = new HashMap<String, Integer>();
+        genreInMoviesMap = new HashSet<NewMovie>();
         genreMap = new HashMap<String, Integer>();
         insertGenreStatus = 0;
         insertMovieStatus = 0;
+        insertGimStatus = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
@@ -71,6 +74,7 @@ public class SAXParserMovies extends DefaultHandler {
 //        connection.commit();
         System.out.println("insert genre: " + insertGenreStatus);
         System.out.println("insert Movies: " + insertMovieStatus);
+        System.out.println("insert genre_in_movie:" + insertGimStatus);
     }
 
     private void parseDocument() {
@@ -143,7 +147,8 @@ public class SAXParserMovies extends DefaultHandler {
         ResultSet gimSet = gimSt.executeQuery(gim);
 
         while (gimSet.next()){
-            genreInMoviesMap.put(gimSet.getString("movieId"), gimSet.getInt("genreId"));
+            genreInMoviesMap.add(new NewMovie(gimSet.getString("movieId"),
+                                              gimSet.getInt("genreId")));
         }
         gimSet.close();
 //        System.out.println("genres_in_movies:" + genreInMoviesMap.size());
@@ -160,6 +165,7 @@ public class SAXParserMovies extends DefaultHandler {
         gSet.close();
 //        System.out.println("genres:" + genreMap.size());
 //        System.out.println(genreMap);
+
 
         // get max id for insert later
         String getMaxId = "SELECT max(id) from movies;";
@@ -222,6 +228,8 @@ public class SAXParserMovies extends DefaultHandler {
             tempMovie.setDirector(tempVal);
         }  else if(qName.equalsIgnoreCase("cat")) {
             tempMovie.setGenre(tempVal);
+            if(genreMap.containsKey(tempVal))
+                tempMovie.setGenreID(genreMap.get(tempVal));
         }
     }
 
@@ -263,15 +271,33 @@ public class SAXParserMovies extends DefaultHandler {
 //                    System.out.println(tempMovie.getGenre());
                     String insertGenre = "INSERT INTO genres VALUES(?,?);";
                     PreparedStatement insertGenreStatement = connection.prepareStatement(insertGenre);
-                    newGenreMax += 1;
+                    newGenreMax = newGenreMax + 1;
                     insertGenreStatement.setInt(1, newGenreMax);
                     insertGenreStatement.setString(2, tempMovie.getGenre());
-                    genreMap.put(tempMovie.getGenre(), newGenreMax);
 
+                    genreMap.put(tempMovie.getGenre(), newGenreMax);
+                    tempMovie.setGenreID(newGenreMax);
                     int temp = insertGenreStatement.executeUpdate();
                     insertGenreStatus += temp;
                     insertGenreStatement.close();
                 }
+            }
+        }
+
+        // Insert into genres_in_movies;
+        if(tempMovie.getGenre()!=null) {
+            int gId = tempMovie.getGenreId();
+            String mId = tempMovie.getMovieId();
+            if (!genreInMoviesMap.contains(new NewMovie(mId, gId))) {
+//                System.out.println(mId + ": " + gId);
+                String insertGim = "INSERT INTO genres_in_movies VALUES(?,?);";
+                PreparedStatement insertGimSt = connection.prepareStatement(insertGim);
+                insertGimSt.setInt(1, gId);
+                insertGimSt.setString(2, mId);
+                genreInMoviesMap.add(new NewMovie(mId, gId));
+                int temp = insertGimSt.executeUpdate();
+                insertGimStatus += temp;
+                insertGimSt.close();
             }
         }
     }
