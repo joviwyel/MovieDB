@@ -33,6 +33,8 @@ public class SAXParserMovies extends DefaultHandler {
     private HashSet<NewMovie> genreInMoviesMap;
     private HashMap<String, Integer> genreMap;
 
+    private HashMap<String, String> simMovieMap;
+
     //to maintain context
     private NewMovie tempMovie;
 
@@ -42,6 +44,8 @@ public class SAXParserMovies extends DefaultHandler {
         moviesMap = new HashMap<NewMovie, String>();
         genreInMoviesMap = new HashSet<NewMovie>();
         genreMap = new HashMap<String, Integer>();
+        simMovieMap = new HashMap<String, String>();
+
         insertGenreStatus = 0;
         insertMovieStatus = 0;
         insertGimStatus = 0;
@@ -71,10 +75,11 @@ public class SAXParserMovies extends DefaultHandler {
         init();
         parseDocument();
         printData();
-//        connection.commit();
+        connection.commit();
         System.out.println("insert genre: " + insertGenreStatus);
         System.out.println("insert Movies: " + insertMovieStatus);
         System.out.println("insert genre_in_movie:" + insertGimStatus);
+//        System.out.println("fid + movieId: " + simMovieMap);
     }
 
     private void parseDocument() {
@@ -110,7 +115,7 @@ public class SAXParserMovies extends DefaultHandler {
 //                System.out.println("movieId is null");
 //        }
         System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
-        System.out.println(genreMap);
+//        System.out.println(genreMap);
     }
 
     //Event Handlers
@@ -216,9 +221,8 @@ public class SAXParserMovies extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("t")) {
             tempMovie.setTitle(tempVal);
         } else if (qName.equalsIgnoreCase("fid")) {
-            tempMovie.setMovieID(tempVal);
-            if(tempVal == null)
-                System.out.println("I am null");
+            if(tempVal!=null)
+                tempMovie.setFid(tempVal);
         } else if (qName.equalsIgnoreCase("year")) {
             if(isValidYear(tempVal))
                 tempMovie.setYear(Integer.parseInt(tempVal));
@@ -240,13 +244,15 @@ public class SAXParserMovies extends DefaultHandler {
         }
         return true;
     }
+    public HashMap<String, String> getSimMovieMap(){return simMovieMap;}
+
     public void insertIntoMovies(NewMovie tempMovie) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 
         if(tempMovie.getTitle() == null)
             return;
 
         if(!moviesMap.containsKey(tempMovie)){
-            String insertMovie = "INSERT INTO movies VALUES(?,?,?,?);";
+            String insertMovie = "INSERT INTO movies VALUES (?,?,?,?);";
             PreparedStatement insertMovieStatement = connection.prepareStatement(insertMovie);
             int temp ;
             String nowId = newMaxId.substring(2);
@@ -262,14 +268,20 @@ public class SAXParserMovies extends DefaultHandler {
             temp = insertMovieStatement.executeUpdate();
             insertMovieStatus += temp;
             insertMovieStatement.close();
+            moviesMap.put(tempMovie, tempMovie.getMovieId());
+            if(tempMovie.getFid()!= null) {
+                if (tempMovie.getFid() != "") {
+                    simMovieMap.put(tempMovie.getFid(), tempMovie.getMovieId());
+                }
             }
+        }
 //            System.out.println("Total insert movies:" + insertMovieStatus);
 
         if(!genreMap.containsKey(tempMovie.getGenre())){
             if(tempMovie.getGenre()!= null) {
                 if(tempMovie.getGenre()!="") {
 //                    System.out.println(tempMovie.getGenre());
-                    String insertGenre = "INSERT INTO genres VALUES(?,?);";
+                    String insertGenre = "INSERT INTO genres VALUES (?,?);";
                     PreparedStatement insertGenreStatement = connection.prepareStatement(insertGenre);
                     newGenreMax = newGenreMax + 1;
                     insertGenreStatement.setInt(1, newGenreMax);
@@ -280,6 +292,7 @@ public class SAXParserMovies extends DefaultHandler {
                     int temp = insertGenreStatement.executeUpdate();
                     insertGenreStatus += temp;
                     insertGenreStatement.close();
+
                 }
             }
         }

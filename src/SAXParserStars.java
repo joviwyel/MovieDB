@@ -28,6 +28,7 @@ public class SAXParserStars extends DefaultHandler {
 
     private Connection connection;
 
+    private HashMap<String, String> simStarMap;
 
     private HashMap<String, NewStar> starsMap;
     private int insertStarStatus = 0;
@@ -35,6 +36,8 @@ public class SAXParserStars extends DefaultHandler {
     public SAXParserStars() {
         myNewStar = new ArrayList<NewStar>();
         starsMap = new HashMap<String, NewStar>();
+        simStarMap = new HashMap<String, String>();
+
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
@@ -61,7 +64,7 @@ public class SAXParserStars extends DefaultHandler {
         init();
         parseDocument();
         printData();
-//        connection.commit();
+        connection.commit();
     }
 
 
@@ -104,7 +107,9 @@ public class SAXParserStars extends DefaultHandler {
 //            System.out.println(it.next().toString());
 //        }
         System.out.println("No of newStar '" + myNewStar.size() + "'.");
-        System.out.println("Total insert stars:" + insertStarStatus);
+//        System.out.println("Total insert stars:" + insertStarStatus);
+//        System.out.println("name + starID:" + simStarMap);
+        System.out.println();
     }
 
     //Event Handlers
@@ -174,6 +179,9 @@ public class SAXParserStars extends DefaultHandler {
                 tempStar.setBirthYear(-1);
         }
     }
+
+    public HashMap<String, String> getSimStarMap(){ return simStarMap;}
+
     public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
         if(tempStar.getName() == null)
             return;
@@ -190,6 +198,7 @@ public class SAXParserStars extends DefaultHandler {
                 PreparedStatement insertStarStatement = connection.prepareStatement(insertStar);
                 insertStarStatement.setString(1, newMaxId);
                 insertStarStatement.setString(2, tempStar.getName());
+                tempStar.setStarId(newMaxId);
                 temp = insertStarStatement.executeUpdate();
                 insertStarStatus += temp;
                 insertStarStatement.close();
@@ -197,7 +206,6 @@ public class SAXParserStars extends DefaultHandler {
 //                System.out.println("insert id: " + newMaxId);
 //                System.out.println("insert name:" + tempStar.getName());
 //                System.out.println("insert num:" + insertStarStatus);
-
             }
             else{
                 String insertStar = "INSERT INTO stars (id, name, birthYear) VALUES(?,?,?);";
@@ -205,6 +213,7 @@ public class SAXParserStars extends DefaultHandler {
                 insertStarStatement.setString(1, newMaxId);
                 insertStarStatement.setString(2, tempStar.getName());
                 insertStarStatement.setInt(3, tempStar.getBirthYear());
+                tempStar.setStarId(newMaxId);
                 temp = insertStarStatement.executeUpdate();
                 insertStarStatus += temp;
                 insertStarStatement.close();
@@ -214,19 +223,11 @@ public class SAXParserStars extends DefaultHandler {
 //                System.out.println("insert num:" + insertStarStatus);
 //                System.out.println("insert birthYear:" + tempStar.getBirthYear());
             }
+            starsMap.put(newMaxId, tempStar);
+            simStarMap.put(tempStar.getName(), tempStar.getStarId());
         }
 //        System.out.println("Total insert stars:" + insertStarStatus);
     }
 
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-//        SAXParserStars spe = new SAXParserStars();
-//        long insertStart;
-//        long insertEnd;
-//        insertStart = System.currentTimeMillis();
-//        spe.run();
-//
-//        insertEnd = System.currentTimeMillis();
-//        System.out.println("Time in Seconds for insert stars Parser: " + ((insertEnd - insertStart) / 1000.0));
-//    }
 
 }
