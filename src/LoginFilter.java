@@ -29,10 +29,18 @@ public class LoginFilter implements Filter {
             return;
         }
 
+        System.out.println("LoginFilter: Contains _: "+ httpRequest.getRequestURI().contains("/_"));
         // Redirect to login page if the "user" attribute doesn't exist in session
         if (httpRequest.getSession().getAttribute("user") == null) {
             httpResponse.sendRedirect("login.html");
-        } else {
+        }
+        else if ((httpRequest.getSession().getAttribute("employee") == null)
+                &&  (httpRequest.getRequestURI().contains("/_"))){
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                    "USER is not allowed to access dashboard.");
+            return;
+        }
+        else {
             chain.doFilter(request, response);
         }
     }
