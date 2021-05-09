@@ -15,13 +15,13 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 ## Instruction of deployment:
 
 ## Queries with parameters from user input ('?') using Prepared Statement:
-   [DashboardServlet](src/DashboardServlet.java) - line 107, 169, 200, 230, 238, 246; 
-   [SaleServlet](src/SaleServlet.java) - line 125;
-   [SAXParserCasts](src/SAXParserCasts.java) - line 193;
-   [SAXParserMovies](src/SAXParserMovies.java) - line 256, 285, 308;
-   [SAXParserStars](src/SAXParserStars.java) - line 198, 212;
-   [SingleMovieServlet](src/SingleMovieServlet.java) - line 78;
-   [SingleStarServlet](src/SingleStarServlet.java) - line 73;
+   1. [DashboardServlet](src/DashboardServlet.java) - line 107, 169, 200, 230, 238, 246.
+   2. [SaleServlet](src/SaleServlet.java) - line 125.
+   3. [SAXParserCasts](src/SAXParserCasts.java) - line 193.
+   4. [SAXParserMovies](src/SAXParserMovies.java) - line 256, 285, 308.
+   5. [SAXParserStars](src/SAXParserStars.java) - line 198, 212.
+   6. [SingleMovieServlet](src/SingleMovieServlet.java) - line 78.
+   7. [SingleStarServlet](src/SingleStarServlet.java) - line 73.
 
 ## XML file insert time report:
   Parser actors63.xml file and insert 6025 records into table stars cost total 2.73 sec.
