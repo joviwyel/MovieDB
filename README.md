@@ -32,10 +32,16 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 ## Each mamber's contribution:
 
 Kai Li Tan: 1)Password Encryption 
+
             2)Prepared Statement 
+            
             3)Employee Dashboard.
-Jing Wu   : 1)reCAPTCHA           
-            2)HTTPS               
+
+
+Jing Wu   : 1)reCAPTCHA   
+
+            2)HTTPS      
+                     
             3)XML Parsing.
 
 # Project 2
