@@ -21,10 +21,16 @@ public class SAXParserMovies extends DefaultHandler {
 
     List<NewMovie> myNewMovie;
     private int insertMovieStatus;
+    private int insertGenreStatus;
     private String newMaxId;
+    private Integer newGenreMax;
+
     private String tempVal;
     private Connection connection;
     private HashMap<NewMovie, String> moviesMap;
+    private HashMap<String, Integer> genreInMoviesMap;
+    private HashMap<String, Integer> genreMap;
+
     //to maintain context
     private NewMovie tempMovie;
 
@@ -32,6 +38,10 @@ public class SAXParserMovies extends DefaultHandler {
 
         myNewMovie = new ArrayList<NewMovie>();
         moviesMap = new HashMap<NewMovie, String>();
+        genreInMoviesMap = new HashMap<String, Integer>();
+        genreMap = new HashMap<String, Integer>();
+        insertGenreStatus = 0;
+        insertMovieStatus = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (InstantiationException e) {
@@ -58,7 +68,9 @@ public class SAXParserMovies extends DefaultHandler {
         init();
         parseDocument();
         printData();
-        connection.commit();
+//        connection.commit();
+        System.out.println("insert genre: " + insertGenreStatus);
+        System.out.println("insert Movies: " + insertMovieStatus);
     }
 
     private void parseDocument() {
@@ -94,6 +106,7 @@ public class SAXParserMovies extends DefaultHandler {
 //                System.out.println("movieId is null");
 //        }
         System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
+        System.out.println(genreMap);
     }
 
     //Event Handlers
@@ -107,19 +120,46 @@ public class SAXParserMovies extends DefaultHandler {
         }
     }
     private void init() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
+
+        // get movies map
         Statement statement = connection.createStatement();
         String getAllMovies = "SELECT * FROM movies; ";
         ResultSet allMovies = statement.executeQuery(getAllMovies);
 
         while (allMovies.next()){
-            moviesMap.put(new NewMovie(allMovies.getString("title"),
+            moviesMap.put(new NewMovie(allMovies.getString("id"),
+                            allMovies.getString("title"),
                             allMovies.getInt("year"),
-                            allMovies.getString("director"),
-                            allMovies.getString("id")),
+                            allMovies.getString("director")),
                             allMovies.getString("id")
-            );
+                    );
 
         }
+//        System.out.println(moviesMap);
+
+        // get genres_in_movies map
+        Statement gimSt = connection.createStatement();
+        String gim = "SELECT * FROM genres_in_movies; ";
+        ResultSet gimSet = gimSt.executeQuery(gim);
+
+        while (gimSet.next()){
+            genreInMoviesMap.put(gimSet.getString("movieId"), gimSet.getInt("genreId"));
+        }
+        gimSet.close();
+//        System.out.println("genres_in_movies:" + genreInMoviesMap.size());
+//        System.out.println(genreInMoviesMap);
+
+        // get genres map
+        Statement gSt = connection.createStatement();
+        String g = "SELECT * FROM genres; ";
+        ResultSet gSet = gSt.executeQuery(g);
+
+        while (gSet.next()){
+            genreMap.put(gSet.getString("name"), gSet.getInt("id"));
+        }
+        gSet.close();
+//        System.out.println("genres:" + genreMap.size());
+//        System.out.println(genreMap);
 
         // get max id for insert later
         String getMaxId = "SELECT max(id) from movies;";
@@ -133,6 +173,16 @@ public class SAXParserMovies extends DefaultHandler {
         System.out.println("old movies table number:" + moviesMap.size());
 
         allMovies.close();
+
+        // get genre max id;
+        String getGenreMax = "SELECT max(id) from genres;";
+        Statement getGenreMaxSt = connection.createStatement();
+        ResultSet getGenreMaxSet = getGenreMaxSt.executeQuery(getGenreMax);
+        getGenreMaxSet.next();
+        newGenreMax = getGenreMaxSet.getInt("max(id)");
+
+        System.out.println("genre max id is : " + newGenreMax);
+        getGenreMaxSet.close();
 
     }
 
@@ -170,8 +220,9 @@ public class SAXParserMovies extends DefaultHandler {
                 tempMovie.setYear(-1);
         } else if (qName.equalsIgnoreCase("dirn")) {
             tempMovie.setDirector(tempVal);
+        }  else if(qName.equalsIgnoreCase("cat")) {
+            tempMovie.setGenre(tempVal);
         }
-
     }
 
     private boolean isValidYear(String year){
@@ -190,34 +241,41 @@ public class SAXParserMovies extends DefaultHandler {
             String insertMovie = "INSERT INTO movies VALUES(?,?,?,?);";
             PreparedStatement insertMovieStatement = connection.prepareStatement(insertMovie);
             int temp ;
-            if(tempMovie.getMovieId() == null){
-                String nowId = newMaxId.substring(2);
-                temp = Integer.parseInt(nowId);
-                temp = temp + 1;
-                nowId = Integer.toString(temp);
-                newMaxId = "tt" + nowId;
-                insertMovieStatement.setString(1, newMaxId);
-//                System.out.println("insert id: " + newMaxId);
-            }
-            else {
-                insertMovieStatement.setString(1, tempMovie.getMovieId());
-//                System.out.println("insert id: " + tempMovie.getMovieId());
-            }
+            String nowId = newMaxId.substring(2);
+            temp = Integer.parseInt(nowId);
+            temp = temp + 1;
+            nowId = Integer.toString(temp);
+            newMaxId = "tt" + nowId;
+            insertMovieStatement.setString(1, newMaxId);
+            tempMovie.setMovieID(newMaxId);
             insertMovieStatement.setString(2, tempMovie.getTitle());
             insertMovieStatement.setInt(3, tempMovie.getYear());
             insertMovieStatement.setString(4, tempMovie.getDirector());
             temp = insertMovieStatement.executeUpdate();
             insertMovieStatus += temp;
-//            insertMovieStatus += 1;
             insertMovieStatement.close();
-//            System.out.println("insert:");
-//
-//            System.out.println("insert title:" + tempMovie.getTitle());
-//            System.out.println("insert year:" + tempMovie.getYear());
-//            System.out.println("insert dir:" + tempMovie.getDirector());
             }
 //            System.out.println("Total insert movies:" + insertMovieStatus);
+
+        if(!genreMap.containsKey(tempMovie.getGenre())){
+            if(tempMovie.getGenre()!= null) {
+                if(tempMovie.getGenre()!="") {
+//                    System.out.println(tempMovie.getGenre());
+                    String insertGenre = "INSERT INTO genres VALUES(?,?);";
+                    PreparedStatement insertGenreStatement = connection.prepareStatement(insertGenre);
+                    newGenreMax += 1;
+                    insertGenreStatement.setInt(1, newGenreMax);
+                    insertGenreStatement.setString(2, tempMovie.getGenre());
+                    genreMap.put(tempMovie.getGenre(), newGenreMax);
+
+                    int temp = insertGenreStatement.executeUpdate();
+                    insertGenreStatus += temp;
+                    insertGenreStatement.close();
+                }
+            }
+        }
     }
+
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         SAXParserMovies spe = new SAXParserMovies();
@@ -226,6 +284,7 @@ public class SAXParserMovies extends DefaultHandler {
         insertMovieStart = System.currentTimeMillis();
         spe.run();
         insertMovieEnd = System.currentTimeMillis();
+
         System.out.println("Time in Seconds for insert Movie Parser: " + ((insertMovieEnd - insertMovieStart) / 1000.0));
     }
 

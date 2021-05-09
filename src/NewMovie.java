@@ -5,6 +5,7 @@ public class NewMovie {
     private int year;
     private String director;
     private String genre;
+    private String id;
 
 
     // Genre information
@@ -18,15 +19,16 @@ public class NewMovie {
         this.genre = null;
         this.genreId = -1;
         this.movieId = null;
+        this.id = null;
 
     }
 
-    public NewMovie(String title, int year, String director, String movieId){
+    public NewMovie(String id, String title, int year, String director){
         this();
+        this.id = id;
         this.title = title;
         this.year = year;
         this.director = director;
-        this.movieId = movieId;
     }
 
     public NewMovie(int genreId, String movieId){
@@ -46,6 +48,8 @@ public class NewMovie {
     public String getGenre(){return this.genre;}
     public int getGenreId(){return this.genreId;}
     public String getMovieId(){return this.movieId;}
+    public String getId(){return this.id;}
+
 
     public void setTitle(String title) { this.title = title; }
     public void setYear(int year) { this.year = year; }
@@ -53,10 +57,12 @@ public class NewMovie {
     public void setGenre(String genre) { this.genre = genre; }
     public void setGenreID(int genreId) { this.genreId = genreId; }
     public void setMovieID(String movieId) { this.movieId = movieId; }
+    public void setId(String id){ this.id = id;}
 
     @Override
     public String toString() {
         return "Movie{" +
+                "id='" + id + '\'' +
                 "title='" + title + '\'' +
                 ", year='" + year + '\'' +
                 ", director='" + director + '\'' +
@@ -71,18 +77,14 @@ public class NewMovie {
 
         NewMovie that = (NewMovie) thatObj;
 
-        if (this.title != null && that.getTitle() != null && !this.title.equals(that.getTitle()))
+        if (this.director != null && that.getDirector() != null && !this.director.equals(that.getDirector()))
             return false;
         if (this.year != that.getYear())
             return false;
-        if (this.director != null && that.getDirector() != null && !this.director.equals(that.getDirector()))
+        if (this.title != null && that.getTitle() != null && !this.title.equals(that.getTitle()))
             return false;
-        if (this.genre != null && that.getGenre() != null && !this.genre.equals(that.getGenre()))
-            return false;
-        if (this.genreId != that.getGenreId())
-            return false;
-        if (this.movieId != that.getMovieId())
-            return false;
+//        if(this.genre != null && that.getGenre() != null && !this.genre.equals(that.getGenre()))
+//            return false;
 
         return true;
 
