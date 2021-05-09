@@ -66,6 +66,13 @@ public class NewStar {
 
         if(this.fid != null && that.getFid() != null && !this.fid.equals(that.getFid()))
             return false;
+        if(this.id != null && that.getId() != null && !this.id.equals(that.getId()))
+            return false;
+        if(this.birthYear != -1 && that.getBirthYear() != -1 && this.birthYear != that.getBirthYear())
+            return false;
+
+        if(this.movieId != null && that.getMovieId() != null && !this.movieId.equals(that.getMovieId()))
+            return false;
 
         if(this.starId != null && that.getStarId() != null && !this.starId.equals(that.getStarId()))
             return false;
@@ -76,6 +83,15 @@ public class NewStar {
 
     @Override
     public int hashCode(){
-        return Objects.hash(getName(), getBirthYear(), getStarId(), getMovieId());
+        int hash = 9;
+        int factor = 32;
+        hash = factor * hash + (this.name == null ? 0 : this.name.hashCode());
+        hash = factor * hash + (this.id == null ? 0 : this.id.hashCode());
+        hash = factor * hash + (this.birthYear == -1 ? 0 : this.birthYear);
+        hash = factor * hash + (this.fid == null ? 0 : this.fid.hashCode());
+        hash = factor * hash + (this.starId == null ? 0 : Integer.parseInt(this.starId.substring(2)));
+        hash = factor * hash + (this.movieId == null ? 0 : Integer.parseInt(this.movieId.substring(2)));
+        hash = factor * hash;
+        return hash;
     }
 }

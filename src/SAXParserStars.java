@@ -135,8 +135,16 @@ public class SAXParserStars extends DefaultHandler {
                     allStars.getInt("birthYear")),
                     allStars.getString("name")
             );
+            if(allStars.getString("name").equals("Darrell Zwerling")){
+                System.out.println(starsMap.containsKey(new NewStar(allStars.getString("name"),
+                        allStars.getInt("birthYear"))));
+                System.out.println(starsMap.get(new NewStar(allStars.getString("name"),
+                        allStars.getInt("birthYear"))));
 
+            }
         }
+
+//        System.out.println(starsMap);
 
 
         String getMaxId = "SELECT max(id) from stars;";
@@ -189,9 +197,18 @@ public class SAXParserStars extends DefaultHandler {
 //            System.out.println("found null");
             return;
         }
-
+        if(tempStar.getName().equals("Darrell Zwerling")) {
+            System.out.println(tempStar);
+            System.out.println(starsMap.get(tempStar));
+        }
         if(!starsMap.containsKey(tempStar)){
-//            System.out.print(tempStar);
+            if(tempStar.getName().equals("Darrell Zwerling")) {
+                System.out.println("wrong");
+                System.out.println(tempStar);
+                System.out.println(starsMap.get(tempStar));
+//                System.out.println(tempStar.getStarId().substring(2));
+            }
+//            System.out.println(tempStar);
             String nowId = newMaxId.substring(2);
             int temp = Integer.parseInt(nowId);
             temp = temp + 1;
