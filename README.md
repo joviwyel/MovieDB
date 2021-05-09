@@ -12,6 +12,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 ## XML file insert time report:
   Parser actors63.xml file and insert 6025 records into table stars cost total 2.73 sec.
+  Parser mains243.xml file and insert 136 genres into table genres, 12115 Movies into table movies, 8778 genres & Movies into table genres_in_movies, total cost 4.557 sec.
 
 
 # Project 2
