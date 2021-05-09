@@ -16,7 +16,18 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
   Parser mains243.xml file and insert 136 genres into table genres, 12115 Movies into table movies, 8778 genres & Movies into table genres_in_movies, total cost 4.557 sec.
   
   Parser casts123.xml file and insert 23082 records into table stars_in_movies, cost total 3.272 sec.
+  
+## XML parsing optimization report:
+  Except as mentioned in our project file such like set auto-commit off and using PreparedStatement methods, there are many other ways can be done to reduce the running time of our program. Here do some small describe about the method which our project is using. 
+  
+  Method One: (This project is using this method.)
+  Since for project 3, we need to insert some new information into the old database. In order to do this, we have to check if the information we want to insert is already exists. Therefore, Our main approach is to reduce the time it takes to retrieve data already in the database. 
+  1. We create an new Object to access and modify data easier. For movies, we have Object NewMovie, which will store all the data related to the Movie. For Stars, we have Object NewStar, which will store all the data telated to the Star. 
 
+  2. We are using HashMap to store key and value. For table stars, movies, stars_in_movies, genres_in_movies and genres, we create bounch of HashMap to hold all the key and value for those information. For example, HashMap<NewMovie, String> moviesMap, this Hashmap has a key which is the Object NewMovie which include movie's title, year and director, and the value is movieId. Before parsing, we will create this HashMap. During the parsing time, we will create a new Object which include the information got from XML file, and check if this HashMap already contains such key. If not, then doing insert. HashMap will reach the key and value efficiently. Then significantly reduced running time.
+
+  Method Two:
+  Another method is to use load data infile statement. By using this, can read rows from a text file into a table in a short time. 
 
 # Project 2
 ## Demo video URL: https://www.youtube.com/watch?v=rE5Uz4C_JIo
