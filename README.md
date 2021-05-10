@@ -18,11 +18,11 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
   Go to AWS Tomcat manager webapp -> WAR file to delpoy -> Choose File and deploy. 
 
   Use Terminal:
-  1. inside your repo, use 'mvn package' to build the war file.
-  2. copy war file into Tomcat webapps folder
+  1. Inside your repo, use 'mvn package' to build the war file.
+  2. Copy war file into Tomcat webapps folder
     cp ./target/*.war /var/lib/tomcat9/webapps/
   
-  After that, Tomcat web apps should have the new war file.
+  After that, Tomcat web apps should have the new war file "css122b-spring21-team-10-p1".
 
 ## Queries with parameters from user input ('?') using Prepared Statement:
    1. [DashboardServlet](src/DashboardServlet.java) - line 107, 169, 200, 230, 238, 246.
