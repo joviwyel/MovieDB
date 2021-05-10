@@ -13,6 +13,16 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 ## Demo video URL:
 
 ## Instruction of deployment:
+  You can either use gui to deploy war file into Tomcat or do it in Terminal.
+  By gui:
+  Go to AWS Tomcat manager webapp -> WAR file to delpoy -> Choose File and deploy. 
+
+  Use Terminal:
+  1. inside your repo, use 'mvn package' to build the war file.
+  2. copy war file into Tomcat webapps folder
+    cp ./target/*.war /var/lib/tomcat9/webapps/
+  
+  After that, Tomcat web apps should have the new war file.
 
 ## Queries with parameters from user input ('?') using Prepared Statement:
    1. [DashboardServlet](src/DashboardServlet.java) - line 107, 169, 200, 230, 238, 246.
@@ -61,17 +71,16 @@ Jing Wu   :
 ## Demo video URL: https://www.youtube.com/watch?v=rE5Uz4C_JIo
 
 ## How to deploy this application with Tomcat:
-
 You can either use gui to deploy war file into Tomcat or do it in Terminal.
 By gui:
 Go to AWS Tomcat manager webapp -> WAR file to delpoy -> Choose File and deploy. 
 
 Use Terminal:
-1. inside your repo, use 'mvn package' to build the war file.
-2. copy war file into Tomcat webapps folder
+1. Inside your repo, use 'mvn package' to build the war file.
+2. Copy war file into Tomcat webapps folder
   cp ./target/*.war /var/lib/tomcat9/webapps/
   
-After that, Tomcat web apps should have the new war file.
+After that, Tomcat web apps should have the new war file "cs122b-spring21-team-10-p1".
 
 ## Substring matching design:
 + Our searching support substring matching searching. When user type in characters, will find all strings that contain the pattern anywhere. User don't need to type in any special characters. 
