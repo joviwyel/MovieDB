@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.util.*;
 import java.sql.DriverManager;
@@ -66,7 +65,7 @@ public class SAXParserStars extends DefaultHandler {
         init();
         parseDocument();
         printData();
-//        connection.commit();
+        connection.commit();
     }
 
 
@@ -104,15 +103,8 @@ public class SAXParserStars extends DefaultHandler {
      * the contents
      */
     private void printData() {
-//        Iterator<NewStar> it = myNewStar.iterator();
-//        while (it.hasNext()) {
-//            System.out.println(it.next().toString());
-//        }
-//        System.out.println("No of newStar '" + myNewStar.size() + "'.");
         System.out.println("Total insert stars:" + insertStarStatus);
         System.out.println("Duplicates star found: " + duplicatesStar);
-//        System.out.println("name + starID:" + simStarMap);
-        System.out.println();
     }
 
     //Event Handlers
@@ -132,20 +124,10 @@ public class SAXParserStars extends DefaultHandler {
 
         while (allStars.next()){
             starsMap.put(new NewStar(allStars.getString("name"),
-                    allStars.getInt("birthYear")),
+                            allStars.getInt("birthYear")),
                     allStars.getString("name")
             );
-            if(allStars.getString("name").equals("Darrell Zwerling")){
-                System.out.println(starsMap.containsKey(new NewStar(allStars.getString("name"),
-                        allStars.getInt("birthYear"))));
-                System.out.println(starsMap.get(new NewStar(allStars.getString("name"),
-                        allStars.getInt("birthYear"))));
-
-            }
         }
-
-//        System.out.println(starsMap);
-
 
         String getMaxId = "SELECT max(id) from stars;";
         Statement getMaxSt = connection.createStatement();
@@ -153,9 +135,6 @@ public class SAXParserStars extends DefaultHandler {
         MaxId.next();
         String nowId = MaxId.getString("max(id)");
         newMaxId = nowId;
-
-//        System.out.println("maxid is : " + newMaxId);
-//        System.out.println(starsMap);
 
         allStars.close();
     }
@@ -194,21 +173,10 @@ public class SAXParserStars extends DefaultHandler {
 
     public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
         if(tempStar.getName() == null) {
-//            System.out.println("found null");
             return;
         }
-        if(tempStar.getName().equals("Darrell Zwerling")) {
-            System.out.println(tempStar);
-            System.out.println(starsMap.get(tempStar));
-        }
+
         if(!starsMap.containsKey(tempStar)){
-            if(tempStar.getName().equals("Darrell Zwerling")) {
-                System.out.println("wrong");
-                System.out.println(tempStar);
-                System.out.println(starsMap.get(tempStar));
-//                System.out.println(tempStar.getStarId().substring(2));
-            }
-//            System.out.println(tempStar);
             String nowId = newMaxId.substring(2);
             int temp = Integer.parseInt(nowId);
             temp = temp + 1;
@@ -224,10 +192,6 @@ public class SAXParserStars extends DefaultHandler {
                 temp = insertStarStatement.executeUpdate();
                 insertStarStatus += temp;
                 insertStarStatement.close();
-//                System.out.println("insert:");
-//                System.out.println("insert id: " + newMaxId);
-//                System.out.println("insert name:" + tempStar.getName());
-//                System.out.println("insert num:" + insertStarStatus);
             }
             else{
                 String insertStar = "INSERT INTO stars (id, name, birthYear) VALUES(?,?,?);";
@@ -239,16 +203,10 @@ public class SAXParserStars extends DefaultHandler {
                 temp = insertStarStatement.executeUpdate();
                 insertStarStatus += temp;
                 insertStarStatement.close();
-//                System.out.println("insert:");
-//                System.out.println("insert id: " + newMaxId);
-//                System.out.println("insert name:" + tempStar.getName());
-//                System.out.println("insert num:" + insertStarStatus);
-//                System.out.println("insert birthYear:" + tempStar.getBirthYear());
             }
             starsMap.put(tempStar, newMaxId);
             simStarMap.put(tempStar.getName(), tempStar.getStarId());
         }
-//        System.out.println("Total insert stars:" + insertStarStatus);
 
         else{
             int temp = 1;

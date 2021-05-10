@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.util.*;
 import java.sql.DriverManager;
@@ -115,14 +114,6 @@ public class SAXParserMovies extends DefaultHandler {
      * the contents
      */
     private void printData() {
-//        Iterator<NewMovie> it = myNewMovie.iterator();
-//        while (it.hasNext()) {
-//            String temp = it.next().getMovieId();
-//            if(temp == null)
-//                System.out.println("movieId is null");
-//        }
-//        System.out.println("No of newMovie '" + myNewMovie.size() + "'.");
-//        System.out.println(genreMap);
         System.out.println("insert genre: " + insertGenreStatus);
         System.out.println("insert Movies: " + insertMovieStatus);
         System.out.println("insert genre_in_movie:" + insertGimStatus);
@@ -131,7 +122,6 @@ public class SAXParserMovies extends DefaultHandler {
         System.out.println("duplicate movies:" + duplicateMovie);
         System.out.println("insert rating:" + insertRatingStatus);
 
-//        System.out.println("fid + movieId: " + simMovieMap);
     }
 
     //Event Handlers
@@ -158,7 +148,6 @@ public class SAXParserMovies extends DefaultHandler {
             nm.setYear(allMovies.getInt("year"));
             moviesMap.put(nm, allMovies.getString("id"));
         }
-//        System.out.println(moviesMap);
 
         // get genres_in_movies map
         Statement gimSt = connection.createStatement();
@@ -167,11 +156,10 @@ public class SAXParserMovies extends DefaultHandler {
 
         while (gimSet.next()){
             genreInMoviesMap.add(new NewMovie(gimSet.getString("movieId"),
-                                              gimSet.getInt("genreId")));
+                    gimSet.getInt("genreId")));
         }
         gimSet.close();
-//        System.out.println("genres_in_movies:" + genreInMoviesMap.size());
-//        System.out.println(genreInMoviesMap);
+
 
         // get genres map
         Statement gSt = connection.createStatement();
@@ -182,8 +170,7 @@ public class SAXParserMovies extends DefaultHandler {
             genreMap.put(gSet.getString("name"), gSet.getInt("id"));
         }
         gSet.close();
-//        System.out.println("genres:" + genreMap.size());
-//        System.out.println(genreMap);
+
 
 
         // get max id for insert later
@@ -238,8 +225,7 @@ public class SAXParserMovies extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("t")) {
             tempMovie.setTitle(tempVal);
         } else if (qName.equalsIgnoreCase("fid")) {
-//            if(tempVal!=null)
-                tempMovie.setFid(tempVal);
+            tempMovie.setFid(tempVal);
         } else if (qName.equalsIgnoreCase("year")) {
             if(isValidYear(tempVal))
                 tempMovie.setYear(Integer.parseInt(tempVal));
@@ -282,24 +268,8 @@ public class SAXParserMovies extends DefaultHandler {
             return;
         }
 
-//        if(tempMovie.getTitle().equals("The Virgin Spring")) {
-//            NewMovie copyTemp = new NewMovie();
-//            copyTemp.setYear(tempMovie.getYear());
-//            copyTemp.setDirector(tempMovie.getDirector());
-//            copyTemp.setTitle(tempMovie.getTitle());
-//
-//            System.out.println(tempMovie);
-//            System.out.println(copyTemp);
-//            System.out.println(moviesMap.containsKey(copyTemp));
-//            System.out.println(moviesMap.containsKey(tempMovie));
-//        }
 
         if(!moviesMap.containsKey(tempMovie)){
-//            if(tempMovie.getTitle().equals("The Virgin Spring")) {
-//                System.out.println(tempMovie);
-//                System.out.println(copyTemp);
-//            }
-//            System.out.println(tempMovie);
             String insertMovie = "INSERT INTO movies VALUES (?,?,?,?);";
             PreparedStatement insertMovieStatement = connection.prepareStatement(insertMovie);
             int temp ;
@@ -385,17 +355,5 @@ public class SAXParserMovies extends DefaultHandler {
             ignoredGim += temp;
         }
     }
-
-
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-//        SAXParserMovies spe = new SAXParserMovies();
-//        long insertMovieStart;
-//        long insertMovieEnd;
-//        insertMovieStart = System.currentTimeMillis();
-//        spe.run();
-//        insertMovieEnd = System.currentTimeMillis();
-//
-//        System.out.println("Time in Seconds for insert Movie Parser: " + ((insertMovieEnd - insertMovieStart) / 1000.0));
-//    }
 
 }

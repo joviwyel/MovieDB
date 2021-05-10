@@ -175,7 +175,6 @@ public class SAXParserCasts extends DefaultHandler {
             }
         }  else if(qName.equalsIgnoreCase("a")) {
             tempNewStar.setName(tempVal);
-//            System.out.println(tempVal);
         }
     }
 
