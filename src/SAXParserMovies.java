@@ -41,11 +41,13 @@ public class SAXParserMovies extends DefaultHandler {
 
     private HashMap<String, String> simMovieMap;
 
+    private String reportMovie;
+
     //to maintain context
     private NewMovie tempMovie;
 
     public SAXParserMovies() {
-
+        reportMovie = "";
         myNewMovie = new ArrayList<NewMovie>();
         moviesMap = new HashMap<NewMovie, String>();
         genreInMoviesMap = new HashSet<NewMovie>();
@@ -113,15 +115,17 @@ public class SAXParserMovies extends DefaultHandler {
      * Iterate through the list and print
      * the contents
      */
-    private void printData() {
-        System.out.println("insert genre: " + insertGenreStatus);
-        System.out.println("insert Movies: " + insertMovieStatus);
-        System.out.println("insert genre_in_movie:" + insertGimStatus);
-        System.out.println("ignored movies:" + ignoredMovie);
-        System.out.println("ignored gim: " + ignoredGim);
-        System.out.println("duplicate movies:" + duplicateMovie);
-        System.out.println("insert rating:" + insertRatingStatus);
-
+    private String printData() {
+        String report = "";
+        report += "Total insert genre: " + insertGenreStatus + ".\n";
+        report += "Total insert Movies: " + insertMovieStatus+ ".\n";
+        report += "Found duplicate movies: " + duplicateMovie+ ".\n";
+        report += "Ignored movies: " + ignoredMovie+ ".\n";
+        report += "Total insert genre_in_movie: " + insertGimStatus+ ".\n";
+        report += "Ignored genre_in_movie: " + ignoredGim+ ".\n";
+        report += "Total insert rating: " + insertRatingStatus+ ".\n";
+//        System.out.println(report);
+        return report;
     }
 
     //Event Handlers
@@ -249,6 +253,10 @@ public class SAXParserMovies extends DefaultHandler {
         return true;
     }
     public HashMap<String, String> getSimMovieMap(){return simMovieMap;}
+    public String getReport(){
+        reportMovie = printData();
+        return reportMovie;
+    }
 
     public void insertIntoMovies(NewMovie tempMovie) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 

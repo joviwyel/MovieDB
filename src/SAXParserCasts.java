@@ -1,5 +1,8 @@
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,8 +46,12 @@ public class SAXParserCasts extends DefaultHandler {
     private int insertSimStatus;
     private int ignoredSim;
 
-    public SAXParserCasts() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private String reportMovie;
+    private String reportStar;
 
+    public SAXParserCasts() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        reportMovie = "";
+        reportStar = "";
         simMap = new HashSet<NewStar>();
         myNewStar = new ArrayList<NewStar>();
         speMovies = new SAXParserMovies();
@@ -54,11 +61,13 @@ public class SAXParserCasts extends DefaultHandler {
 
         insertMovieStart = System.currentTimeMillis();
         speStars.run();
+        reportStar = speStars.getReportStar();
 
         insertMovieEnd = System.currentTimeMillis();
 
         insertStart = System.currentTimeMillis();
         speMovies.run();
+        reportMovie = speMovies.getReport();
 
         insertEnd = System.currentTimeMillis();
 
@@ -212,6 +221,8 @@ public class SAXParserCasts extends DefaultHandler {
 
 
     }
+    public String getReportMovie(){ return reportMovie; }
+    public String getReportStar(){return reportStar;}
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 
@@ -225,10 +236,37 @@ public class SAXParserCasts extends DefaultHandler {
             speCasts.run();
             end = System.currentTimeMillis();
 
+            String reportMovie = "";
+            reportMovie = speCasts.getReportMovie();
+
+            String reportStar = "";
+            reportStar = speCasts.getReportStar();
+            System.out.println(reportStar);
+            System.out.println(reportMovie);
             System.out.println("Time in Seconds for Parser and insert for actors63.xml file is: " + speCasts.timeOfStar);
             System.out.println("Time in Seconds for Parser and insert for mains243.xml file is: " + speCasts.timeOfMovie);
             System.out.println("Time in Seconds for Parser and insert for casts124.xml file is: " + (end-start)/1000.0);
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
+            String time = "";
+            time += "Time in Seconds for Parser and insert for actors63.xml file is: " + speCasts.timeOfStar + ".\n";
+            time += "Time in Seconds for Parser and insert for mains243.xml file is: " + speCasts.timeOfMovie + ".\n";
+            time += "Time in Seconds for Parser and insert for casts124.xml file is: " + (end-start)/1000.0 + ".\n";
+
+            File file = new File("ParsingReport.txt");
+            if(!file.exists())
+                file.createNewFile();
+            FileWriter fw = new FileWriter("ParsingReport.txt", true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(reportStar);
+            pw.flush();
+            pw.print(reportMovie);
+            pw.flush();
+            pw.print(time);
+            pw.flush();
+
+            pw.close();
+            fw.close();
+
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
         }
     }

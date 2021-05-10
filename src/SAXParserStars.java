@@ -27,6 +27,7 @@ public class SAXParserStars extends DefaultHandler {
     private NewStar tempStar;
 
     private Connection connection;
+    private String reportStar;
 
     private HashMap<String, String> simStarMap;
 
@@ -35,6 +36,7 @@ public class SAXParserStars extends DefaultHandler {
     private int duplicatesStar = 0;
 
     public SAXParserStars() {
+        reportStar = "";
         myNewStar = new ArrayList<NewStar>();
         starsMap = new HashMap<NewStar, String>();
         simStarMap = new HashMap<String, String>();
@@ -102,9 +104,10 @@ public class SAXParserStars extends DefaultHandler {
      * Iterate through the list and print
      * the contents
      */
-    private void printData() {
-        System.out.println("Total insert stars:" + insertStarStatus);
-        System.out.println("Duplicates star found: " + duplicatesStar);
+    private String printData() {
+        reportStar += "Total insert Stars: " + insertStarStatus +  ".\n";
+        reportStar += "Duplicates Stars found: " + duplicatesStar + ". \n";
+        return reportStar;
     }
 
     //Event Handlers
@@ -170,6 +173,7 @@ public class SAXParserStars extends DefaultHandler {
     }
 
     public HashMap<String, String> getSimStarMap(){ return simStarMap;}
+    public String getReportStar(){return reportStar;}
 
     public void insertIntoStars(NewStar tempStar) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
         if(tempStar.getName() == null) {
