@@ -12,6 +12,8 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 ## Demo video URL:
 
+https://youtu.be/wK0LpAKxWds
+
 ## Instruction of deployment:
   You can either use gui to deploy war file into Tomcat or do it in Terminal.
   By gui:
@@ -75,6 +77,9 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
   Method Two:
   Another method is to use load data infile statement. By using this, can read rows from a text file into a table in a short time. 
+  
+  Method Three:
+  Use JDBC Bathc Statement processing to reduce the running time. Batch statement processing allows related SQL statements to be grouped into batches and committed in a single call to the database, and the interaction with the database completed in a single execution. Send multiple SQL statements to the database at once, can improve performance by reducing communication overhead.
   
 ## Each member's contribution:
 
