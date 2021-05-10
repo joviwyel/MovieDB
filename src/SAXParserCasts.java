@@ -135,7 +135,7 @@ public class SAXParserCasts extends DefaultHandler {
             SAXParser sp = spf.newSAXParser();
 
             //parse the file and also register this class for call backs
-            sp.parse("../cs122b-spring21-team-10/stanford-movies/casts124.xml", this);
+            sp.parse("../stanford-movies/casts124.xml", this);
 
         } catch (SAXException se) {
             se.printStackTrace();

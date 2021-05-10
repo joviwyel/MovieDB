@@ -78,7 +78,7 @@ public class SAXParserStars extends DefaultHandler {
             //get a new instance of parser
             SAXParser sp = spf.newSAXParser();
             //parse the file and also register this class for call backs
-            sp.parse("../cs122b-spring21-team-10/stanford-movies/actors63.xml", this);
+            sp.parse("../stanford-movies/actors63.xml", this);
 
         } catch (SAXException se) {
             se.printStackTrace();
