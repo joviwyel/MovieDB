@@ -40,17 +40,29 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
   Parsing details as followed:
 
   Total insert Stars: 6527.
+  
   Duplicates Stars found: 336.
+  
   Total insert genre: 136.
+  
   Total insert Movies: 12046.
+  
   Found duplicate movies: 30.
+  
   Ignored movies: 39.
+  
   Total insert genre_in_movie: 8743.
+  
   Ignored genre_in_movie: 3314.
+  
   Total insert rating: 12046.
+  
   Time in Seconds for Parser and insert for actors63.xml file is: 35.898.
+  
   Time in Seconds for Parser and insert for mains243.xml file is: 20.099.
+  
   Time in Seconds for Parser and insert for casts124.xml file is: 11.326.
+  
   
 ## XML parsing optimization report:
   Except as mentioned in our project file such like set auto-commit off and using PreparedStatement methods, there are many other ways can be done to reduce the running time of our program. Here do some small describe about the method which our project is using. 
