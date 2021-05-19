@@ -300,7 +300,18 @@ public class MovieServlet extends HttpServlet {
                         "stars s where m.id = sim.movieId and r.movieId = m.id and s.id = sim.starId ";
 
                 if(!title.equals("")){
-                    moviesIdquery += "and lower(m.title) like '%" + title + "%' ";
+                    moviesIdquery += "and match (title) against ('";
+                    String[] arr = title.split("\\s+");
+                    for(String ss : arr){
+                        System.out.println(ss);
+                        moviesIdquery += "+" + ss + "* ";
+
+                    }
+                    moviesIdquery += "'" + " in boolean mode)";
+                    System.out.println("Now query: " + moviesIdquery);
+
+
+//                    moviesIdquery += "and lower(m.title) like '%" + title + "%' ";
                 }
                 if(!year.equals("")){
                     moviesIdquery += "and m.year = '" + year + "' ";
