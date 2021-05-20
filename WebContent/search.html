@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
+    <!-- Using jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- include jquery autocomplete JS  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js"></script>
+
     <title>Search Movies</title>
 
     <style type="text/css">
@@ -36,6 +43,10 @@
         }
 
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body BGCOLOR="#FDF5E6" style = "text-align: center">
@@ -44,14 +55,17 @@
 <h5>Enter title, year, director or star name to search for movies.</h5>
 
 <form ACTION="movie.html" METHOD="GET">
-    <label>Title:</label>   <input TYPE="TEXT" name="title"><br>
+    <input TYPE="SUBMIT" VALUE="Search Movies"><br><br>
+
     <label>Year:</label>    <input TYPE="number" name="year"><br>
     <label>Director:</label> <input TYPE="TEXT" name="director"><br>
     <label>Star:</label>     <input TYPE="TEXT" name="star"><br>
+    <label>Title:</label>   <input TYPE="TEXT" name="title" id = "autocomplete"
+                                   placeholder = "Search Movie Title"><br>
 
-    <input TYPE="SUBMIT" VALUE="Search Movies">
 </form>
 
+<script src="search.js"></script>
 
 </body>
 </html>
