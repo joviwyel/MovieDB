@@ -79,3 +79,6 @@ password varchar(20) NOT NULL,
 fullname varchar(100)
 );
 INSERT INTO employees VALUES ('classta@email.edu', 'classta', 'TA CS122B');
+
+ALTER TABLE movies add fulltext(title)
+
