@@ -32,17 +32,17 @@ function handleLookup(query, doneCallback) {
  */
 function handleLookupAjaxSuccess(data, query, doneCallback) {
     console.log("lookup ajax successful")
-
+    console.log(data)
     // parse the string into JSON
-    var jsonData = JSON.parse(data);
-    console.log(jsonData)
+    // var jsonData = JSON.parse(data);
+    // console.log(jsonData)
 
     // TODO: if you want to cache the result into a global variable you can do it here
 
     // call the callback function provided by the autocomplete library
     // add "{suggestions: jsonData}" to satisfy the library response format according to
     //   the "Response Format" section in documentation
-    doneCallback( { suggestions: jsonData } );
+    doneCallback( { suggestions: data } );
 }
 
 
