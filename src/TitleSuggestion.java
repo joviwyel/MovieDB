@@ -49,9 +49,6 @@ public class TitleSuggestion extends HttpServlet {
                 return;
             }
 
-            if(query.length()<=2)
-                return;
-
             // search on superheroes and add the results to JSON Array
             // this example only does a substring match
             // TODO: in project 4, you should do full text search with MySQL to find the matches on movies and stars
