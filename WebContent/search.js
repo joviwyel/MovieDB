@@ -1,25 +1,34 @@
+var temp = "";
+
+
 function handleLookup(query, doneCallback) {
     console.log("autocomplete initiated")
-    console.log("sending AJAX request to backend Java Servlet")
 
+    //done
     // TODO: if you want to check past query results first, you can do it here
 
-    // sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
-    // with the query data
-    jQuery.ajax({
-        "method": "GET",
-        // generate the request url from the query.
-        // escape the query string to avoid errors caused by special characters
-        "url": "title-suggestion?query=" + escape(query),
-        "success": function(data) {
-            // pass the data, query, and doneCallback function into the success handler
-            handleLookupAjaxSuccess(data, query, doneCallback)
-        },
-        "error": function(errorData) {
-            console.log("lookup ajax error")
-            console.log(errorData)
-        }
-    })
+    if(temp.includes(query)){
+        console.log("cache from past data")
+        temp = query
+    }
+    else{
+        // sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
+        // with the query data
+        jQuery.ajax({
+            "method": "GET",
+            // generate the request url from the query.
+            // escape the query string to avoid errors caused by special characters
+            "url": "title-suggestion?query=" + escape(query),
+            "success": function(data) {
+                // pass the data, query, and doneCallback function into the success handler
+                handleLookupAjaxSuccess(data, query, doneCallback)
+            },
+            "error": function(errorData) {
+                console.log("lookup ajax error")
+                console.log(errorData)
+            }
+        })
+    }
 }
 
 
@@ -31,14 +40,13 @@ function handleLookup(query, doneCallback) {
  *
  */
 function handleLookupAjaxSuccess(data, query, doneCallback) {
+    console.log("sending AJAX request to backend Java Servlet")
     console.log("lookup ajax successful")
     console.log(data)
-    // parse the string into JSON
-    // var jsonData = JSON.parse(data);
-    // console.log(jsonData)
 
+    //done
     // TODO: if you want to cache the result into a global variable you can do it here
-
+    temp = query;
     // call the callback function provided by the autocomplete library
     // add "{suggestions: jsonData}" to satisfy the library response format according to
     //   the "Response Format" section in documentation
