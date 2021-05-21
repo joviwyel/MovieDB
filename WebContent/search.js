@@ -54,8 +54,9 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
  */
 function handleSelectSuggestion(suggestion) {
     // TODO: jump to the specific result page based on the selected suggestion
-
-    console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["heroID"])
+    var url = "single-movie.html?id=" + suggestion["data"]["id"];
+    window.location.replace(url);
+    console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["id"])
 }
 
 
@@ -80,7 +81,7 @@ $('#autocomplete').autocomplete({
     // set delay time
     deferRequestBy: 300,
     // there are some other parameters that you might want to use to satisfy all the requirements
-    // TODO: add other parameters, such as minimum characters
+
     minChars: 3
 });
 
