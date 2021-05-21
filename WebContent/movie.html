@@ -111,7 +111,6 @@
             let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
                 results = regex.exec(url);
 
-            console.log(results);
             if (!results) return null;
             if (!results[2]) return '';
 

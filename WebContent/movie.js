@@ -29,7 +29,6 @@ function getParameterByName(target) {
     let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
 
-    console.log(results);
     if (!results) return null;
     if (!results[2]) return '';
 
@@ -43,7 +42,6 @@ function getParameterByName(target) {
  * @param resultData jsonObject
  */
 function handleStarResult(resultData) {
-    console.log("handleStarResult: populating star table from resultData");
 
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
@@ -62,7 +60,7 @@ function handleStarResult(resultData) {
             '</a>' +
             "</th>";
         let thisId = resultData[i]['movie_id'];
-        console.log(thisId);
+
         rowHTML += "<th>" + '<button onclick = addToCart(\''+thisId + '\')' + ">" + "Add to Cart" + '</button>' + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
@@ -127,7 +125,7 @@ function addToCart(thisId){
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
-console.log("getParamByName sortby1: " + getParameterByName('sortby1'));
+// console.log("getParamByName sortby1: " + getParameterByName('sortby1'));
 if(getParameterByName('pageNum') == null)
     $("#prevButton").attr('disabled',true);
 else if(getParameterByName('pageNum') == 0)
@@ -137,7 +135,7 @@ else
 
 if(getParameterByName('sortby1') == null){
     if(getParameterByName('genre') != null) {
-        console.log("[SORTBY1 == NULL, GENRE != NULL");
+        // console.log("[SORTBY1 == NULL, GENRE != NULL");
         let genreURL = getParameterByName('genre');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
@@ -153,7 +151,7 @@ if(getParameterByName('sortby1') == null){
 
     }
     else if(getParameterByName('letter') != null){
-        console.log("[SORTBY1 == NULL, LETTER != NULL");
+        // console.log("[SORTBY1 == NULL, LETTER != NULL");
         let letterURL = getParameterByName('letter');
         let pageNumURL = 0;
         if(getParameterByName('pageNum') != null){
@@ -171,7 +169,7 @@ if(getParameterByName('sortby1') == null){
 
     }
     else {
-        console.log("[SORTBY1 == NULL, SEARCH");
+        // console.log("[SORTBY1 == NULL, SEARCH");
         let titleURL = getParameterByName('title');
         let yearURL = getParameterByName('year');
         let dirURL = getParameterByName('director');
@@ -193,7 +191,7 @@ if(getParameterByName('sortby1') == null){
 }
 else{
     if(getParameterByName('genre') != "") {
-        console.log("[SORTBY1 != NULL, GENRE != emp_str");
+        // console.log("[SORTBY1 != NULL, GENRE != emp_str");
         let genreURL = getParameterByName('genre');
         let sortby1URL = getParameterByName('sortby1');
         let order1URL = getParameterByName('order1');
@@ -216,7 +214,7 @@ else{
 
     }
     else if(getParameterByName('letter') != ""){
-        console.log("[SORTBY1 != NULL, LETTER != emp_str");
+        // console.log("[SORTBY1 != NULL, LETTER != emp_str");
         let letterURL = getParameterByName('letter');
         // Makes the HTTP GET request and registers on success callback function handleStarResult
         let sortby1URL = getParameterByName('sortby1');
@@ -240,7 +238,7 @@ else{
 
     }
     else {
-        console.log("[SORTBY1 != NULL, SEARCH");
+        // console.log("[SORTBY1 != NULL, SEARCH");
         let titleURL = getParameterByName('title');
         let yearURL = getParameterByName('year');
         let dirURL = getParameterByName('director');
