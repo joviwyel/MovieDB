@@ -1,5 +1,5 @@
 var temp = "";
-
+var jsonObj = new Object();
 
 function handleLookup(query, doneCallback) {
     console.log("autocomplete initiated")
@@ -10,6 +10,8 @@ function handleLookup(query, doneCallback) {
     if(temp.includes(query)){
         console.log("cache from past data")
         temp = query
+        doneCallback( { suggestions: jsonObj } );
+        console.log(jsonObj)
     }
     else{
         // sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
@@ -41,12 +43,12 @@ function handleLookup(query, doneCallback) {
  */
 function handleLookupAjaxSuccess(data, query, doneCallback) {
     console.log("sending AJAX request to backend Java Servlet")
-    console.log("lookup ajax successful")
     console.log(data)
 
     //done
     // TODO: if you want to cache the result into a global variable you can do it here
     temp = query;
+    jsonObj = data;
     // call the callback function provided by the autocomplete library
     // add "{suggestions: jsonData}" to satisfy the library response format according to
     //   the "Response Format" section in documentation
@@ -66,7 +68,6 @@ function handleSelectSuggestion(suggestion) {
     // TODO: jump to the specific result page based on the selected suggestion
     var url = "single-movie.html?id=" + suggestion["data"]["id"];
     window.location.replace(url);
-    console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["id"])
 }
 
 
