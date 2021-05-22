@@ -37,25 +37,26 @@ public class LoginServlet extends HttpServlet {
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
+        if (request.getParameter("mobile") == null) {
+            String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+            System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+            // Verify reCAPTCHA
+            try {
+                RecaptchaVerifyUtils.verify(gRecaptchaResponse);
+            } catch (Exception e) {
+                JsonObject responseJsonObject = new JsonObject();
 
-        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-        System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
-        // Verify reCAPTCHA
-        try {
-            RecaptchaVerifyUtils.verify(gRecaptchaResponse);
-        } catch (Exception e) {
-            JsonObject responseJsonObject = new JsonObject();
+                responseJsonObject.addProperty("status", "fail");
+                // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
 
-            responseJsonObject.addProperty("status", "fail");
-            // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
+                responseJsonObject.addProperty("message", "Invalid reCAPTCHA. Please try again.");
 
-            responseJsonObject.addProperty("message", "Invalid reCAPTCHA. Please try again.");
-
-            out.write(responseJsonObject.toString());
+                out.write(responseJsonObject.toString());
 
 
-            out.close();
-            return;
+                out.close();
+                return;
+            }
         }
         try{
             String email = request.getParameter("username");
