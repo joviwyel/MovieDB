@@ -12,6 +12,8 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 ## Demo video URL:
 
+## Important notes for P4:
+  Jing Wu, which use committer name as joviwyel, since main labtop is using Apple M1 chip and not support Android AVD, so was using friend's labtop doing Android app part. Then accidentally forgetting to modify committer. There was one commit under name "Jovi Wyel" which should be "joviwyel". Therefore, this project may have more than two committer. Please forgive me.
 
 ## Explanation of implementation of fuzzy search:
   Since for full-text search we set only work when input is >= 3 char, so we designed fuzzy search based on the following rule.
