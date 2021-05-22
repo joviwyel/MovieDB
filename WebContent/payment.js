@@ -44,9 +44,9 @@ let credit_card_form = $("#credit_card_form");
 function handleFormResult(resultDataString) {
     let resultDataJson = JSON.parse(resultDataString);
 
-    console.log("handle payment response");
-    console.log(resultDataJson);
-    console.log(resultDataJson["status"]);
+    // console.log("handle payment response");
+    // console.log(resultDataJson);
+    // console.log(resultDataJson["status"]);
 
     // If payment succeeds, it will redirect the user to confirmation.html
     if (resultDataJson["status"] === "success") {
@@ -54,8 +54,8 @@ function handleFormResult(resultDataString) {
     } else {
         // If login fails, the web page will display
         // error messages on <div> with id "payment_error_message"
-        console.log("show error message");
-        console.log(resultDataJson["message"]);
+        // console.log("show error message");
+        // console.log(resultDataJson["message"]);
         $("#payment_error_message").text(resultDataJson["message"]);
     }
 }

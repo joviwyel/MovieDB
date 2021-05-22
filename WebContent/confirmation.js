@@ -1,7 +1,7 @@
 
 function handleResult(resultData) {
 
-    console.log("handleResult: populating star info from resultData");
+    // console.log("handleResult: populating star info from resultData");
     let InfoTableBodyElement = jQuery("#info_table_body");
     let InfoTableElement = jQuery("#info_table");
     InfoTableElement.append("<p>Customer Id: " + resultData[0]["customerId"] + "</p>");

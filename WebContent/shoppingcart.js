@@ -10,7 +10,7 @@ function getParameterByName(target) {
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    console.log(results);
+    // console.log(results);
     // Return the decoded parameter value
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
@@ -42,7 +42,7 @@ function handleResult(resultData) {
 
         rowHTML += "</tr>";
 
-        console.log(rowHTML);
+        // console.log(rowHTML);
         CartTableBodyElement.append(rowHTML);
     }
     let totalTableBodyElement = jQuery("#total_table_body");

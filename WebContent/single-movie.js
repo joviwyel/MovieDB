@@ -38,7 +38,7 @@ function getParameterByName(target) {
 
 function handleResult(resultData) {
 
-    console.log("handleResult: populating star info from resultData");
+    // console.log("handleResult: populating star info from resultData");
 
     // populate the star info h3
     // find the empty h3 body by id "star_info"
@@ -71,7 +71,7 @@ function handleResult(resultData) {
         "<p>Rating: " + resultData[0]["rating"] + "</p>");
     let addbutton = "<th>" + '<button onclick = addToCart(\''+thisId + '\')' + ">" + "Add to Cart" + '</button>' + "</th>";
     movieInfoElement.append(addbutton);
-    console.log("handleResult: populating star table from resultData");
+    // console.log("handleResult: populating star table from resultData");
 
     // Populate the star table
     // Find the empty table body by id "star_table_body"
@@ -88,7 +88,7 @@ function handleResult(resultData) {
             '</a>' +
             "</th>";
         rowHTML += "<th>" + resultData[resultData.length-1]["num"][i] + "</th>";
-        console.log(resultData[resultData.length-1]["num"][i]);
+        // console.log(resultData[resultData.length-1]["num"][i]);
         rowHTML += "</tr>";
         starTableBodyElement.append(rowHTML);
     }

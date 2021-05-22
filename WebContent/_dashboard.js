@@ -15,12 +15,12 @@ function getParameterByName(target) {
 }
 
 function handleResult(resultData) {
-    console.log(resultData[0]["message"]);
+    // console.log(resultData[0]["message"]);
     $("#insert_message").text(resultData[0]["message"]);
-    console.log(resultData[1]["message_movie"]);
+    // console.log(resultData[1]["message_movie"]);
     $("#insert_movie_message").text(resultData[1]["message_movie"]);
 
-    console.log("handleResult: populating metadata info from resultData");
+    // console.log("handleResult: populating metadata info from resultData");
 
     // Populate the star table
     // Find the empty table body by id "movie_table_body"
@@ -41,7 +41,7 @@ function handleResult(resultData) {
 
 }
 if(getParameterByName('name') == null && getParameterByName('title') == null){
-    console.log("Dashboard.js: No star or movie inserting");
+    // console.log("Dashboard.js: No star or movie inserting");
     jQuery.ajax({
         dataType: "json",  // Setting return data type
         method: "GET",// Setting request method
@@ -52,7 +52,7 @@ if(getParameterByName('name') == null && getParameterByName('title') == null){
 else if (getParameterByName('name') != null){
     let nameURL = getParameterByName('name');
     let birthYearURL = getParameterByName('birthYear');
-    console.log("Dashboard.js: Star inserting");
+    // console.log("Dashboard.js: Star inserting");
     jQuery.ajax({
         dataType: "json",  // Setting return data type
         method: "GET",// Setting request method
@@ -67,7 +67,7 @@ else{
     let starURL = getParameterByName('star');
     let genreURL = getParameterByName('genre');
     let ratingURL = getParameterByName('rating');
-    console.log("Dashboard.js: Movie inserting");
+    // console.log("Dashboard.js: Movie inserting");
     jQuery.ajax({
         dataType: "json",  // Setting return data type
         method: "GET",// Setting request method
