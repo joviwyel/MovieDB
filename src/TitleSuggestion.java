@@ -60,7 +60,11 @@ public class TitleSuggestion extends HttpServlet {
                 System.out.println(ss);
                 SuggestQuery += "+" + ss + "* ";
             }
-            SuggestQuery += "'" + " in boolean mode) limit 10";
+            SuggestQuery += "'" + " in boolean mode) OR ed(title, '" + query.toLowerCase() +
+                    "') <= " + (query.length() < 4 ? 0
+                    : query.length() < 5 ? 1
+                    : query.length() < 6 ? 2 : 3) +
+                    " limit 10";
             System.out.println(SuggestQuery);
 
             Statement statement = dbcon.createStatement();
