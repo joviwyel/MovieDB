@@ -32,7 +32,7 @@ public class Login extends ActionBarActivity {
      */
     private final String host = "10.0.2.2";
     private final String port = "8080";
-    private final String domain = "spring21-fabflix";
+    private final String domain = "cs122b-spring21-project1-api-example-war";
     private final String baseURL = "http://" + host + ":" + port + "/" + domain;
 
 
