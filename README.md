@@ -8,6 +8,24 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
 
+# Project 4
+
+## Demo video URL:
+
+
+## Explanation of implementation of fuzzy search:
+  Since for full-text search we set only work when input is >= 3 char, so we designed fuzzy search based on the following rule.
+  
+  1. For input length < 4, can't do fuzzy search.
+  2. For input length < 5, can do fuzzy search which has difference length <= 1.
+  3. For input length < 6, can do fuzzy search which has difference length <= 2.
+  4. For longer length input, can do fuzzy search which has difference length <= 3.
+
+## Instruction of Mobile App:
+
+  This Android app depends on our web program.
+  Note: Please make sure web program runs at localhost:8080/xxxxxxxxxxxxxxxxx  
+
 # Project 3
 
 ## Demo video URL:
