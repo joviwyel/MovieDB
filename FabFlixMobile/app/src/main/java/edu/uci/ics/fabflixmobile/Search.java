@@ -29,7 +29,7 @@ public class Search extends ActionBarActivity {
      */
     private final String host = "10.0.2.2";
     private final String port = "8080";
-    private final String domain = "cs122b-spring21-project1-api-example-war";
+    private final String domain = "spring21-FabFlix";
     private final String baseURL = "http://" + host + ":" + port + "/" + domain;
 
 
@@ -53,7 +53,7 @@ public class Search extends ActionBarActivity {
         // request type is GET
         final StringRequest searchRequest = new StringRequest(
                 Request.Method.GET,
-                baseURL + "/api/movie?letter=" + searchTitle.getText().toString() + "&mobile=1",
+                baseURL + "/api/movie?year=&director=&star=&title=" + searchTitle.getText().toString() + "&mobile=1",
                 response -> {
                     // TODO: should parse the json response to redirect to appropriate functions
                     //  upon different response value
