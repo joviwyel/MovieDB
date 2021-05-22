@@ -59,149 +59,156 @@ public class MovieServlet extends HttpServlet {
         String order2 = "";
         String pageNum = "";
         String pageSize = "";
-
-        // set session part for jump
-        HttpSession session = request.getSession();
-        JumpSession mySession = new JumpSession() ;
-        System.out.println("*** Sort at URL: " + request.getParameter("sortby1"));
-        System.out.println("*** Page Size at URL: " + request.getParameter("pageSize"));
-        if(session.getAttribute("temp") == null) {
-            // New movie list (without sort)
-            if (request.getParameter("title") != null)
-                mySession.setTitle(request.getParameter("title").toLowerCase());
-            if (request.getParameter("year") != null)
-                mySession.setYear(request.getParameter("year").toLowerCase());
-            if (request.getParameter("director") != null)
-                mySession.setDirector(request.getParameter("director").toLowerCase());
-            if (request.getParameter("star") != null)
-                mySession.setStar(request.getParameter("star").toLowerCase());
-            if (request.getParameter("genre") != null)
-                mySession.setGenre(request.getParameter("genre").toLowerCase());
-            if (request.getParameter("letter") != null)
-                mySession.setLetter(request.getParameter("letter").toLowerCase());
-            session.setAttribute("temp", mySession);
-            System.out.println("SESSION (Build new): " + mySession);
-            mySession = (JumpSession) session.getAttribute("temp");
-        }
-        // First page of list
-        else if(session.getAttribute("back") == null) {
-            // Genre clicked on first page, new session temp
-            if(request.getParameter("genre") != null && request.getParameter("genre") != "" &&
-            request.getParameter("pageSize") == null){
-                mySession = (JumpSession) session.getAttribute("temp");
-                if (request.getParameter("genre") != null){
-                    mySession.setGenre(request.getParameter("genre").toLowerCase());}
-                System.out.println("SESSION (Build new with genre 1): " + mySession);
+        if (request.getParameter("mobile") == null) {
+            // set session part for jump
+            HttpSession session = request.getSession();
+            JumpSession mySession = new JumpSession();
+            System.out.println("*** Sort at URL: " + request.getParameter("sortby1"));
+            System.out.println("*** Page Size at URL: " + request.getParameter("pageSize"));
+            if (session.getAttribute("temp") == null) {
+                // New movie list (without sort)
+                if (request.getParameter("title") != null)
+                    mySession.setTitle(request.getParameter("title").toLowerCase());
+                if (request.getParameter("year") != null)
+                    mySession.setYear(request.getParameter("year").toLowerCase());
+                if (request.getParameter("director") != null)
+                    mySession.setDirector(request.getParameter("director").toLowerCase());
+                if (request.getParameter("star") != null)
+                    mySession.setStar(request.getParameter("star").toLowerCase());
+                if (request.getParameter("genre") != null)
+                    mySession.setGenre(request.getParameter("genre").toLowerCase());
+                if (request.getParameter("letter") != null)
+                    mySession.setLetter(request.getParameter("letter").toLowerCase());
+                session.setAttribute("temp", mySession);
+                System.out.println("SESSION (Build new): " + mySession);
                 mySession = (JumpSession) session.getAttribute("temp");
             }
-            // Sort form submitted, new session temp
-            else if (request.getParameter("sortby1") != null && (request.getParameter("sortby1") != ""
-                    || request.getParameter("pageSize") != "")) {
-                mySession = (JumpSession) session.getAttribute("temp");
-                if (request.getParameter("sortby1") != null)
-                    mySession.setSortby1(request.getParameter("sortby1"));
-                if (request.getParameter("order1") != null)
-                    mySession.setOrder1(request.getParameter("order1"));
-                if (request.getParameter("sortby2") != null)
-                    mySession.setSortby2(request.getParameter("sortby2"));
-                if (request.getParameter("order2") != null)
-                    mySession.setOrder2(request.getParameter("order2"));
-                if (request.getParameter("pageSize") != null)
-                    mySession.setPageSize(request.getParameter("pageSize"));
-                if (request.getParameter("pageNum") != null)
-                    mySession.setPageNum(request.getParameter("pageNum"));
-                System.out.println("SESSION (Build new with sort): " + mySession);
-                mySession = (JumpSession) session.getAttribute("temp");
-            }
-            // Next/Prev (after page 0), update and set "back"
-            else {
-                mySession = (JumpSession) session.getAttribute("temp");
-                if (request.getParameter("pageNum") != null)
-                    mySession.setPageNum(request.getParameter("pageNum"));
-
-                session.setAttribute("back", mySession);
-                System.out.println("SESSION (Update next/prev): " + mySession);
-                mySession = (JumpSession) session.getAttribute("back");
-            }
-        }
-        // back != null
-        else {
-            mySession = (JumpSession) session.getAttribute("temp");
-            // Genre clicked on other than first page, new session temp
-            if(request.getParameter("genre") != null && request.getParameter("genre") != "" &&
-                    request.getParameter("pageSize") == ""){
-                if (request.getParameter("genre") != null){
-                    mySession.setGenre(request.getParameter("genre").toLowerCase());}
-                System.out.println("SESSION (Build new with genre 2): " + mySession);
-                mySession = (JumpSession) session.getAttribute("temp");
-            }
-            // Sort after back
-            else if (request.getParameter("sortby1") != null && (
-                    request.getParameter("sortby1") != "" || request.getParameter("pageSize") != "")) {
-                mySession = (JumpSession) session.getAttribute("temp");
-                if (request.getParameter("sortby1") != null)
-                    mySession.setSortby1(request.getParameter("sortby1"));
-                if (request.getParameter("order1") != null)
-                    mySession.setOrder1(request.getParameter("order1"));
-                if (request.getParameter("sortby2") != null)
-                    mySession.setSortby2(request.getParameter("sortby2"));
-                if (request.getParameter("order2") != null)
-                    mySession.setOrder2(request.getParameter("order2"));
-                if (request.getParameter("pageSize") != null)
-                    mySession.setPageSize(request.getParameter("pageSize"));
-                if (request.getParameter("pageNum") != null)
-                    mySession.setPageNum(request.getParameter("pageNum"));
-                System.out.println("SESSION (Build new with sort, after back): " + mySession);
-                mySession = (JumpSession) session.getAttribute("temp");
-            }
-            // Return to main / prevNext after back
-            else {
-                mySession = (JumpSession) session.getAttribute("back");
-                System.out.println("after:" + mySession);
-                System.out.println(request.getParameter("pageNum"));
-                int temp = Integer.parseInt((request.getParameter("pageNum")));
-                System.out.println("temp" + temp);
-                if (temp != 0) {
-                    System.out.println(request.getParameter("pageNum"));
-                    mySession.setPageNum(request.getParameter("pageNum"));
-                    session.setAttribute("back", mySession);
+            // First page of list
+            else if (session.getAttribute("back") == null) {
+                // Genre clicked on first page, new session temp
+                if (request.getParameter("genre") != null && request.getParameter("genre") != "" &&
+                        request.getParameter("pageSize") == null) {
+                    mySession = (JumpSession) session.getAttribute("temp");
+                    if (request.getParameter("genre") != null) {
+                        mySession.setGenre(request.getParameter("genre").toLowerCase());
+                    }
+                    System.out.println("SESSION (Build new with genre 1): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("temp");
                 }
-                System.out.println("SESSION (Use back session): " + mySession);
-                mySession = (JumpSession) session.getAttribute("back");
+                // Sort form submitted, new session temp
+                else if (request.getParameter("sortby1") != null && (request.getParameter("sortby1") != ""
+                        || request.getParameter("pageSize") != "")) {
+                    mySession = (JumpSession) session.getAttribute("temp");
+                    if (request.getParameter("sortby1") != null)
+                        mySession.setSortby1(request.getParameter("sortby1"));
+                    if (request.getParameter("order1") != null)
+                        mySession.setOrder1(request.getParameter("order1"));
+                    if (request.getParameter("sortby2") != null)
+                        mySession.setSortby2(request.getParameter("sortby2"));
+                    if (request.getParameter("order2") != null)
+                        mySession.setOrder2(request.getParameter("order2"));
+                    if (request.getParameter("pageSize") != null)
+                        mySession.setPageSize(request.getParameter("pageSize"));
+                    if (request.getParameter("pageNum") != null)
+                        mySession.setPageNum(request.getParameter("pageNum"));
+                    System.out.println("SESSION (Build new with sort): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("temp");
+                }
+                // Next/Prev (after page 0), update and set "back"
+                else {
+                    mySession = (JumpSession) session.getAttribute("temp");
+                    if (request.getParameter("pageNum") != null)
+                        mySession.setPageNum(request.getParameter("pageNum"));
+
+                    session.setAttribute("back", mySession);
+                    System.out.println("SESSION (Update next/prev): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("back");
+                }
             }
+            // back != null
+            else {
+                mySession = (JumpSession) session.getAttribute("temp");
+                // Genre clicked on other than first page, new session temp
+                if (request.getParameter("genre") != null && request.getParameter("genre") != "" &&
+                        request.getParameter("pageSize") == "") {
+                    if (request.getParameter("genre") != null) {
+                        mySession.setGenre(request.getParameter("genre").toLowerCase());
+                    }
+                    System.out.println("SESSION (Build new with genre 2): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("temp");
+                }
+                // Sort after back
+                else if (request.getParameter("sortby1") != null && (
+                        request.getParameter("sortby1") != "" || request.getParameter("pageSize") != "")) {
+                    mySession = (JumpSession) session.getAttribute("temp");
+                    if (request.getParameter("sortby1") != null)
+                        mySession.setSortby1(request.getParameter("sortby1"));
+                    if (request.getParameter("order1") != null)
+                        mySession.setOrder1(request.getParameter("order1"));
+                    if (request.getParameter("sortby2") != null)
+                        mySession.setSortby2(request.getParameter("sortby2"));
+                    if (request.getParameter("order2") != null)
+                        mySession.setOrder2(request.getParameter("order2"));
+                    if (request.getParameter("pageSize") != null)
+                        mySession.setPageSize(request.getParameter("pageSize"));
+                    if (request.getParameter("pageNum") != null)
+                        mySession.setPageNum(request.getParameter("pageNum"));
+                    System.out.println("SESSION (Build new with sort, after back): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("temp");
+                }
+                // Return to main / prevNext after back
+                else {
+                    mySession = (JumpSession) session.getAttribute("back");
+                    System.out.println("after:" + mySession);
+                    System.out.println(request.getParameter("pageNum"));
+                    int temp = Integer.parseInt((request.getParameter("pageNum")));
+                    System.out.println("temp" + temp);
+                    if (temp != 0) {
+                        System.out.println(request.getParameter("pageNum"));
+                        mySession.setPageNum(request.getParameter("pageNum"));
+                        session.setAttribute("back", mySession);
+                    }
+                    System.out.println("SESSION (Use back session): " + mySession);
+                    mySession = (JumpSession) session.getAttribute("back");
+                }
+            }
+            //mySession = (JumpSession) session.getAttribute("back");
+
+
+            if (mySession.getTitle() != null)
+                title = mySession.getTitle();
+            if (mySession.getYear() != null)
+                year = mySession.getYear();
+            if (mySession.getDirector() != null)
+                director = mySession.getDirector();
+            if (mySession.getStar() != null)
+                star = mySession.getStar();
+            if (mySession.getGenre() != null)
+                genre = mySession.getGenre();
+            if (mySession.getLetter() != null)
+                letter = mySession.getLetter();
+            if (mySession.getSortby1() != null)
+                sortby1 = mySession.getSortby1();
+            if (mySession.getOrder1() != null)
+                order1 = mySession.getOrder1();
+            if (mySession.getSortby2() != null)
+                sortby2 = mySession.getSortby2();
+            if (mySession.getOrder2() != null)
+                order2 = mySession.getOrder2();
+            if (mySession.getPageSize() != null)
+                pageSize = mySession.getPageSize();
+            if (mySession.getPageNum() != null)
+                pageNum = mySession.getPageNum();
+
+            System.out.println("back:" + mySession);
+
+            pageNum = mySession.getPageNum();
         }
-        //mySession = (JumpSession) session.getAttribute("back");
-
-
-        if(mySession.getTitle() != null)
-            title = mySession.getTitle();
-        if(mySession.getYear() != null)
-            year = mySession.getYear();
-        if(mySession.getDirector() != null)
-            director = mySession.getDirector();
-        if(mySession.getStar() != null)
-            star = mySession.getStar();
-        if(mySession.getGenre() != null)
-            genre = mySession.getGenre();
-        if(mySession.getLetter() != null)
-            letter = mySession.getLetter();
-        if(mySession.getSortby1() != null)
-            sortby1 = mySession.getSortby1();
-        if(mySession.getOrder1() != null)
-            order1 = mySession.getOrder1();
-        if(mySession.getSortby2() != null)
-            sortby2 = mySession.getSortby2();
-        if(mySession.getOrder2() != null)
-            order2 = mySession.getOrder2();
-        if(mySession.getPageSize() != null)
-            pageSize = mySession.getPageSize();
-        if(mySession.getPageNum() != null)
-             pageNum = mySession.getPageNum();
-
-        System.out.println("back:" + mySession);
-
-        pageNum = mySession.getPageNum();
-
+        else{
+            letter = request.getParameter("letter"); // TODO: CHANGE TO SEARCH
+            pageNum = request.getParameter("pageNum");
+            pageSize = "20";
+        }
         // Set boolean for search/browse
         if(genre != ""){
             browsByGenre = true;
@@ -269,6 +276,7 @@ public class MovieServlet extends HttpServlet {
             }
             // Browse by letter option selected
             else if (browsByLetter) {
+                System.out.println("Movie: browse by letter");
                 if(letter.length() > 3) {
 //                    String temp = "^[A-Z0-9a-z]";
                     String letterIdquery = "select distinct m.id as movieId from movies m, ratings r " +
