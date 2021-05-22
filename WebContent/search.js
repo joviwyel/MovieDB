@@ -104,6 +104,8 @@ $('#autocomplete').autocomplete({
  */
 function handleNormalSearch(query) {
     console.log("doing normal search with query: " + query);
+
+    // done, handled by movie
     // TODO: you should do normal search here
 }
 
@@ -116,6 +118,7 @@ $('#autocomplete').keypress(function(event) {
     }
 })
 
+// done, handled by movie button
 // TODO: if you have a "search" button, you may want to bind the onClick event as well of that button
 
 
