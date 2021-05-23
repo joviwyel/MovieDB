@@ -10,6 +10,8 @@
             android:textSize="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="singleMoviePage"
             android:textColor="@android:color/white"/>
 
     <TextView

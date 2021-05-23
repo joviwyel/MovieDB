@@ -53,7 +53,7 @@ public class Search extends ActionBarActivity {
         // request type is GET
         final StringRequest searchRequest = new StringRequest(
                 Request.Method.GET,
-                baseURL + "/api/movie?letter=" + searchTitle.getText().toString() + "&mobile=1",
+                baseURL + "/api/movie?year=&director=&star=&title=" + searchTitle.getText().toString() + "&mobile=1",
                 response -> {
                     // TODO: should parse the json response to redirect to appropriate functions
                     //  upon different response value
@@ -62,9 +62,9 @@ public class Search extends ActionBarActivity {
                         // initialize the activity(page)/destination
                         Intent listPage = new Intent(Search.this, ListViewActivity.class);
                         // Pass json array to list page
-                        Log.d("search: ", "before inserting into bundle");
                         listPage.putExtra("movieJAString", response);
-                        Log.d("search: ", "after inserting into bundle");
+                        listPage.putExtra("movieTitle", searchTitle.getText().toString());
+                        listPage.putExtra("pageNum", 0);
                         // activate the list page
                         startActivity(listPage);
                     }

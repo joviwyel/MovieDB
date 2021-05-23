@@ -52,16 +52,17 @@ public class SingleMovieServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        HttpSession session = request.getSession();
-        System.out.println("in single:");
-        if(session.getAttribute("back") == null){
-            JumpSession mySession = (JumpSession) session.getAttribute("temp");
-            session.setAttribute("back", mySession);
-            System.out.println("Single movie: " + mySession);
-        }
-        else{
-            JumpSession mySession = (JumpSession) session.getAttribute("back");
-            System.out.println("in single1: " + mySession);
+        if(request.getParameter("mobile") == null) {
+            HttpSession session = request.getSession();
+            System.out.println("in single:");
+            if (session.getAttribute("back") == null) {
+                JumpSession mySession = (JumpSession) session.getAttribute("temp");
+                session.setAttribute("back", mySession);
+                System.out.println("Single movie: " + mySession);
+            } else {
+                JumpSession mySession = (JumpSession) session.getAttribute("back");
+                System.out.println("in single1: " + mySession);
+            }
         }
 
         try {

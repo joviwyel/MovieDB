@@ -37,7 +37,6 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
         TextView directorView = view.findViewById(R.id.director);
         TextView starView = view.findViewById(R.id.star);
         TextView genreView = view.findViewById(R.id.genre);
-        Log.d("adapter: ", movie.getTitle().toString());
 
         titleView.setText(movie.getTitle());
         yearView.setText("Year: " + movie.getYear());
