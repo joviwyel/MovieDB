@@ -26,8 +26,15 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 ## Instruction of Mobile App:
 
   This Android app depends on our web program.
-  Note: Please make sure web program runs at localhost:8080/xxxxxxxxxxxxxxxxx  
+  Note: Please make sure web program runs at http://localhost:8080/spring21-FabFlix
 
+## Each member's contribution:
+
+ Both members are get familiar with all the layers of this project. 
+ 
+ Kai Li Tan mainly focus on task 2, Android App part, and do some contribute to task 1 such like Full-text Search and Autocomplete UI. 
+ 
+ Jing Wu mainly focus on task 1 and 3, Full-text Search, Autocomplete and Fuzzy Search, and do some contribute to task 2 such like seach page of Android Search Page.
 # Project 3
 
 ## Demo video URL:

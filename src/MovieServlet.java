@@ -205,8 +205,7 @@ public class MovieServlet extends HttpServlet {
             pageNum = mySession.getPageNum();
         }
         else{
-            title = request.getParameter("title"); // TODO: CHANGE TO SEARCH
-            search = true;
+            letter = request.getParameter("letter"); // TODO: CHANGE TO SEARCH
             pageNum = request.getParameter("pageNum");
             pageSize = "20";
         }
