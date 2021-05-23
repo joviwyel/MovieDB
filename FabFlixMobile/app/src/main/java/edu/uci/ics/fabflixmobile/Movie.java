@@ -2,6 +2,8 @@ package edu.uci.ics.fabflixmobile;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
+
 public class Movie {
     private final String id;
     private final String title;
