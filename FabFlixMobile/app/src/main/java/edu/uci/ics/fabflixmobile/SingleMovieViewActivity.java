@@ -25,10 +25,10 @@ public class SingleMovieViewActivity extends Activity {
     private TextView movieGenre;
     private TextView movieStar;
 
-    private final String host = "10.0.2.2";
-    private final String port = "8080";
-    private final String domain = "spring21-FabFlix";
-    private final String baseURL = "http://" + host + ":" + port + "/" + domain;
+    private final String host = "ec2-18-222-143-158.us-east-2.compute.amazonaws.com";
+    private final String port = "8443";
+    private final String domain = "cs122b-spring21-team-10-p1";
+    private final String baseURL = "https://" + host + ":" + port + "/" + domain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
