@@ -25,7 +25,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 ## Instruction of Mobile App:
 
-  1. Open a new project with FabFlix in Android Studio
+  1. Open a new project with FabFlixMovie in Android Studio
   3. Build and deploy APK on your local emulator
   4. Run locally
 
