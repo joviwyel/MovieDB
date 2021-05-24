@@ -10,7 +10,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 # Project 4
 
-## Demo video URL:
+## Demo video URL: https://www.youtube.com/watch?v=B2ix-XbwzQ8
 
 ## Important notes for P4:
   Jing Wu, which use committer name as joviwyel, since main labtop is using Apple M1 chip and not support Android AVD, so was using friend's labtop doing Android app part. Then accidentally forgetting to modify committer. There was one commit under name "Jovi Wyel" which should be "joviwyel". Therefore, this project may have more than two committer. Please forgive me.
@@ -25,8 +25,9 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 ## Instruction of Mobile App:
 
-  This Android app depends on our web program.
-  Note: Please make sure web program runs at http://localhost:8080/spring21-FabFlix
+  1. Open a new project with FabFlix in Android Studio
+  3. Build and deploy APK on your local emulator
+  4. Run locally
 
 ## Each member's contribution:
 
