@@ -7,6 +7,25 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
+# General
+   #### Team#:  Team-10
+    
+   #### Names: Kaili Tan, Jing Wu
+    
+   #### Project 5 Video Demo Link:
+
+   #### Instruction of deployment:
+
+   #### Collaborations and Work Distribution:
+
+# Connection Pooling
+
+   #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+    
+   #### Explain how Connection Pooling is utilized in the Fabflix code.
+    
+   #### Explain how Connection Pooling works with two backend SQL.
+
 
 # Project 4
 
