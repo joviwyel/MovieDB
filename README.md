@@ -21,17 +21,17 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # Connection Pooling
 
    #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
-   *[BrowsServlet](src/BrowsServlet.java)
-   *[CartServlet](src/CartServlet.java)
-   *[CreditCardServlet](src/CreditCardServlet.java)
-   *[DashboardServlet](src/DashboardServlet.java)
-   *[LoginEmployeeServlet](src/LoginEmployeeServlet.java)
-   *[LoginServlet](src/LoginServlet.java)
-   *[MovieServlet](src/MovieServlet.java)
-   *[SaleServlet](src/SaleServlet.java)
-   *[SingleMovieServlet](src/SingleMovieServlet.java)
-   *[SingleStarServlet](src/SingleStarServlet.java)
-   *[TitleSuggestion](src/TitleSuggestion.java)
+   * [BrowsServlet](src/BrowsServlet.java)
+   * [CartServlet](src/CartServlet.java)
+   * [CreditCardServlet](src/CreditCardServlet.java)
+   * [DashboardServlet](src/DashboardServlet.java)
+   * [LoginEmployeeServlet](src/LoginEmployeeServlet.java)
+   * [LoginServlet](src/LoginServlet.java)
+   * [MovieServlet](src/MovieServlet.java)
+   * [SaleServlet](src/SaleServlet.java)
+   * [SingleMovieServlet](src/SingleMovieServlet.java)
+   * [SingleStarServlet](src/SingleStarServlet.java)
+   * [TitleSuggestion](src/TitleSuggestion.java)
     
    #### Explain how Connection Pooling is utilized in the Fabflix code.
     
