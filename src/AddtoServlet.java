@@ -25,18 +25,6 @@ import javax.servlet.http.HttpSession;
 // This is only for calculate the backend data when adding to shopping cart
 @WebServlet(name = "AddtoServlet", urlPatterns = "/api/addTo")
 public class AddtoServlet extends HttpServlet {
-//    private static final long serialVersionUID = 3L;
-
-    // Create a dataSource which registered in web.xml
-//    private DataSource dataSource;
-//
-//    public void init(ServletConfig config) {
-//        try {
-//            dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/moviedb");
-//        } catch (NamingException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
