@@ -34,7 +34,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    * [TitleSuggestion](src/TitleSuggestion.java)
     
    #### Explain how Connection Pooling is utilized in the Fabflix code.
-   By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our >context.xml we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call >close(), which does not close the connection but returned to the pool for future use.
+   By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our 'context.xml' we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call 'close()', which does not close the connection but returned to the pool for future use.
     
    #### Explain how Connection Pooling works with two backend SQL.
 
