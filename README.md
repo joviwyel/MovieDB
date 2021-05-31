@@ -21,6 +21,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # Connection Pooling
 
    #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+    [BrowsServlet](src/BrowsServlet.java)
     
    #### Explain how Connection Pooling is utilized in the Fabflix code.
     
