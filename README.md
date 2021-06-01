@@ -10,7 +10,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # General
    #### Team#:  Team-10
     
-   #### Names: Kaili Tan, Jing Wu
+   #### Names: Kai Li Tan, Jing Wu
     
    #### Project 5 Video Demo Link:
 
@@ -37,6 +37,35 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our `context.xml` we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call `close()`, which does not close the connection but returned to the pool for future use.
     
    #### Explain how Connection Pooling works with two backend SQL.
+   
+# Master/Slave
+
+   #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+   
+ 
+   #### How read/write requests were routed to Master/Slave SQL?
+   For read requests, the web server can send them to the Master and all the Slaves for reading records from the database because the contents are the same in all the machines. However, the write requests has to be sent from the web server to the Master only, in order to operate any insertion, deletion and update on the database. The changes will first be reflected on the Master, then the changes will propagate through the MySQL replication mechanism to the Slaves. The technique used here in the replication mechanism is logs which keeps track of all the changes received by the Master. Once the master made any read/write operations, the operations will be recorded in the binary file in sequence. Then, the binary file will be sent to the Slave through the propagation channel. After the Slave had received the log records, it will replay the log records to apply the changes on its local database system. Given the initial database for both Master and Slave are the same, the final modified database systems for both will be identical after all the changes.
+   
+# JMeter TS/TJ Time Logs
+
+   #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
+
+
+# JMeter TS/TJ Time Measurement Report
+
+| **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
+|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
+| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+
+| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
+|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
+| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+
 
 
 # Project 4
