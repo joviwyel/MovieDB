@@ -41,10 +41,25 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # Master/Slave
 
    #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+   * [BrowsServlet](src/BrowsServlet.java)
+   * [CartServlet](src/CartServlet.java)
+   * [CreditCardServlet](src/CreditCardServlet.java)
+   * [DashboardServlet](src/DashboardServlet.java)
+   * [LoginEmployeeServlet](src/LoginEmployeeServlet.java)
+   * [LoginServlet](src/LoginServlet.java)
+   * [MovieServlet](src/MovieServlet.java)
+   * [SaleServlet](src/SaleServlet.java)
+   * [SAXParserCasts](src/SAXParserCasts.java)
+   * [SAXParserStars](src/SAXParserStars.java)
+   * [SAXParserMovies](src/SAXParserMovies.java)
+   * [SingleMovieServlet](src/SingleMovieServlet.java)
+   * [SingleStarServlet](src/SingleStarServlet.java)
+   * [TitleSuggestion](src/TitleSuggestion.java)
+   * [UpdateSecureEmployeePassword](src/UpdateSecureEmployeePassword.java)
+   * [UpdateSecurePassword](src/UpdateSecurePassword.java)
    
- 
    #### How read/write requests were routed to Master/Slave SQL?
-   For read requests, the web server can send them to the Master and all the Slaves for reading records from the database because the contents are the same in all the machines. However, the write requests has to be sent from the web server to the Master only, in order to operate any insertion, deletion and update on the database. The changes will first be reflected on the Master, then the changes will propagate through the MySQL replication mechanism to the Slaves. The technique used here in the replication mechanism is logs which keeps track of all the changes received by the Master. Once the master made any read/write operations, the operations will be recorded in the binary file in sequence. Then, the binary file will be sent to the Slave through the propagation channel. After the Slave had received the log records, it will replay the log records to apply the changes on its local database system. Given the initial database for both Master and Slave are the same, the final modified database systems for both will be identical after all the changes.
+   For read requests, the web server can send them to the Master and all the Slaves for reading records from the database because the contents are the same in all the machines assuming there is low latency. However, the write requests has to be sent from the web server to the Master only, in order to operate any insertion, deletion and update on the database. The changes will first be reflected on the Master, then the changes will propagate through the MySQL replication mechanism to the Slaves. The technique used here in the replication mechanism is logs which keeps track of all the changes received by the Master. For example, once the Master has made any read/write operations, the operations will be recorded in the Binary Logs in sequence. Then, the Binary Logs will be sent to the Slave through the propagation channel connected. After the Slave had received the log records and has own version of Relay Logs, it will replay the log records to apply the changes on its local database system. Given the condition where the initial databases for both Master and Slave are the same, then the final modified database systems for both will be identical after all the changes.
    
 # JMeter TS/TJ Time Logs
 
