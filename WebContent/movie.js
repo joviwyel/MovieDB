@@ -66,19 +66,19 @@ function handleStarResult(resultData) {
         rowHTML += "<th>" + resultData[i]["movie_dir"] + "</th>";
 
         rowHTML += "<th>"
-        if (resultData[i]["genre_name1"] != "N/A") {
+        if (resultData[i]["genre_name1"] !== "N/A") {
             rowHTML +=
                 '<a href="movie.html?genre=' + resultData[i]['genre_name1'] + '">'
                 + resultData[i]["genre_name1"] +
                 '</a>';
         }
-        if (resultData[i]["genre_name2"] != "N/A") {
+        if (resultData[i]["genre_name2"] !== "N/A") {
             rowHTML += ",  " +
                 '<a href="movie.html?genre=' + resultData[i]['genre_name2'] + '">'
                 + resultData[i]["genre_name2"] +
                 '</a>';
         }
-        if (resultData[i]["genre_name3"] != "N/A") {
+        if (resultData[i]["genre_name3"] !== "N/A") {
             rowHTML += ",  " +
                 '<a href="movie.html?genre=' + resultData[i]['genre_name3'] + '">'
                 + resultData[i]["genre_name3"] +
@@ -86,19 +86,26 @@ function handleStarResult(resultData) {
         }
         rowHTML += "</th>"
 
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + resultData[i]['star_id1'] + '">'
-            + resultData[i]["star_name1"] +     // display star_name for the link text
-            '</a>' + ",  "  +
-            '<a href="single-star.html?id=' + resultData[i]['star_id2'] + '">'
-            + resultData[i]["star_name2"] +     // display star_name for the link text
-            '</a>' + ",  "  +
-            '<a href="single-star.html?id=' + resultData[i]['star_id3'] + '">'
-            + resultData[i]["star_name3"] +     // display star_name for the link text
-            '</a>' + "  "  +
-            "</th>";
+        rowHTML += "<th>"
+        if (resultData[i].hasOwnProperty("star_name1")) {
+            rowHTML +=
+                '<a href="single-star.html?id=' + resultData[i]['star_id1'] + '">'
+                + resultData[i]["star_name1"] +
+                '</a>';
+        }
+        if (resultData[i].hasOwnProperty("star_name2")) {
+            rowHTML += ",  " +
+                '<a href="single-star.html?id=' + resultData[i]['star_id2'] + '">'
+                + resultData[i]["star_name2"] +
+                '</a>';
+        }
+        if (resultData[i].hasOwnProperty("star_name3")) {
+            rowHTML += ",  " +
+                '<a href="single-star.html?id=' + resultData[i]['star_id3'] + '">'
+                + resultData[i]["star_name3"] +
+                '</a>';
+        }
+        rowHTML += "</th>"
 
         rowHTML += "<th>" + resultData[i]["rating"] + "</th>";
         rowHTML += "</tr>";
