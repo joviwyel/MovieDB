@@ -75,10 +75,11 @@ public class SaleServlet extends HttpServlet {
             // get username from session
             String myUsername = myInfo.getUsername();
 
-            String cusIdQuery = "Select id from customers where email ='" + myUsername +"'";
+            String cusIdQuery = "Select id from customers where email = ?";
 
-            Statement cusIdSt = dbcon.createStatement();
-            ResultSet cusIdRs = cusIdSt.executeQuery(cusIdQuery);
+            PreparedStatement cusIdSt = dbcon.prepareStatement(cusIdQuery);
+            cusIdSt.setString(1, myUsername);
+            ResultSet cusIdRs = cusIdSt.executeQuery();
             cusIdRs.next();
 
             // get customerId which will be recorded into sales
@@ -99,10 +100,11 @@ public class SaleServlet extends HttpServlet {
             for(int i=0; i<myInfo.getMyCartList().size(); i++){
 
                 salesId = String.valueOf(salestemp);
-                String movieTitleQuery = "select title from movies where id='"
-                        + myInfo.getMyCartList().get(i) + "'";
-                Statement movieSt = dbcon.createStatement();
-                ResultSet movieRs = movieSt.executeQuery(movieTitleQuery);
+                String movieTitleQuery = "select title from movies where id = ?";
+
+                PreparedStatement movieSt = dbcon.prepareStatement(movieTitleQuery);
+                movieSt.setString(1,myInfo.getMyCartList().get(i));
+                ResultSet movieRs = movieSt.executeQuery();
                 movieRs.next();
                 String title = movieRs.getString("title");
 
