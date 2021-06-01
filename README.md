@@ -17,8 +17,8 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    #### Instruction of deployment:
 
    #### Collaborations and Work Distribution:
-   Kai Li Tan: Task 2
-   Jing Wu: Task 1
+   * Kai Li Tan: Task 2
+   * Jing Wu: Task 1
 
 # Connection Pooling
 
