@@ -103,10 +103,10 @@ public class SingleMovieServlet extends HttpServlet {
 
                 // arraylist of genres
                 String genre_query = "SELECT gim.genreId FROM genres_in_movies gim, genres g" +
-                        " WHERE gim.genreId = g.id AND gim.movieId = '" + movieId + "'" +
-                        " ORDER BY g.name ASC";
-                Statement statement4 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                ResultSet temp4 = statement4.executeQuery(genre_query);
+                        " WHERE gim.genreId = g.id AND gim.movieId = ? ORDER BY g.name ASC";
+                PreparedStatement statement4 = dbcon.prepareStatement(genre_query,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                statement4.setString(1,movieId);
+                ResultSet temp4 = statement4.executeQuery();
 
                 temp4.last();
                 int genresnum = temp4.getRow();
@@ -119,9 +119,10 @@ public class SingleMovieServlet extends HttpServlet {
                     genresnum--;
                     if (genresnum >= 0) {
                         String genre1 = temp4.getString("genreId");
-                        String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
-                        Statement statement5 = dbcon.createStatement();
-                        ResultSet temp3 = statement5.executeQuery(query2);
+                        String query2 = "SELECT name FROM genres WHERE id = ?";
+                        PreparedStatement statement5 = dbcon.prepareStatement(query2);
+                        statement5.setString(1,genre1);
+                        ResultSet temp3 = statement5.executeQuery();
                         temp3.next();
                         String genre_name = temp3.getString("name");
                         jsonObject.addProperty("genre_name" + j, genre_name);
@@ -138,12 +139,12 @@ public class SingleMovieServlet extends HttpServlet {
 
                 String star_query1 = "SELECT DISTINCT sim.starId,COUNT(DISTINCT sim.movieId) as qty, s.name FROM stars s, stars_in_movies sim " +
                         "WHERE s.id = sim.starId AND" +
-                        " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = '" +
-                        movieId + "')" +
-                        " GROUP BY sim.starId" +
+                        " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = ? ) GROUP BY sim.starId" +
                         " ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC";
-                Statement statement1_star = dbcon.createStatement();
-                ResultSet temp_star = statement1_star.executeQuery(star_query1);
+//                Statement statement1_star = dbcon.createStatement();
+                PreparedStatement statement1_star = dbcon.prepareStatement(star_query1);
+                statement1_star.setString(1, movieId);
+                ResultSet temp_star = statement1_star.executeQuery();
 
 
                 // Add star
