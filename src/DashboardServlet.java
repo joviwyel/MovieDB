@@ -299,7 +299,6 @@ public class DashboardServlet extends HttpServlet {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
             out.write(jsonObject.toString());
-            
 
             // set response status to 500 (Internal Server Error)
             response.setStatus(500);
