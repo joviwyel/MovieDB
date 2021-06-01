@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 @WebServlet(name = "LoginEmployeeServlet", urlPatterns = "/api/login_employee")
 public class LoginEmployeeServlet extends HttpServlet {
@@ -63,11 +64,11 @@ public class LoginEmployeeServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
+            String query = "SELECT password from employees WHERE email = ?";
             // Declare our statement
-            Statement statement = dbcon.createStatement();
-
-            String query = "SELECT password from employees WHERE email = '" + email +"'";
-            ResultSet rs = statement.executeQuery(query);
+            PreparedStatement statement = dbcon.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
 
         /* This example only allows username/password to be test/test
         /  in the real project, you should talk to the database to verify username/password
