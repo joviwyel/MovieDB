@@ -80,5 +80,6 @@ fullname varchar(100)
 );
 INSERT INTO employees VALUES ('classta@email.edu', 'classta', 'TA CS122B');
 
+ALTER TABLE sales ADD COLUMN qty INT default null
 ALTER TABLE movies add fulltext(title)
 
