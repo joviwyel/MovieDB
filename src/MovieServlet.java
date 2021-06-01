@@ -250,28 +250,44 @@ public class MovieServlet extends HttpServlet {
             JsonArray jsonArray = new JsonArray();
             Statement moviesIds = dbcon.createStatement();
             ResultSet moviesIdrs = null;
+            boolean prepareIf = false;
 
             // Browse by genre option selected
             if(browsByGenre) {
-                String genresIdquery = "SELECT id from genres where name = '" + genre + "'";
+                String genresIdquery = "SELECT id from genres where name = ?";
 
-                Statement genresIds = dbcon.createStatement();
-                ResultSet genresIdrs = genresIds.executeQuery(genresIdquery);
+                PreparedStatement genresIds = dbcon.prepareStatement(genresIdquery);
+                genresIds.setString(1, genre);
+                ResultSet genresIdrs = genresIds.executeQuery();
                 genresIdrs.next();
                 String genresId_inmovies = genresIdrs.getString("id");
 
                 String moviesIdquery = "Select gim.movieId from genres_in_movies gim, movies m, ratings r " +
-                        "where r.movieId = m.id and gim.movieId = m.id and gim.genreId ='" + genresId_inmovies + "' ";
+                        "where r.movieId = m.id and gim.movieId = m.id and gim.genreId = ? ";
                 // Sort
                 if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
-                    moviesIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2 + " ";
-
+                    moviesIdquery += " ORDER BY ?  ? ,  ?  ? ";
+                    prepareIf = true;
                 }
 
                 // Pagination
-                moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
-
-                moviesIdrs = moviesIds.executeQuery(moviesIdquery);
+                moviesIdquery += " LIMIT ? OFFSET ? ";
+                PreparedStatement genresIdrs2 = dbcon.prepareStatement(moviesIdquery);
+                genresIdrs2.setString(1, genresId_inmovies);
+                if (prepareIf == true){
+                    genresIdrs2.setString(2, sortby1);
+                    genresIdrs2.setString(3, order1);
+                    genresIdrs2.setString(4, sortby2);
+                    genresIdrs2.setString(5, order2);
+                    genresIdrs2.setString(6, pageSizeInt);
+                    genresIdrs2.setString(7, offset);
+                }
+                else{
+                    genresIdrs2.setString(2, pageSizeInt);
+                    genresIdrs2.setString(3, offset);
+                }
+                moviesIdrs = genresIdrs2.executeQuery();
+                prepareIf = false; // reset boolean
 
 
             }
@@ -287,22 +303,34 @@ public class MovieServlet extends HttpServlet {
                 }
                 else {
                     String letterIdquery = "SELECT distinct m.id as movieId, m.title, r.rating " +
-                            "from movies m, ratings r where m.id = r.movieId and lower(m.title) like '"
-                            + letter.toLowerCase() + "%' ";
+                            "from movies m, ratings r where m.id = r.movieId and lower(m.title) like '?%' ";
 
                     // Sort
                     if(!sortby1.equals("") && !order1.equals("") && !sortby2.equals("") && !order2.equals("")){
-                        letterIdquery += "ORDER BY " + sortby1 + " " + order1 + ", " + sortby2 + " " + order2;
-
+                        letterIdquery += " ORDER BY ? ? , ? ? ";
+                        prepareIf = true;
                     }
                     // Pagination
-                    letterIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
-
+                    letterIdquery += " LIMIT ? OFFSET ? ";
+                    PreparedStatement letterIdrs = dbcon.prepareStatement(letterIdquery);
+                    letterIdrs.setString(1, letter.toLowerCase());
+                    if(prepareIf == true){
+                        genresIdrs2.setString(2, sortby1);
+                        genresIdrs2.setString(3, order1);
+                        genresIdrs2.setString(4, sortby2);
+                        genresIdrs2.setString(5, order2);
+                        genresIdrs2.setString(6, pageSizeInt);
+                        genresIdrs2.setString(7, offset);
+                    }
+                    else{
+                        genresIdrs2.setString(2, pageSizeInt);
+                        genresIdrs2.setString(3, offset);
+                    }
                     moviesIdrs = moviesIds.executeQuery(letterIdquery);
                 }
             }
 
-            // Search option selected
+            // Search option selected 这里卡在了for loop， 所以是 ss = ？吗
             else if(search) {
                 String moviesIdquery = "SELECT distinct m.id as movieId, r.rating, m.title from movies m, " +
                         "stars_in_movies sim, ratings r, " +
@@ -320,7 +348,7 @@ public class MovieServlet extends HttpServlet {
                     moviesIdquery += "'" + " in boolean mode)";
                     System.out.println("Now query: " + moviesIdquery);
 
-                // like search
+                    // like search
 //                    moviesIdquery += "and lower(m.title) like '%" + title + "%' ";
                 }
                 if(!year.equals("")){
@@ -351,10 +379,11 @@ public class MovieServlet extends HttpServlet {
 
                 // Perform the query
                 String query = "SELECT id, title, year, director, rating FROM movies " +
-                        "AS m, ratings AS r WHERE m.id ='" + movies_id + "'" + "AND r.movieId " +
-                        "= '" + movies_id + "'";
-                Statement statement = dbcon.createStatement();
-                ResultSet rs = statement.executeQuery(query);
+                        "AS m, ratings AS r WHERE m.id = ? AND r.movieId = ?";
+                PreparedStatement statement = dbcon.prepareStatement(query);
+                statement.setString(1, movies_id);
+                statement.setString(2, movies_id);
+                ResultSet rs = statement.executeQuery();
                 checkMore = moviesIdrs.getRow();
                 // Iterate through each row of rs
                 while (rs.next()) {
@@ -369,20 +398,21 @@ public class MovieServlet extends HttpServlet {
                     // Add three stars here order by # of movies
                     String star_query1 = "SELECT DISTINCT sim.starId FROM stars s, stars_in_movies sim " +
                             "WHERE s.id = sim.starId AND" +
-                            " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = '" +
-                            movie_id + "')" +
+                            " sim.starId IN (SELECT starId FROM stars_in_movies WHERE movieId = ?)" +
                             " GROUP BY sim.starId" +
                             " ORDER BY COUNT(DISTINCT sim.movieId) DESC, s.name ASC" +
                             " LIMIT 3";
-                    Statement statement1 = dbcon.createStatement();
-                    ResultSet temp = statement1.executeQuery(star_query1);
+                    PreparedStatement statement1 = dbcon.prepareStatement(star_query1);
+                    statement1.setString(1, movie_id)
+                    ResultSet temp = statement1.executeQuery();
 
                     int i = 1;
                     while (temp.next()) {
                         String star1 = temp.getString("starID");
-                        String query2 = "SELECT name FROM stars WHERE id = '" + star1 + "'";
-                        Statement statement2 = dbcon.createStatement();
-                        ResultSet temp1 = statement2.executeQuery(query2);
+                        String query2 = "SELECT name FROM stars WHERE id = ? ";
+                        PreparedStatement statement2 = dbcon.prepareStatement();
+                        statement2.setString(1, star1);
+                        ResultSet temp1 = statement2.executeQuery();
                         temp1.next();
                         String star_name = temp1.getString("name");
                         jsonObject.addProperty("star_name" + i, star_name);
@@ -390,12 +420,13 @@ public class MovieServlet extends HttpServlet {
                         i++;
                     }
 
-                    // Add three genre here
+                    // Add three genre here 这里卡在了prepared没有resultSet。type_scroll...
                     String genre_query = "SELECT gim.genreId FROM genres_in_movies gim, genres g" +
-                            " WHERE gim.genreId = g.id AND gim.movieId = '" + movie_id + "'" +
+                            " WHERE gim.genreId = g.id AND gim.movieId = ? " +
                             " ORDER BY g.name ASC LIMIT 3";
-                    Statement statement3 = dbcon.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                    ResultSet temp2 = statement3.executeQuery(genre_query);
+                    PreparedStatement statement3 = dbcon.prepareStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                    statement3.setString(1, movie_id);
+                    ResultSet temp2 = statement3.executeQuery();
 
                     temp2.last();
                     int genresnum = temp2.getRow();
@@ -408,9 +439,10 @@ public class MovieServlet extends HttpServlet {
                         genresnum--;
                         if (genresnum >= 0) {
                             String genre1 = temp2.getString("genreId");
-                            String query2 = "SELECT name FROM genres WHERE id = '" + genre1 + "'";
-                            Statement statement4 = dbcon.createStatement();
-                            ResultSet temp3 = statement4.executeQuery(query2);
+                            String query2 = "SELECT name FROM genres WHERE id = ? ";
+                            PreparedStatement statement4 = dbcon.prepareStatement(query2);
+                            statement4.setString(1, genre1);
+                            ResultSet temp3 = statement4.executeQuery();
                             temp3.next();
                             String genre_name = temp3.getString("name");
                             jsonObject.addProperty("genre_name" + j, genre_name);
