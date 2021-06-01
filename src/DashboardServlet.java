@@ -132,9 +132,14 @@ public class DashboardServlet extends HttpServlet {
             if (title != "" && name == "") {
                 System.out.println("Dashboard: Insert movie");
                 // Check if movie exists, then return error message
-                String getMovieString = "SELECT id FROM movies WHERE title = '" + title
-                        + "' AND director = '" + director + "' AND year = " + year;
+//                String getMovieString = "SELECT id FROM movies WHERE title = '" + title
+//                        + "' AND director = '" + director + "' AND year = " + year;
+                String getMovieString = "SELECT id FROM movies WHERE title = ? AND director = ? AND year = ?";
                 PreparedStatement statement_movie = dbcon.prepareStatement(getMovieString);
+                statement_movie.setString(1, title);
+                statement_movie.setString(2, director);
+                statement_movie.setInt(3, year);
+
                 ResultSet rs_movie = statement_movie.executeQuery();
 
                 // Duplicated movie
@@ -148,8 +153,9 @@ public class DashboardServlet extends HttpServlet {
                 else {
                     System.out.println("Dashboard: New movie");
                     // Check if star is new, then create star
-                    String getStarString = "SELECT id FROM stars WHERE name = '" + star + "'";
+                    String getStarString = "SELECT id FROM stars WHERE name = ?";
                     PreparedStatement statement_star = dbcon.prepareStatement(getStarString);
+                    statement_star.setString(1,star);
                     ResultSet rs_star = statement_star.executeQuery();
                     //rs_star.next();
                     //System.out.println("Dashboard: Insert movie - after rs_star");
@@ -180,8 +186,9 @@ public class DashboardServlet extends HttpServlet {
                     }
 
                     // Check if genre is new, then create genre
-                    String getGenreString = "SELECT id FROM genres WHERE name = '" + genre + "'";
+                    String getGenreString = "SELECT id FROM genres WHERE name = ?";
                     PreparedStatement statement_genre = dbcon.prepareStatement(getGenreString);
+                    statement_genre.setString(1, genre);
                     ResultSet rs_genre = statement_genre.executeQuery();
                     //rs_genre.next();
                     String genre_id = "";
@@ -292,6 +299,7 @@ public class DashboardServlet extends HttpServlet {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
             out.write(jsonObject.toString());
+            
 
             // set response status to 500 (Internal Server Error)
             response.setStatus(500);
