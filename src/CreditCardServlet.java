@@ -58,10 +58,12 @@ public class CreditCardServlet extends HttpServlet {
             if(firstName != "" && lastName != "" && creditNum != "" && expDate != "") {
                 System.out.println("-- CREDIT CARD SERVLET: INPUT NOT EMPTY --");
                 // Get all information of credit card
-                String query_cc = "SELECT * from creditcards where id = '" + creditNum + "' ";
+                String query_cc = "SELECT * from creditcards where id = ?";
 
-                Statement statement_cc = dbcon.createStatement();
-                ResultSet rs_cc = statement_cc.executeQuery(query_cc);
+                PreparedStatement statement_cc = dbcon.prepareStatement(query_cc);
+                statement_cc.setString(1, creditNum);
+
+                ResultSet rs_cc = statement_cc.executeQuery();
 
                 boolean success = false;
                 boolean inLoop = false;
