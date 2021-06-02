@@ -1,4 +1,5 @@
 .idea
 *.iml
 target/
-RecaptchaConstants.java
+#RecaptchaConstants.java
+/FabFlixMobile/

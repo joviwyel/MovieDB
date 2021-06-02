@@ -62,15 +62,15 @@ public class TitleSuggestion extends HttpServlet {
             }
 
             // for full-text and fuzzy
-//            SuggestQuery += "'" + " in boolean mode) OR ed(title, '" + query.toLowerCase() +
-//                    "') <= " + (query.length() < 4 ? 0
-//                    : query.length() < 5 ? 1
-//                    : query.length() < 6 ? 2 : 3) +
-//                    " limit 10";
+            SuggestQuery += "'" + " in boolean mode) OR ed(title, '" + query.toLowerCase() +
+                    "') <= " + (query.length() < 4 ? 0
+                    : query.length() < 5 ? 1
+                    : query.length() < 6 ? 2 : 3) +
+                    " limit 10";
 
             // can be use for testing full-text only
-            SuggestQuery += "'" + " in boolean mode) limit 10";
-            System.out.println(SuggestQuery);
+//            SuggestQuery += "'" + " in boolean mode) limit 10";
+//            System.out.println(SuggestQuery);
 
             Statement statement = dbcon.createStatement();
             ResultSet rs = statement.executeQuery(SuggestQuery);
