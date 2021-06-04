@@ -78,8 +78,8 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 | **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
 | Case 1: HTTP/1 thread                          | ![](images/single-case1-1.png)   | 47                         | 4.4610323993186975                   | 4.28923294322483         | ??           |
-| Case 2: HTTP/10 threads                        | ![](images/single-case2-10.png)   | 450                        | 547.5696141434049                   | 511.4818438287321         | ??           |
-| Case 3: HTTPS/10 threads                       | ![](images/single-case3-https-10.png)   | 48                         | 4.3214310884178655                  | 3.9354296213096136        | ??           |
+| Case 2: HTTP/10 threads                        | ![](images/single-case2-10.png)   | 66                        | 20.906926947348488                   | 511.4818438287321         | ??           |
+| Case 3: HTTPS/10 threads                       | ![](images/single-case3-https-10.png)   | 48                         | 4.3214310884178655                  | 19.30226718030303        | ??           |
 | Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
 
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
