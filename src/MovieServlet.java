@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -48,6 +50,9 @@ public class MovieServlet extends HttpServlet {
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
+
+        long startTimeTS = System.nanoTime();
+        long elapsedTimeTJ = -1;
 
         String title = "";
         String year = "";
@@ -247,6 +252,7 @@ public class MovieServlet extends HttpServlet {
             // Get a connection from dataSource
             Connection dbcon = dataSource.getConnection();
 
+            long startTimeTJ = System.nanoTime();
             // Declare our statement
 
             JsonArray jsonArray = new JsonArray();
@@ -332,7 +338,7 @@ public class MovieServlet extends HttpServlet {
                 }
             }
 
-            // Search option selected 这里卡在了for loop， 所以是 ss = ？吗
+            // Search option selected
             else if(search) {
                 String moviesIdquery = "SELECT distinct m.id as movieId, r.rating, m.title from movies m, " +
                         "stars_in_movies sim, ratings r, " +
@@ -368,9 +374,7 @@ public class MovieServlet extends HttpServlet {
                 // Pagination
                 moviesIdquery += " LIMIT " + pageSizeInt + " OFFSET " + offset;
                 moviesIdrs = moviesIds.executeQuery(moviesIdquery);
-
             }
-
 
             int checkMore = 0;
             // Populate JSON Array
@@ -419,6 +423,8 @@ public class MovieServlet extends HttpServlet {
                         jsonObject.addProperty("star_id" + i, star1);
                         i++;
                     }
+                    temp.close();
+                    statement1.close();
 
                     // Add three genre here
                     String genre_query = "SELECT gim.genreId FROM genres_in_movies gim, genres g" +
@@ -455,6 +461,8 @@ public class MovieServlet extends HttpServlet {
                         }
 
                     }
+                    temp2.close();
+                    statement3.close();
 
                     // Create a JsonObject based on the data we retrieve from rs
 
@@ -466,8 +474,13 @@ public class MovieServlet extends HttpServlet {
 
                     jsonArray.add(jsonObject);
                 }
+                rs.close();
+                statement.close();
 
             }
+            moviesIdrs.close();
+            moviesIds.close();
+
             // check more
             JsonObject checkMoreJson = new JsonObject();
 
@@ -486,6 +499,24 @@ public class MovieServlet extends HttpServlet {
             response.setStatus(200);
             dbcon.close();
 
+            long endTimeTJ = System.nanoTime();
+            elapsedTimeTJ = endTimeTJ - startTimeTJ;
+            long endTimeTS = System.nanoTime();
+            long elapsedTimeTS = endTimeTS - startTimeTS; // elapsed time in nano seconds. Note: print the values in nano seconds
+            System.out.println("Path:  " + request.getSession().getServletContext().getRealPath("/"));
+            File file = new File( "/home/ubuntu/tomcat/webapps/log.txt");
+            if(!file.exists()){
+                file.createNewFile();
+                FileWriter myWriter = new FileWriter(file);
+                myWriter.write("TS : " + elapsedTimeTS + ", TJ : " + elapsedTimeTJ + "\n");
+                myWriter.close();
+            }
+            else{
+                FileWriter myWriter = new FileWriter("/home/ubuntu/tomcat/webapps/log.txt",true);
+                myWriter.write("TS : " + elapsedTimeTS + ", TJ : " + elapsedTimeTJ + "\n");
+                myWriter.close();
+            }
+
         } catch (Exception e) {
 
             // write error message JSON object to output
@@ -494,7 +525,7 @@ public class MovieServlet extends HttpServlet {
             out.write(jsonObject.toString());
 
             // set response status to 500 (Internal Server Error)
-            response.setStatus(500);
+            response.setStatus(300);
 
         } finally {
             out.close();
