@@ -41,9 +41,11 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    * [UpdateSecurePassword](src/UpdateSecurePassword.java)
     
    #### Explain how Connection Pooling is utilized in the Fabflix code.
-   By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our `context.xml` we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call `close()`, which does not close the connection but returned to the pool for future use.
+   
+   * By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our `context.xml` we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call `close()`, which does not close the connection but returned to the pool for future use.
     
    #### Explain how Connection Pooling works with two backend SQL.
+   * For different backend database, create different connection pool which are master and slave. Depends on its purpose of connection, use different database. For read and write will use the master, the slave one for read only.
    
 # Master/Slave
 
@@ -71,7 +73,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 # JMeter TS/TJ Time Logs
 
    #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
-
+   * Our log_processing.py is a script written by python. It will read data from the log file and calculate the average TS and TJ by using the total value / the number of sample. Then it can print the avarage TS and TJ.
 
 # JMeter TS/TJ Time Measurement Report
 
