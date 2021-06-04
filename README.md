@@ -80,7 +80,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 | Case 1: HTTP/1 thread                          | ![](images/single-case1-1.png)   | 47                         | 4.4610323993186975                   | 4.28923294322483         | ??           |
 | Case 2: HTTP/10 threads                        | ![](images/single-case2-10.png)   | 66                        | 20.906926947348488                   | 511.4818438287321         | ??           |
 | Case 3: HTTPS/10 threads                       | ![](images/single-case3-https-10.png)   | 70                         | 23.291292710984848                  | 21.579829289772725        | ??           |
-| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+| Case 4: HTTP/10 threads/No connection pooling  | ![](images/single-case4-nopooling.png)   | 219                         | 167.5020525                                  | 27.306450941710825                        | ??           |
 
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
