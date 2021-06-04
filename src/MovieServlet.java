@@ -484,9 +484,7 @@ public class MovieServlet extends HttpServlet {
             out.write(jsonArray.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
-
             dbcon.close();
-
 
         } catch (Exception e) {
 
