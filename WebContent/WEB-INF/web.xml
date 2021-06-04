@@ -17,6 +17,7 @@
         </user-data-constraint>
     </security-constraint>
 
+
     <!-- Register the DataSource which defined in META-INF/context.xml-->
     <resource-ref>
         <description>MySQL DataSource example</description>
