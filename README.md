@@ -76,6 +76,14 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
    ## Instructions of how to use the `log_processing.*` script to process the JMeter logs.
    * Our log_processing.py is a script written by python. It will read data from the log file and calculate the average TS and TJ by using the total value / the number of sample. Then it can print the avarage TS and TJ.
+   ## Log files
+  * [Single case 1](logs/single-case1-1.txt)
+  * [Single case 2](logs/single-case2-10.txt)
+  * [Single case 3](logs/single-case3-htpps-10.txt)
+  * [Single case 4](logs/single-case4-nopooling.txt)
+  * [Scaled case 1](logs/scaled-case1-1.txt)
+  * [Scaled case 2](logs/scaled-case2-10.txt)
+  * [Scaled case 3](logs/scaled-case3-10.txt)
 
 # JMeter TS/TJ Time Measurement Report
 
@@ -92,14 +100,6 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 | Case 2: HTTP/10 threads                        | ![](images/scaled-case2-10.PNG)   | 1257 (new:94)                        | 1065.595481 (new: 7.421240679)              | 831.7007066 (new: 5.906030491)                       | ??           |
 | Case 3: HTTP/10 threads/No connection pooling  | ![](images/scaled-case2-10.PNG)   | 95                         | 6.578229258                                  | 4.629758364                        | ??           |
 
-## Log files
-  * [Single case 1](logs/single-case1-1.txt)
-  * [Single case 2](logs/single-case2-10.txt)
-  * [Single case 3](logs/single-case3-htpps-10.txt)
-  * [Single case 4](logs/single-case4-nopooling.txt)
-  * [Scaled case 1](logs/scaled-case1-1.txt)
-  * [Scaled case 2](logs/scaled-case2-10.txt)
-  * [Scaled case 3](logs/scaled-case3-10.txt)
 
 # Project 4
 
