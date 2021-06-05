@@ -104,7 +104,7 @@ After that, Tomcat web apps should have the new war file "css122b-spring21-team-
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
 | Case 1: HTTP/1 thread                          | ![](images/scaled-case1-1.PNG)  | 95                          | 3.481594854                       | 3.109576045                        | ??           |
 | Case 2: HTTP/10 threads                        | ![](images/scaled-case2-10.PNG)   | 94                        | 7.421240679              | 5.906030491                       | ??           |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](images/scaled-case2-10.PNG)   | 95                         | 6.578229258                                  | 4.629758364                        | ??           |
+| Case 3: HTTP/10 threads/No connection pooling  | ![](images/scaled-case3-10.PNG)   | 95                         | 6.578229258                                  | 4.629758364                        | ??           |
 
 
 # Project 4
