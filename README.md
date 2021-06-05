@@ -16,6 +16,14 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
    ## Instruction of deployment:
 
+  You can either use gui to deploy war file into Tomcat or do it in Terminal. By gui: Go to AWS Tomcat manager webapp -> WAR file to delpoy -> Choose File and deploy.
+
+Use Terminal:
+
+Inside your repo, use 'mvn package' to build the war file.
+Copy war file into Tomcat webapps folder `cp ./target/*.war /var/lib/tomcat9/webapps/`
+After that, Tomcat web apps should have the new war file "css122b-spring21-team-10-p1".
+
    ## Collaborations and Work Distribution:
    
    Both member created all 5 instances, did all Single version and Scaled version JMeter test.
