@@ -88,11 +88,18 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
 
 | **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
 |------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](images/scaled-case1-1.PNG)  | 107 (new: 95)                         | 4.891984913 (new: 3.481594854)                       | 4.131707477 (new: 3.109576045)                       | ??           |
+| Case 1: HTTP/1 thread                          | ![](images/scaled-case1-1.PNG)  | 107                          | 4.891984913                        | 4.131707477                        | ??           |
 | Case 2: HTTP/10 threads                        | ![](images/scaled-case2-10.PNG)   | 1257 (new:94)                        | 1065.595481 (new: 7.421240679)              | 831.7007066 (new: 5.906030491)                       | ??           |
 | Case 3: HTTP/10 threads/No connection pooling  | ![](images/scaled-case2-10.PNG)   | 95                         | 6.578229258                                  | 4.629758364                        | ??           |
 
-
+## Log files
+  * [Single case 1](logs/single-case1-1.txt)
+  * [Single case 2](logs/single-case2-10.txt)
+  * [Single case 3](logs/single-case3-htpps-10.txt)
+  * [Single case 4](logs/single-case4-nopooling.txt)
+  * [Scaled case 1](logs/scaled-case1-1.txt)
+  * [Scaled case 2](logs/scaled-case2-10.txt)
+  * [Scaled case 3](logs/scaled-case3-10.txt)
 
 # Project 4
 
