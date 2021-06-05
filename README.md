@@ -81,7 +81,7 @@ After that, Tomcat web apps should have the new war file "css122b-spring21-team-
 # JMeter TS/TJ Time Logs
 
    ## Instructions of how to use the `log_processing.*` script to process the JMeter logs.
-   * Our log_processing.py is a script written by python. It will read data from the log file and calculate the average TS and TJ by using the total value / the number of sample. Then it can print the avarage TS and TJ.
+   * Our [log_processing.py](log_processing.py) is a script written by python. It will read data from the log file and calculate the average TS and TJ by using the total value / the number of sample. Then it can print the avarage TS and TJ.
    ## Log files
   * [Single case 1](logs/single-case1-1.txt)
   * [Single case 2](logs/single-case2-10.txt)
