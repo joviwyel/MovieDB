@@ -8,23 +8,23 @@ Committer name "Kai Li Tan", "kaiiiliii" are made by member Kai Li Tan, who is u
 Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, who is using Github Username "joviwyel".
 
 # General
-   #### Team#:  Team-10
+   ## Team#:  Team-10
     
-   #### Names: Kai Li Tan, Jing Wu
+   ## Names: Kai Li Tan, Jing Wu
     
-   #### Project 5 Video Demo Link:
+   ## Project 5 Video Demo Link:
    
    https://youtu.be/-keHJVjK88I
 
-   #### Instruction of deployment:
+   ## Instruction of deployment:
 
-   #### Collaborations and Work Distribution:
+   ## Collaborations and Work Distribution:
    
    Both member created all 5 instances, did all Single version and Scaled version JMeter test.
 
 # Connection Pooling
 
-   #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+   ## Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
    * [BrowsServlet](src/BrowsServlet.java)
    * [CartServlet](src/CartServlet.java)
    * [CreditCardServlet](src/CreditCardServlet.java)
@@ -42,16 +42,16 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    * [UpdateSecureEmployeePassword](src/UpdateSecureEmployeePassword.java)
    * [UpdateSecurePassword](src/UpdateSecurePassword.java)
     
-   #### Explain how Connection Pooling is utilized in the Fabflix code.
+   ## Explain how Connection Pooling is utilized in the Fabflix code.
    
    * By using Connection Pooling we can reduce the time it takes by making a more secure connection. And all the information are stored in context.xml. By allocating set of connections in our `context.xml` we define our datasource with connection pooling. When we try to get connections, it takes a connection from the pool that is pre-created and does not need to be established again. After the connection is finished, we call `close()`, which does not close the connection but returned to the pool for future use.
     
-   #### Explain how Connection Pooling works with two backend SQL.
+   ## Explain how Connection Pooling works with two backend SQL.
    * For different backend database, create different connection pool which are master and slave. Depends on its purpose of connection, use different database. For read and write will use the master, the slave one for read only.
    
 # Master/Slave
 
-   #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+   ## Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
    * [BrowsServlet](src/BrowsServlet.java)
    * [CartServlet](src/CartServlet.java)
    * [CreditCardServlet](src/CreditCardServlet.java)
@@ -69,12 +69,12 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    * [UpdateSecureEmployeePassword](src/UpdateSecureEmployeePassword.java)
    * [UpdateSecurePassword](src/UpdateSecurePassword.java)
    
-   #### How read/write requests were routed to Master/Slave SQL?
+   ## How read/write requests were routed to Master/Slave SQL?
    For read requests, the web server can send them to the Master and all the Slaves for reading records from the database because the contents are the same in all the machines assuming there is low latency. However, the write requests has to be sent from the web server to the Master only, in order to operate any insertion, deletion and update on the database. The changes will first be reflected on the Master, then the changes will propagate through the MySQL replication mechanism to the Slaves. The technique used here in the replication mechanism is logs which keeps track of all the changes received by the Master. For example, once the Master has made any read/write operations, the operations will be recorded in the Binary Logs in sequence. Then, the Binary Logs will be sent to the Slave through the propagation channel connected. After the Slave had received the log records and has own version of Relay Logs, it will replay the log records to apply the changes on its local database system. Given the condition where the initial databases for both Master and Slave are the same, then the final modified database systems for both will be identical after all the changes.
    
 # JMeter TS/TJ Time Logs
 
-   #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
+   ## Instructions of how to use the `log_processing.*` script to process the JMeter logs.
    * Our log_processing.py is a script written by python. It will read data from the log file and calculate the average TS and TJ by using the total value / the number of sample. Then it can print the avarage TS and TJ.
 
 # JMeter TS/TJ Time Measurement Report
