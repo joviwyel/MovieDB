@@ -79,7 +79,7 @@ Committer name "Jovi Wyel", "Jing Wu", "joviwyel" are made by member Jing Wu, wh
    ## Log files
   * [Single case 1](logs/single-case1-1.txt)
   * [Single case 2](logs/single-case2-10.txt)
-  * [Single case 3](logs/single-case3-htpps-10.txt)
+  * [Single case 3](logs/single-case3-https-10.txt)
   * [Single case 4](logs/single-case4-nopooling.txt)
   * [Scaled case 1](logs/scaled-case1-1.txt)
   * [Scaled case 2](logs/scaled-case2-10.txt)
